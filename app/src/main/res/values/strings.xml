@@ -2,4 +2,8 @@
     <string name="app_name">Weathraw</string>
     <string name="current_weather">Current weather</string>
     <string name="pressure">Pressure</string>
+    <string name="humidity">Humidity</string>
+    <string name="visibility">Visibility</string>
+    <string name="wind">Wind</string>
+    <string name="clouds">Clouds</string>
 </resources>

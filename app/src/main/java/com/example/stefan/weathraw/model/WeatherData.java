@@ -12,7 +12,7 @@ public class WeatherData {
     private Coordinates coord;
     @SerializedName("weather")
     @Expose
-    private List<WeatherDescription> weather = null;
+    private List<WeatherDescription> weatherDescriptions = null;
     @SerializedName("base")
     @Expose
     private String base;
@@ -44,20 +44,24 @@ public class WeatherData {
     @Expose
     private Integer cod;
 
-    public Coordinates getCoord() {
+    public Coordinates getCoordinates() {
         return coord;
     }
 
-    public void setCoord(Coordinates coord) {
+    public void setCoordinates(Coordinates coord) {
         this.coord = coord;
     }
 
-    public List<WeatherDescription> getWeather() {
-        return weather;
+    public List<WeatherDescription> getWeatherDescriptionList() {
+        return weatherDescriptions;
     }
 
-    public void setWeather(List<WeatherDescription> weather) {
-        this.weather = weather;
+    public WeatherDescription getWeatherDescription() {
+        return weatherDescriptions != null && weatherDescriptions.size()>0 ? weatherDescriptions.get(0) : new WeatherDescription();
+    }
+
+    public void setWeatherDescriptions(List<WeatherDescription> weatherDescriptions) {
+        this.weatherDescriptions = weatherDescriptions;
     }
 
     public String getBase() {
