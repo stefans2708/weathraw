@@ -12,7 +12,7 @@ public class ApiManager {
 
     private static ApiInterface instance;
 
-    private static ApiInterface getInstance() {
+    public static ApiInterface getInstance() {
         if (instance == null) {
             instance = new Retrofit.Builder()
                     .baseUrl(Constants.BASE_URL)

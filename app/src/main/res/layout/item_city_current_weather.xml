@@ -5,7 +5,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.stefan.weathraw.viewmodel.ItemCurentWeatherViewModel"/>
+            type="com.example.stefan.weathraw.viewmodel.ItemCurrentWeatherViewModel"/>
 
     </data>
 
@@ -36,7 +36,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/image_weather"
-            android:text="@{viewModel.main.temperature + @string/degree_celsius}"
+            android:text="@{String.valueOf(viewModel.weatherData.main.temperature) + @string/degree_celsius}"
             tools:text="12 C"/>
 
         <TextView
@@ -46,7 +46,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/text_temperature"
-            android:text="@{viewModel.weatherDescription.description}"
+            android:text="@{viewModel.weatherData.weatherDescription.description}"
             tools:text="Clear sky" />
 
         <!--<TextView-->
@@ -98,7 +98,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:text="@{viewModel.main.pressure}"
+                android:text="@{String.valueOf(viewModel.weatherData.main.pressure)}"
                 tools:text="1013mb" />
 
             <TextView
@@ -118,7 +118,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/more_info_item_margin_top"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:text="@{viewModel.main.humidity}"
+                android:text="@{String.valueOf(viewModel.weatherData.main.humidity)}"
                 app:layout_constraintTop_toBottomOf="@id/text_pressure"
                 tools:text="23%" />
 
@@ -139,7 +139,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/more_info_item_margin_top"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:text="@{viewModel.visibility}"
+                android:text="@{String.valueOf(viewModel.weatherData.visibility)}"
                 app:layout_constraintTop_toBottomOf="@id/text_humidity"
                 tools:text="10000m" />
 
@@ -158,7 +158,7 @@
                 android:id="@+id/text_wind"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.wind.speed}"
+                android:text="@{String.valueOf(viewModel.weatherData.wind.speed)}"
                 android:layout_marginTop="@dimen/more_info_item_margin_top"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/text_visibility"
@@ -179,7 +179,7 @@
                 android:id="@+id/text_clouds"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.clouds.cloudPercent}"
+                android:text="@{String.valueOf(viewModel.weatherData.clouds.cloudPercent)}"
                 android:layout_marginTop="@dimen/more_info_item_margin_top"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/text_wind"
