@@ -15,10 +15,10 @@ public interface ApiInterface {
     @GET("weather")
     Single<WeatherData> getCurrentWeatherByCityName(@Query("q") String name);
 
-    @GET("forecast}")
+    @GET("forecast")
     Single<FiveDayCityForecast> getFiveDayForecastByCityId(@Query("id") long id);
 
-    @GET("forecast}")
+    @GET("forecast")
     Single<FiveDayCityForecast> getFiveDayForecastByCityName(@Query("q") String name);
 
 }

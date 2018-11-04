@@ -1,5 +1,8 @@
 package com.example.stefan.weathraw.viewmodel;
 
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
+
 import com.example.stefan.weathraw.model.FiveDayCityForecast;
 import com.example.stefan.weathraw.model.WeatherAndForecast;
 import com.example.stefan.weathraw.model.WeatherData;
@@ -14,6 +17,7 @@ public class CityDataViewModel extends BaseViewModel {
 
     private WeatherAndForecast weatherAndForecast;
     private WeatherRepository repository = new WeatherRepository();
+    private MutableLiveData<WeatherAndForecast> weatherLiveData = new MutableLiveData<>();
 
     public CityDataViewModel() {
         getData();
@@ -36,16 +40,15 @@ public class CityDataViewModel extends BaseViewModel {
                     @Override
                     public void onSuccess(WeatherAndForecast completeWeatherData) {
                         weatherAndForecast = completeWeatherData;
+                        weatherLiveData.setValue(completeWeatherData);
                     }
 
                     @Override
                     public void onError(Throwable e) {
-
+                        CityDataViewModel.super.onError("Problems with loading weather data.");
                     }
                 });
     }
-
-
 
     //region getters and setters
 
@@ -55,6 +58,10 @@ public class CityDataViewModel extends BaseViewModel {
 
     public void setWeatherAndForecast(WeatherAndForecast weatherAndForecast) {
         this.weatherAndForecast = weatherAndForecast;
+    }
+
+    public LiveData<WeatherAndForecast> getWeatherLiveData() {
+        return weatherLiveData;
     }
 
     //endregion

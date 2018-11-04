@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import com.example.stefan.weathraw.databinding.ItemCityCurrentWeatherBinding;
 import com.example.stefan.weathraw.databinding.ItemCityForecastBinding;
 import com.example.stefan.weathraw.model.FiveDayCityForecast;
+import com.example.stefan.weathraw.model.WeatherAndForecast;
 import com.example.stefan.weathraw.model.WeatherData;
 import com.example.stefan.weathraw.viewmodel.ItemCurrentWeatherViewModel;
 import com.example.stefan.weathraw.viewmodel.ItemForecastViewModel;
@@ -17,8 +18,13 @@ public class CityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int ITEM_WEATHER = 1;
     private static final int ITEM_FORECAST = 2;
 
-    private WeatherData weatherData;
-    private FiveDayCityForecast forecastData;
+    private WeatherAndForecast weatherAndForecast;
+    private OnClickListener listener;
+
+    public CityAdapter(WeatherAndForecast data, OnClickListener listener) {
+        this.weatherAndForecast = data;
+        this.listener = listener;
+    }
 
     @NonNull
     @Override
@@ -30,9 +36,9 @@ public class CityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (getItemViewType(position) == ITEM_WEATHER) {
-            ((ItemWeatherViewHolder) holder).bind(new ItemCurrentWeatherViewModel(weatherData));
+            ((ItemWeatherViewHolder) holder).bind(new ItemCurrentWeatherViewModel(weatherAndForecast.getWeatherData()));
         } else {
-            ((ItemForecastViewHolder) holder).bind(new ItemForecastViewModel(forecastData));
+            ((ItemForecastViewHolder) holder).bind(new ItemForecastViewModel(weatherAndForecast.getForecastData()));
         }
     }
 
@@ -74,4 +80,7 @@ public class CityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
+    public interface OnClickListener {
+
+    }
 }

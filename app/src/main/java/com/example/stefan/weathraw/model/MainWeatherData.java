@@ -1,5 +1,6 @@
 package com.example.stefan.weathraw.model;
 
+import com.example.stefan.weathraw.utils.WeatherDataUtils;
 import com.google.gson.annotations.Expose;
         import com.google.gson.annotations.SerializedName;
 
@@ -10,7 +11,7 @@ public class MainWeatherData {
     private Double temperature;
     @SerializedName("pressure")
     @Expose
-    private Integer pressure;
+    private Double pressure;
     @SerializedName("humidity")
     @Expose
     private Integer humidity;
@@ -22,18 +23,14 @@ public class MainWeatherData {
     private Double tempMax;
 
     public Double getTemperature() {
-        return temperature;
+        return WeatherDataUtils.getStandardTemperature(temperature);
     }
 
-    public void setTemperature(Double temperature) {
-        this.temperature = temperature;
-    }
-
-    public Integer getPressure() {
+    public Double getPressure() {
         return pressure;
     }
 
-    public void setPressure(Integer pressure) {
+    public void setPressure(Double pressure) {
         this.pressure = pressure;
     }
 
@@ -46,15 +43,11 @@ public class MainWeatherData {
     }
 
     public Double getTempMin() {
-        return tempMin;
-    }
-
-    public void setTempMin(Double tempMin) {
-        this.tempMin = tempMin;
+        return WeatherDataUtils.getStandardTemperature(tempMin);
     }
 
     public Double getTempMax() {
-        return tempMax;
+        return WeatherDataUtils.getStandardTemperature(tempMax);
     }
 
     public void setTempMax(Double tempMax) {

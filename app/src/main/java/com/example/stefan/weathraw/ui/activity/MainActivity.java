@@ -1,6 +1,5 @@
 package com.example.stefan.weathraw.ui.activity;
 
-import android.app.FragmentManager;
 import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -24,12 +23,20 @@ public class MainActivity extends BaseActivity {
         viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
         binding.setViewModel(viewModel);
 
-        replaceFramgent(CityDataFragment.newInstance(), false);
+        replaceFragment(CityDataFragment.newInstance(), false, CityDataFragment.class.getSimpleName());
+        setUpObservers();
     }
 
-    private void replaceFramgent(Fragment fragment, boolean addToBackStack) {
-//        getFragmentManager().beginTransaction().replace(R.id.frame_container, fragment)
+    private void setUpObservers() {
+
     }
 
+    private void replaceFragment(Fragment fragment, boolean addToBackStack, String tag) {
+        if (addToBackStack) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, fragment).commit();
+        } else {
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, fragment).addToBackStack(tag).commit();
+        }
+    }
 
 }
