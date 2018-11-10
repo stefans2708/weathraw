@@ -1,5 +1,6 @@
 package com.example.stefan.weathraw.ui.adapter;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,11 +8,12 @@ import android.view.ViewGroup;
 
 import com.example.stefan.weathraw.databinding.ItemCityCurrentWeatherBinding;
 import com.example.stefan.weathraw.databinding.ItemCityForecastBinding;
-import com.example.stefan.weathraw.model.FiveDayCityForecast;
 import com.example.stefan.weathraw.model.WeatherAndForecast;
-import com.example.stefan.weathraw.model.WeatherData;
 import com.example.stefan.weathraw.viewmodel.ItemCurrentWeatherViewModel;
 import com.example.stefan.weathraw.viewmodel.ItemForecastViewModel;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 
 public class CityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -38,7 +40,7 @@ public class CityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (getItemViewType(position) == ITEM_WEATHER) {
             ((ItemWeatherViewHolder) holder).bind(new ItemCurrentWeatherViewModel(weatherAndForecast.getWeatherData()));
         } else {
-            ((ItemForecastViewHolder) holder).bind(new ItemForecastViewModel(weatherAndForecast.getForecastData()));
+            ((ItemForecastViewHolder) holder).bind(((ItemForecastViewHolder) holder).binding.lineChart.getContext(), new ItemForecastViewModel(weatherAndForecast.getForecastData()));
         }
     }
 
@@ -74,9 +76,19 @@ public class CityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             this.binding = binding;
         }
 
-        public void bind(ItemForecastViewModel viewModel) {
+        public void bind(Context context, ItemForecastViewModel viewModel) {
             binding.setViewModel(viewModel);
             binding.executePendingBindings();
+            setChartData(context, viewModel);
+        }
+
+        private void setChartData(Context context, ItemForecastViewModel viewModel) {
+            LineDataSet dataSet = new LineDataSet(viewModel.generateTemperatureGraphEntries(), "Forecast");
+            dataSet.setFillColor(android.R.color.holo_blue_bright);
+            LineData lineData = new LineData(dataSet);
+            binding.lineChart.setData(lineData);
+            binding.lineChart.setDrawGridBackground(false);
+            binding.lineChart.invalidate();
         }
     }
 
