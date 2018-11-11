@@ -4,4 +4,4 @@
     android:minWidth="120dp"
     android:minHeight="50dp"
     android:resizeMode="horizontal"
-    />
+    android:updatePeriodMillis="3600"/>

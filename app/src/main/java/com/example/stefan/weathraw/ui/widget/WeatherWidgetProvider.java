@@ -7,6 +7,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
@@ -22,9 +23,13 @@ import java.util.Date;
 
 public class WeatherWidgetProvider extends AppWidgetProvider {
 
+    private RemoteViews remoteViews;
+    private ComponentName componentName;
+    private AppWidgetManager appWidgetManager;
+
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        initWidgetViews(context, appWidgetManager, appWidgetIds);
+        initWidgetViews(context);
         startWidgetUpdateService(context);
     }
 
@@ -36,19 +41,27 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
 
         switch (intent.getAction()) {
             case WidgetService.ACTION_UPDATE_RESPONSE: {
+                changeProgressState(context, false);
                 setWidgetData(context, intent);
                 break;
             }
             case WidgetService.ACTION_REFRESH: {
+                changeProgressState(context, true);
                 startWidgetUpdateService(context);
                 break;
+            }
+            case WidgetService.ACTION_ERROR: {
+                changeProgressState(context, false);
+                int errorType = intent.getIntExtra(WidgetService.EXTRA_ERROR_TYPE, -1);
+                setError(context, context.getString(errorType == WidgetService.ERROR_TYPE_NO_INTERNET
+                        ? R.string.no_internet_connection : R.string.request_timed_out));
             }
         }
 
     }
 
-    private void initWidgetViews(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_weather);
+    private void initWidgetViews(Context context) {
+        RemoteViews remoteViews = getRemoteViews(context);
 
         Intent refreshIntent = new Intent(context, WeatherWidgetProvider.class);
         refreshIntent.setAction(WidgetService.ACTION_REFRESH);
@@ -59,36 +72,28 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
         PendingIntent startAppPendingIntent = PendingIntent.getActivity(context, 0, startAppIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         remoteViews.setOnClickPendingIntent(R.id.image_icon, startAppPendingIntent);
 
-        for (int appWidgetId : appWidgetIds) {
-            appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
-        }
+        refreshAllWidgetInstances(context);
     }
 
     private void setWidgetData(Context context, Intent intent) {
         WidgetDataModel widgetData = intent.getParcelableExtra(WidgetService.EXTRA_WEATHER_DATA);
         if (widgetData == null) return;
 
-        ComponentName componentName = new ComponentName(context, WeatherWidgetProvider.class);
-        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(componentName);
-
-
-        RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_weather);
+        RemoteViews remoteViews = getRemoteViews(context);
+        remoteViews.setViewVisibility(R.id.relative_data_container, View.VISIBLE);
+        remoteViews.setViewVisibility(R.id.relative_error_container, View.GONE);
         remoteViews.setTextViewText(R.id.text_city_name, widgetData.getCity());
         remoteViews.setTextViewText(R.id.text_temperature, WeatherDataUtils.getFormattedTemperature(widgetData.getTemperature()));
         remoteViews.setTextViewText(R.id.text_description, widgetData.getDescription());
         remoteViews.setTextViewText(R.id.text_date, WeatherDataUtils.getFormattedDate(new Date()));
 
-        AppWidgetTarget appWidgetTarget = new AppWidgetTarget(context, R.id.image_icon, remoteViews, appWidgetIds);
+        AppWidgetTarget appWidgetTarget = new AppWidgetTarget(context, R.id.image_icon, remoteViews, AppWidgetManager.getInstance(context).getAppWidgetIds(new ComponentName(context, WeatherWidgetProvider.class)));
         Glide.with(context.getApplicationContext())
                 .asBitmap()
                 .load(WeatherDataUtils.getIconUrl(widgetData.getIconId()))
                 .into(appWidgetTarget);
 
-        for (int appWidgetId : appWidgetIds) {
-            appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
-        }
-
+        refreshAllWidgetInstances(context);
         Toast.makeText(context, "Weather data updated", Toast.LENGTH_SHORT).show();
     }
 
@@ -103,5 +108,38 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
         }
     }
 
+    private void changeProgressState(Context context, boolean showProgressBar) {
+        RemoteViews remoteViews = getRemoteViews(context);
+        remoteViews.setViewVisibility(R.id.progress_bar, showProgressBar ? View.VISIBLE : View.GONE);
+        remoteViews.setViewVisibility(R.id.image_refresh, showProgressBar ? View.GONE : View.VISIBLE);
+        refreshAllWidgetInstances(context);
+    }
+
+    private void setError(Context context, String message) {
+        RemoteViews remoteViews = getRemoteViews(context);
+        remoteViews.setViewVisibility(R.id.relative_data_container, View.GONE);
+        remoteViews.setViewVisibility(R.id.relative_error_container, View.VISIBLE);
+        remoteViews.setTextViewText(R.id.text_error_message, message);
+        refreshAllWidgetInstances(context);
+    }
+
+    private RemoteViews getRemoteViews(Context context) {
+        if (remoteViews == null) {
+            remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_weather);
+        }
+        return remoteViews;
+    }
+
+    private void refreshAllWidgetInstances(Context context) {
+        if (appWidgetManager == null) {
+            componentName = new ComponentName(context, WeatherWidgetProvider.class);
+            appWidgetManager = AppWidgetManager.getInstance(context);
+        }
+
+        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(componentName);
+        for (int appWidgetId : appWidgetIds) {
+            appWidgetManager.updateAppWidget(appWidgetId, getRemoteViews(context));
+        }
+    }
 
 }
