@@ -23,7 +23,11 @@ public class MainWeatherData {
     private Double tempMax;
 
     public Double getTemperature() {
-        return WeatherDataUtils.getStandardTemperature(temperature);
+        return temperature;
+    }
+
+    public void setTemperature(Double temperature) {
+        this.temperature = temperature;
     }
 
     public Double getPressure() {
@@ -42,12 +46,13 @@ public class MainWeatherData {
         this.humidity = humidity;
     }
 
+
     public Double getTempMin() {
-        return WeatherDataUtils.getStandardTemperature(tempMin);
+        return tempMin;
     }
 
     public Double getTempMax() {
-        return WeatherDataUtils.getStandardTemperature(tempMax);
+        return tempMax;
     }
 
     public void setTempMax(Double tempMax) {
