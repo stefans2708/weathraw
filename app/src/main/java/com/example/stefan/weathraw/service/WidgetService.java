@@ -1,18 +1,25 @@
 package com.example.stefan.weathraw.service;
 
 import android.app.IntentService;
+import android.app.Notification;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.support.annotation.Nullable;
+import android.support.v4.app.NotificationCompat;
+import android.view.View;
+import android.widget.RemoteViews;
+import android.widget.Toast;
 
+import com.example.stefan.weathraw.R;
 import com.example.stefan.weathraw.WeatherApplication;
 import com.example.stefan.weathraw.api.ApiManager;
 import com.example.stefan.weathraw.model.WeatherData;
 import com.example.stefan.weathraw.model.WidgetDataModel;
 import com.example.stefan.weathraw.ui.widget.WeatherWidgetProvider;
 import com.example.stefan.weathraw.utils.Constants;
-import com.example.stefan.weathraw.utils.WeatherDataUtils;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -42,10 +49,42 @@ public class WidgetService extends IntentService {
     }
 
     @Override
+    public void onCreate() {
+        super.onCreate();
+        startForeground(23, createNotification());
+        Toast.makeText(this, "Service started", Toast.LENGTH_SHORT).show();
+    }
+
+    private Notification createNotification() {
+        return new NotificationCompat.Builder(this, WeatherApplication.CHANNEL_ID)
+                .setContentTitle("Notifikacija")
+                .setContentText("Tekst")
+                .setPriority(NotificationCompat.PRIORITY_MIN)
+                .setSmallIcon(R.drawable.ic_location_on_black_24dp)
+                .build();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Toast.makeText(this, "Service destroyed", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     protected void onHandleIntent(@Nullable Intent intent) {
         if (intent == null || intent.getAction() == null) return;
 
         if (intent.getAction().equals(ACTION_UPDATE)) {
+//            RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.widget_weather);
+//            remoteViews.setViewVisibility(R.id.progress_bar, View.VISIBLE);
+//            remoteViews.setViewVisibility(R.id.image_refresh, View.GONE);
+//            ComponentName componentName = new ComponentName(this, WeatherWidgetProvider.class);
+//            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
+//            int[] appWidgetIds = appWidgetManager.getAppWidgetIds(componentName);
+//            for (int appWidgetId : appWidgetIds) {
+//                appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
+//            }
+
             getWidgetData(new Consumer<WeatherData>() {
                 @Override
                 public void accept(WeatherData weatherData) throws Exception {
@@ -99,11 +138,13 @@ public class WidgetService extends IntentService {
         public void accept(Throwable throwable) throws Exception {
             if (!isNetworkAvailable()) {
                 sendErrorToWidgetProvider(ERROR_TYPE_NO_INTERNET);
+                return;
             }
 
             if (throwable instanceof HttpException) {
                 if (((HttpException) throwable).code() == 408) { //request time out
                     sendErrorToWidgetProvider(ERROR_TYPE_REQUEST_TIMEOUT);
+//                    return;
                 }
             }
         }
