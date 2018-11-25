@@ -1,16 +1,12 @@
 package com.example.stefan.weathraw.service;
 
-import android.app.IntentService;
 import android.app.Notification;
-import android.appwidget.AppWidgetManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
+import android.support.v4.app.JobIntentService;
 import android.support.v4.app.NotificationCompat;
-import android.view.View;
-import android.widget.RemoteViews;
 import android.widget.Toast;
 
 import com.example.stefan.weathraw.R;
@@ -27,7 +23,7 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.HttpException;
 
-public class WidgetService extends IntentService {
+public class WidgetService extends JobIntentService {
 
     public static final String ACTION_UPDATE = "ACTION_UPDATE";
     public static final String ACTION_UPDATE_RESPONSE = "ACTION_UPDATE_RESPONSE";
@@ -38,30 +34,20 @@ public class WidgetService extends IntentService {
     public static final int ERROR_TYPE_NO_INTERNET = 1;
     public static final int ERROR_TYPE_REQUEST_TIMEOUT = 2;
 
+    public static final String ACTION_COMPLETE="com.example.stefan.weathraw.service.action.COMPLETE";
+    private static final int UNIQUE_JOB_ID=1337;
+
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-    public WidgetService() {
-        super("WidgetService");
-    }
 
-    public WidgetService(String name) {
-        super(name);
+    public static void enqueueWork(Context ctxt, Intent i) {
+        enqueueWork(ctxt, WidgetService.class, UNIQUE_JOB_ID, i);
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        startForeground(23, createNotification());
         Toast.makeText(this, "Service started", Toast.LENGTH_SHORT).show();
-    }
-
-    private Notification createNotification() {
-        return new NotificationCompat.Builder(this, WeatherApplication.CHANNEL_ID)
-                .setContentTitle("Notifikacija")
-                .setContentText("Tekst")
-                .setPriority(NotificationCompat.PRIORITY_MIN)
-                .setSmallIcon(R.drawable.ic_location_on_black_24dp)
-                .build();
     }
 
     @Override
@@ -71,20 +57,10 @@ public class WidgetService extends IntentService {
     }
 
     @Override
-    protected void onHandleIntent(@Nullable Intent intent) {
-        if (intent == null || intent.getAction() == null) return;
+    protected void onHandleWork(@NonNull Intent intent) {
+        if (intent.getAction() == null) return;
 
         if (intent.getAction().equals(ACTION_UPDATE)) {
-//            RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.widget_weather);
-//            remoteViews.setViewVisibility(R.id.progress_bar, View.VISIBLE);
-//            remoteViews.setViewVisibility(R.id.image_refresh, View.GONE);
-//            ComponentName componentName = new ComponentName(this, WeatherWidgetProvider.class);
-//            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
-//            int[] appWidgetIds = appWidgetManager.getAppWidgetIds(componentName);
-//            for (int appWidgetId : appWidgetIds) {
-//                appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
-//            }
-
             getWidgetData(new Consumer<WeatherData>() {
                 @Override
                 public void accept(WeatherData weatherData) throws Exception {

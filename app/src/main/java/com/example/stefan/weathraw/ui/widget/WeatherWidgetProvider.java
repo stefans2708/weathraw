@@ -106,11 +106,13 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
         Intent intent = new Intent(context, WidgetService.class);
         intent.setAction(WidgetService.ACTION_UPDATE);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            context.startForegroundService(intent);
-        } else {
-            context.startService(intent);
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            context.startForegroundService(intent);
+//        } else {
+//            context.startService(intent);
+//        }
+
+        WidgetService.enqueueWork(context, intent);
     }
 
     private void changeProgressState(Context context, boolean showProgressBar) {
