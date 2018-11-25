@@ -1,10 +1,12 @@
 package com.example.stefan.weathraw.service;
 
+import android.app.IntentService;
 import android.app.Notification;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.JobIntentService;
 import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
@@ -23,7 +25,7 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.HttpException;
 
-public class WidgetService extends JobIntentService {
+public class WidgetService extends IntentService {
 
     public static final String ACTION_UPDATE = "ACTION_UPDATE";
     public static final String ACTION_UPDATE_RESPONSE = "ACTION_UPDATE_RESPONSE";
@@ -39,15 +41,27 @@ public class WidgetService extends JobIntentService {
 
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
+    public WidgetService(String name) {
+        super(name);
+    }
 
-    public static void enqueueWork(Context ctxt, Intent i) {
-        enqueueWork(ctxt, WidgetService.class, UNIQUE_JOB_ID, i);
+    public WidgetService() {
+        super("WidgetService");
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
+        startForeground(23, createNotification());
         Toast.makeText(this, "Service started", Toast.LENGTH_SHORT).show();
+    }
+
+    private Notification createNotification() {
+        return new NotificationCompat.Builder(this, WeatherApplication.CHANNEL_ID)
+                .setContentTitle(getString(R.string.refreshing_weather_data))
+                .setPriority(NotificationCompat.PRIORITY_MIN)
+                .setSmallIcon(R.drawable.ic_location_on_black_24dp)
+                .build();
     }
 
     @Override
@@ -57,8 +71,8 @@ public class WidgetService extends JobIntentService {
     }
 
     @Override
-    protected void onHandleWork(@NonNull Intent intent) {
-        if (intent.getAction() == null) return;
+    protected void onHandleIntent(@Nullable Intent intent) {
+        if (intent == null || intent.getAction() == null) return;
 
         if (intent.getAction().equals(ACTION_UPDATE)) {
             getWidgetData(new Consumer<WeatherData>() {

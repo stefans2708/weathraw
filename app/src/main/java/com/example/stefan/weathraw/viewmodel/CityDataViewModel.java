@@ -2,6 +2,7 @@ package com.example.stefan.weathraw.viewmodel;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.databinding.ObservableField;
 
 import com.example.stefan.weathraw.model.FiveDayCityForecast;
 import com.example.stefan.weathraw.model.WeatherAndForecast;
@@ -15,7 +16,7 @@ import io.reactivex.functions.BiFunction;
 
 public class CityDataViewModel extends BaseViewModel {
 
-    private WeatherAndForecast weatherAndForecast;
+    private ObservableField<WeatherAndForecast> weatherAndForecast = new ObservableField<>();
     private WeatherRepository repository = new WeatherRepository();
     private MutableLiveData<WeatherAndForecast> weatherLiveData = new MutableLiveData<>();
 
@@ -39,7 +40,7 @@ public class CityDataViewModel extends BaseViewModel {
 
                     @Override
                     public void onSuccess(WeatherAndForecast completeWeatherData) {
-                        weatherAndForecast = completeWeatherData;
+                        weatherAndForecast.set(completeWeatherData);
                         weatherLiveData.setValue(completeWeatherData);
                     }
 
@@ -52,11 +53,12 @@ public class CityDataViewModel extends BaseViewModel {
 
     //region getters and setters
 
-    public WeatherAndForecast getWeatherAndForecast() {
+
+    public ObservableField<WeatherAndForecast> getWeatherAndForecast() {
         return weatherAndForecast;
     }
 
-    public void setWeatherAndForecast(WeatherAndForecast weatherAndForecast) {
+    public void setWeatherAndForecast(ObservableField<WeatherAndForecast> weatherAndForecast) {
         this.weatherAndForecast = weatherAndForecast;
     }
 

@@ -7,6 +7,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.Toast;
@@ -106,13 +107,7 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
         Intent intent = new Intent(context, WidgetService.class);
         intent.setAction(WidgetService.ACTION_UPDATE);
 
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            context.startForegroundService(intent);
-//        } else {
-//            context.startService(intent);
-//        }
-
-        WidgetService.enqueueWork(context, intent);
+        ContextCompat.startForegroundService(context, intent);
     }
 
     private void changeProgressState(Context context, boolean showProgressBar) {

@@ -24,10 +24,11 @@ public class WeatherApplication extends Application {
 
     private void createNotificationChannels() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "imeKanala", importance);
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "imeKanala", NotificationManager.IMPORTANCE_MIN);
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
+            if (notificationManager != null) {
+                notificationManager.createNotificationChannel(channel);
+            }
         }
     }
 
