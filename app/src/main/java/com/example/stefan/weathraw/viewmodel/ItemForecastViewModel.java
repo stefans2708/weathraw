@@ -8,6 +8,7 @@ import com.example.stefan.weathraw.utils.WeatherDataUtils;
 import com.github.mikephil.charting.data.Entry;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ItemForecastViewModel extends BaseViewModel {
@@ -34,5 +35,16 @@ public class ItemForecastViewModel extends BaseViewModel {
 
     public void setForecast(FiveDayCityForecast forecast) {
         this.forecast = forecast;
+    }
+
+    public List<Entry> generate24HoursForecast() {
+        List<Entry> entries = new ArrayList<>();
+        List<WeatherData> list = forecast.getList();
+        for (int i = 0; i < list.size() / 5; i++) {
+            WeatherData weatherData = list.get(i);
+            entries.add(new Entry(i,
+                    WeatherDataUtils.getStandardTemperature(weatherData.getMain().getTemperature()).floatValue()));
+        }
+        return entries;
     }
 }

@@ -39,4 +39,11 @@ public class WeatherDataUtils {
         return new SimpleDateFormat("dd.MM.yyyy \n HH:mm:ss", Locale.US).format(date);
     }
 
+    public static Date getJavaDateFromUnixTime(int unixTime) {
+        return new Date((long)unixTime * 1000);
+    }
+
+    public static String getHours(Date date) {
+        return new SimpleDateFormat("HH:mm", Locale.US).format(date);
+    }
 }
