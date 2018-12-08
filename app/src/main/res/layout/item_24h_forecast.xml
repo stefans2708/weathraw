@@ -14,21 +14,29 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="12dp"
-        app:cardCornerRadius="5dp"
-        app:cardBackgroundColor="@color/colorWhiteTransparent">
+        app:cardBackgroundColor="@color/colorWhiteTransparent"
+        app:cardCornerRadius="5dp">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <TextView
+                android:id="@+id/txt_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="@string/_24_hour_forecast"
+                android:textSize="16sp" />
 
             <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/line_chart_24h_forecast"
                 android:layout_width="0dp"
                 android:layout_height="120dp"
+                android:layout_marginTop="12dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/text_title" />
+                app:layout_constraintTop_toBottomOf="@id/txt_title" />
 
         </android.support.constraint.ConstraintLayout>
 

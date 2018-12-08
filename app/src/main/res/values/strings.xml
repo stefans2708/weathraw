@@ -10,4 +10,5 @@
     <string name="no_internet_connection">No internet connection</string>
     <string name="request_timed_out">Request timed out</string>
     <string name="refreshing_weather_data">Refreshing weather data...</string>
+    <string name="_24_hour_forecast">24 hour forecast</string>
 </resources>
