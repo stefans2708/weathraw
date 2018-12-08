@@ -23,8 +23,9 @@ public class WeatherDataUtils {
         return oneDecimalFormatter;
     }
 
-    public static Double getStandardTemperature(Double apiTemp) {
-        return apiTemp - 273.15;
+    public static Integer getStandardTemperature(Double apiTemp) {
+        long value = Math.round(apiTemp - 273.15);
+        return (int) value;
     }
 
     public static String getFormattedTemperature(Double apiTemp) {

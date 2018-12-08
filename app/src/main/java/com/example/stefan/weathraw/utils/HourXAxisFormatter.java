@@ -13,14 +13,14 @@ public class HourXAxisFormatter implements IAxisValueFormatter {
 
     public HourXAxisFormatter(ItemForecastViewModel viewModel) {
         this.weatherTimes = new ArrayList<>();
-        for (int i = 0; i < viewModel.getForecast().getList().size() / 5; i++) {
+        for (int i = 0; i < 8; i++) {
             weatherTimes.add(viewModel.getForecast().getList().get(i).getDt());
         }
     }
 
     @Override
     public String getFormattedValue(float value, AxisBase axis) {
-        return WeatherDataUtils.getHours(WeatherDataUtils.getJavaDateFromUnixTime(weatherTimes.get(((int) value))));
+        return WeatherDataUtils.getHours(WeatherDataUtils.getJavaDateFromUnixTime(weatherTimes.get((int) value)));
     }
 
 }

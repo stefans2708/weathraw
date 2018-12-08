@@ -7,4 +7,5 @@
     <color name="widgetStartColorBlue">#B389f7fe</color>
     <color name="widgetEndColorBlue">#B366a6ff</color>
     <color name="colorWhiteTransparent">#99FFFFFF</color>
+    <color name="yellow">#FFFF00</color>
 </resources>

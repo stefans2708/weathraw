@@ -1,6 +1,7 @@
 package com.example.stefan.weathraw.ui.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.utils.ColorTemplate;
 
 public class CityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -139,12 +141,18 @@ public class CityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
 
         private void setChartData(ItemForecastViewModel viewModel) {
-            LineDataSet dataSet = new LineDataSet(viewModel.generate24HoursForecast(), "Forecast");
-            dataSet.setFillColor(android.R.color.holo_blue_bright);
+            LineDataSet dataSet = new LineDataSet(viewModel.generate24HoursForecast(), null);
+            dataSet.disableDashedLine();
+            dataSet.setColors(Color.YELLOW);
+            dataSet.setLineWidth(3);
+            dataSet.setCircleColors(Color.BLUE);
+            dataSet.setCircleRadius(3);
+            dataSet.setValueTextSize(8);
             LineData lineData = new LineData(dataSet);
             binding.lineChart24hForecast.setData(lineData);
-            binding.lineChart24hForecast.setDrawGridBackground(false);
+            binding.lineChart24hForecast.setVisibleXRangeMaximum(8);
             binding.lineChart24hForecast.setTouchEnabled(false);
+            binding.lineChart24hForecast.setDescription(null);
 
             XAxis xAxis = binding.lineChart24hForecast.getXAxis();
             xAxis.setValueFormatter(new HourXAxisFormatter(viewModel));
