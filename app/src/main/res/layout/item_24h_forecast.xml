@@ -26,7 +26,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
+                android:textColor="@color/colorPrimary"
                 android:text="@string/_24_hour_forecast"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 android:textSize="16sp" />
 
             <com.github.mikephil.charting.charts.LineChart

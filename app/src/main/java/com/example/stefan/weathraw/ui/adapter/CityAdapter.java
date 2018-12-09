@@ -18,7 +18,9 @@ import com.example.stefan.weathraw.model.WeatherAndForecast;
 import com.example.stefan.weathraw.utils.HourXAxisFormatter;
 import com.example.stefan.weathraw.viewmodel.ItemCurrentWeatherViewModel;
 import com.example.stefan.weathraw.viewmodel.ItemForecastViewModel;
+import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 
@@ -163,12 +165,21 @@ public class CityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             dataSet.setDrawVerticalHighlightIndicator(false);
             LineData lineData = new LineData(dataSet);
             binding.lineChart24hForecast.setData(lineData);
-            binding.lineChart24hForecast.setVisibleXRangeMaximum(8);
             binding.lineChart24hForecast.setTouchEnabled(false);
             binding.lineChart24hForecast.setDescription(null);
+            binding.lineChart24hForecast.getLegend().setEnabled(false);
+            binding.lineChart24hForecast.getAxisLeft().setDrawLabels(false);
+            binding.lineChart24hForecast.bringToFront();
 
             XAxis xAxis = binding.lineChart24hForecast.getXAxis();
             xAxis.setValueFormatter(new HourXAxisFormatter(viewModel));
+
+            YAxis yAxis = binding.lineChart24hForecast.getAxisRight();
+            yAxis.setDrawLabels(false);
+            LimitLine limitLine = new LimitLine(0);
+            limitLine.setLineColor(Color.BLACK);
+            limitLine.setLineWidth(1);
+            yAxis.addLimitLine(limitLine);
 
             binding.lineChart24hForecast.invalidate();
         }
