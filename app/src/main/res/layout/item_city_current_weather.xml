@@ -14,185 +14,185 @@
     <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:layout_height="match_parent"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_margin="12dp"
-        app:cardCornerRadius="5dp"
-        app:cardBackgroundColor="@color/colorWhiteTransparent">
+        app:cardBackgroundColor="@color/colorWhiteTransparent"
+        app:cardCornerRadius="5dp">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:padding="12dp">
 
             <ImageView
-                android:id="@+id/image_weather"
+                android:id="@+id/img_weather"
                 imageUrl="@{WeatherDataUtils.getIconUrl(viewModel.weatherData.weatherDescription.icon)}"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="12dp"
                 android:layout_marginTop="12dp"
                 android:contentDescription="@string/current_weather"
                 android:src="@drawable/ic_launcher_background"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="@id/txt_temperature"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/text_temperature"
+                android:id="@+id/txt_temperature"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
                 android:text="@{WeatherDataUtils.getTemperatureFormat(viewModel.weatherData.main.temperature)}"
                 android:textColor="@android:color/black"
                 android:textSize="32sp"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/img_weather"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/image_weather"
+                app:layout_constraintTop_toTopOf="@id/img_weather"
                 tools:text="12 C" />
 
             <TextView
-                android:id="@+id/text_description"
+                android:id="@+id/txt_city_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.weatherData.weatherDescription.description}"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="8dp"
+                android:text="@{viewModel.weatherData.name}"
+                android:textColor="@color/colorPrimary"
+                android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/text_temperature"
-                tools:text="Clear sky" />
+                app:layout_constraintTop_toBottomOf="@id/txt_temperature"
+                tools:text="Vranje" />
 
-            <!--<TextView-->
-            <!--android:id="@+id/text_rain_in_last_3_h"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:visibility="gone"-->
-            <!--tools:visibility="visible"-->
-            <!--app:layout_constraintStart_toStartOf="parent"-->
-            <!--app:layout_constraintEnd_toEndOf="parent"-->
-            <!--app:layout_constraintTop_toBottomOf="@id/text_description"/>-->
-            <!---->
             <TextView
-                android:id="@+id/text_show_more"
+                android:id="@+id/txt_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:textSize="16sp"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="4dp"
+                android:text="@{viewModel.weatherData.weatherDescription.description}"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/text_description"
-                tools:text="Show more" />
+                app:layout_constraintTop_toBottomOf="@id/txt_city_name"
+                tools:text="Clear sky" />
 
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/linear_more_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
                 android:orientation="vertical"
+                app:layout_constraintVertical_bias="0.85"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/text_description">
+                app:layout_constraintStart_toStartOf="parent">
 
                 <TextView
-                    android:id="@+id/text_label_pressure"
+                    android:id="@+id/txt_label_pressure"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="50dp"
+                    android:layout_marginEnd="30dp"
+                    android:drawablePadding="6dp"
+                    android:drawableStart="@drawable/ic_speedometer"
+                    android:gravity="center_vertical"
                     android:text="@string/pressure"
                     app:layout_constraintEnd_toEndOf="@id/guideline"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
-                    android:id="@+id/text_pressure"
+                    android:id="@+id/txt_pressure"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@{WeatherDataUtils.getPressureFormat(viewModel.weatherData.main.pressure)}"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/txt_label_pressure"
                     tools:text="1013mb" />
 
                 <TextView
-                    android:id="@+id/text_label_humidity"
+                    android:id="@+id/txt_label_humidity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/more_info_item_margin_top"
+                    android:drawablePadding="6dp"
+                    android:drawableStart="@drawable/ic_water_percent"
+                    android:gravity="center_vertical"
                     android:text="@string/humidity"
                     app:layout_constraintEnd_toEndOf="@id/guideline"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/text_label_pressure" />
+                    app:layout_constraintTop_toBottomOf="@id/txt_label_pressure" />
 
                 <TextView
-                    android:id="@+id/text_humidity"
+                    android:id="@+id/txt_humidity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/more_info_item_margin_top"
                     android:text="@{WeatherDataUtils.getHumidityFormat(viewModel.weatherData.main.humidity)}"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/text_pressure"
+                    app:layout_constraintTop_toTopOf="@id/txt_label_humidity"
                     tools:text="23%" />
 
                 <TextView
-                    android:id="@+id/text_label_visibility"
+                    android:id="@+id/txt_label_visibility"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/more_info_item_margin_top"
+                    android:drawablePadding="6dp"
+                    android:drawableStart="@drawable/ic_eye"
+                    android:gravity="center_vertical"
                     android:text="@string/visibility"
                     app:layout_constraintEnd_toEndOf="@id/guideline"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/text_label_humidity" />
+                    app:layout_constraintTop_toBottomOf="@id/txt_label_humidity" />
 
                 <TextView
-                    android:id="@+id/text_visibility"
+                    android:id="@+id/txt_visibility"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/more_info_item_margin_top"
                     android:text="@{WeatherDataUtils.getVisibilityFormat(viewModel.weatherData.visibility)}"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/text_humidity"
+                    app:layout_constraintTop_toTopOf="@id/txt_label_visibility"
                     tools:text="10000m" />
 
                 <TextView
-                    android:id="@+id/text_label_wind"
+                    android:id="@+id/txt_label_wind"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/more_info_item_margin_top"
+                    android:drawablePadding="6dp"
+                    android:drawableStart="@drawable/ic_wind"
+                    android:gravity="center_vertical"
                     android:text="@string/wind"
                     app:layout_constraintEnd_toEndOf="@id/guideline"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/text_label_visibility" />
+                    app:layout_constraintTop_toBottomOf="@id/txt_label_visibility" />
 
                 <TextView
-                    android:id="@+id/text_wind"
+                    android:id="@+id/txt_wind"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/more_info_item_margin_top"
                     android:text="@{WeatherDataUtils.getWindFormat(viewModel.weatherData.wind.speed)}"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/text_visibility"
+                    app:layout_constraintTop_toTopOf="@id/txt_label_wind"
                     tools:text="45mps NW" />
 
                 <TextView
-                    android:id="@+id/text_label_clouds"
+                    android:id="@+id/txt_label_clouds"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/more_info_item_margin_top"
+                    android:drawablePadding="6dp"
+                    android:drawableStart="@drawable/ic_cloud"
+                    android:gravity="center_vertical"
                     android:text="@string/clouds"
                     app:layout_constraintEnd_toEndOf="@id/guideline"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/text_label_wind" />
+                    app:layout_constraintTop_toBottomOf="@id/txt_label_wind" />
 
                 <TextView
-                    android:id="@+id/text_clouds"
+                    android:id="@+id/txt_clouds"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/more_info_item_margin_top"
                     android:text="@{WeatherDataUtils.getCloudFormat(viewModel.weatherData.clouds.cloudPercent)}"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/text_wind"
+                    app:layout_constraintTop_toTopOf="@id/txt_label_clouds"
                     tools:text="45%" />
 
                 <android.support.constraint.Guideline
