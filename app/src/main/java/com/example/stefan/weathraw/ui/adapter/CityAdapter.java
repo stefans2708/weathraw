@@ -8,21 +8,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.stefan.weathraw.R;
 import com.example.stefan.weathraw.databinding.Item24hForecastBinding;
 import com.example.stefan.weathraw.databinding.ItemCityCurrentWeatherBinding;
 import com.example.stefan.weathraw.databinding.ItemCityForecastBinding;
+import com.example.stefan.weathraw.databinding.ItemCityForecastContentBinding;
+import com.example.stefan.weathraw.model.DayAverageValues;
 import com.example.stefan.weathraw.model.WeatherAndForecast;
 import com.example.stefan.weathraw.utils.HourXAxisFormatter;
 import com.example.stefan.weathraw.viewmodel.ItemCurrentWeatherViewModel;
 import com.example.stefan.weathraw.viewmodel.ItemForecastViewModel;
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.utils.ColorTemplate;
+
+import java.util.List;
 
 public class CityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -116,6 +116,23 @@ public class CityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         public void bind(Context context, ItemForecastViewModel viewModel) {
             binding.setViewModel(viewModel);
             binding.executePendingBindings();
+            addItems(context, viewModel.getDayAverageValuesList());
+        }
+
+        private void addItems(Context context, List<DayAverageValues> dayAverageValuesList) {
+
+            LayoutInflater inflater = LayoutInflater.from(context);
+            for (int i = 0; i < 4; i++) {
+                ItemCityForecastContentBinding itemBinding =
+                        ItemCityForecastContentBinding.inflate(LayoutInflater.from(context), binding.linearItemsHolder, false);
+                itemBinding.setDayAverageValues(dayAverageValuesList.get(i));
+                binding.executePendingBindings();
+                binding.linearItemsHolder.addView(itemBinding.getRoot());
+                if (i < 3) {
+                    View view = inflater.inflate(R.layout.view_separator, binding.linearItemsHolder, false);
+                    binding.linearItemsHolder.addView(view);
+                }
+            }
 
         }
 

@@ -18,7 +18,7 @@ public class DayAverageValues {
     private String date;
 
     public DayAverageValues(String icon, Double maxTemperature, Double minTemperature,
-                            Double avgClouds, Double avgPressure, Double avgWind, String weatherNote) {
+                            Double avgClouds, Double avgPressure, Double avgWind, String weatherNote, String date) {
         this.icon = icon;
         this.maxTemperature = maxTemperature;
         this.minTemperature = minTemperature;
@@ -26,7 +26,7 @@ public class DayAverageValues {
         this.avgPressure = avgPressure;
         this.avgWind = avgWind;
         this.weatherNote = weatherNote;
-        this.date = new SimpleDateFormat("ddd dd MMM", Locale.US).format(new Date());
+        this.date = date;
     }
 
     public DayAverageValues() {

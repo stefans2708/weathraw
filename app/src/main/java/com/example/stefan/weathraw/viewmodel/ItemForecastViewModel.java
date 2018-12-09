@@ -1,17 +1,18 @@
 package com.example.stefan.weathraw.viewmodel;
 
-import android.app.DatePickerDialog;
 import android.util.ArrayMap;
 
 import com.example.stefan.weathraw.model.DayAverageValues;
 import com.example.stefan.weathraw.model.FiveDayCityForecast;
 import com.example.stefan.weathraw.model.WeatherData;
 import com.example.stefan.weathraw.utils.WeatherDataUtils;
-import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class ItemForecastViewModel extends BaseViewModel {
 
@@ -29,6 +30,10 @@ public class ItemForecastViewModel extends BaseViewModel {
         return forecast;
     }
 
+    public List<DayAverageValues> getDayAverageValuesList() {
+        return dayAverageValuesList;
+    }
+
     public List<Entry> generate24HoursForecast() {
         List<Entry> entries = new ArrayList<>();
         List<WeatherData> list = forecast.getList();
@@ -39,33 +44,6 @@ public class ItemForecastViewModel extends BaseViewModel {
         }
         return entries;
     }
-
-//    public List<BarEntry> getMaxTemperaturesForNext5Days() {
-//        List<BarEntry> maxTempsResult = new ArrayList<>();
-//        List<WeatherData> allData = forecast.getList();
-//
-//        ArrayMap<String, Double> maxValues = new ArrayMap<>();
-//        for (WeatherData weatherData : allData) {
-//            String time[] = weatherData.getDate().split(" ");
-//            String dateOnly = time[0];
-//            Double tempTemp = maxValues.get(dateOnly);
-//            if (tempTemp == null || tempTemp < weatherData.getMain().getTemperature()) {
-//                maxValues.put(dateOnly, weatherData.getMain().getTemperature());
-//            }
-//        }
-//
-//        int i = 0;
-//        for (String date : maxValues.keySet()) {
-//            maxTempsResult.add(new BarEntry(i++,
-//                    WeatherDataUtils.getStandardTemperature(maxValues.get(date)).floatValue()));
-//        }
-//        if (maxTempsResult.size() == 6) {
-//            maxTempsResult.remove(5);
-//        }
-//        maxTempsResult.remove(0);   //today
-//
-//        return maxTempsResult;
-//    }
 
     private void extractDayValuesInList() {
         List<WeatherData> allData = forecast.getList();
@@ -106,7 +84,7 @@ public class ItemForecastViewModel extends BaseViewModel {
             windSum += singleData.getWind() != null ? singleData.getWind().getSpeed() : 0;
             pressureSum += singleData.getMain().getPressure() != null ? singleData.getMain().getPressure() : 0;
 
-            String iconCode = singleData.getWeatherDescription().getIcon().substring(0, 1);
+            String iconCode = singleData.getWeatherDescription().getIcon().substring(0, 2);
             Integer iconNum = Integer.valueOf(iconCode);
             if (iconNum > icon) {
                 icon = iconNum;
@@ -114,9 +92,12 @@ public class ItemForecastViewModel extends BaseViewModel {
             }
         }
         String iconCode = icon + "d";
+        iconCode = iconCode.length() < 3 ? "0".concat(iconCode) : iconCode;
+        Date date = WeatherDataUtils.getJavaDateFromUnixTime(dailyData.get(0).getDt());
+        String formatedDate = new SimpleDateFormat("EEE dd MMM", Locale.US).format(date);
 
         return new DayAverageValues(iconCode, maxTemp, minTemp, cloudsSum / DATA_PER_DAY,
-                pressureSum / DATA_PER_DAY, windSum / DATA_PER_DAY, note);
+                pressureSum / DATA_PER_DAY, windSum / DATA_PER_DAY, note, formatedDate);
     }
 
     public DayAverageValues getDayData(int day) {
