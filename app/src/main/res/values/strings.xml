@@ -11,4 +11,5 @@
     <string name="request_timed_out">Request timed out</string>
     <string name="refreshing_weather_data">Refreshing weather data...</string>
     <string name="_24_hour_forecast">24 hour forecast</string>
+    <string name="_5_day_forecast">5 day forecast</string>
 </resources>

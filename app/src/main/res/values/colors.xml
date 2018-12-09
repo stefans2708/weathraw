@@ -8,4 +8,6 @@
     <color name="widgetEndColorBlue">#B366a6ff</color>
     <color name="colorWhiteTransparent">#99FFFFFF</color>
     <color name="yellow">#FFFF00</color>
+    <color name="temp_min">#ff6d00</color>
+    <color name="temp_max">#9e9e9e</color>
 </resources>

@@ -16,7 +16,10 @@ import com.example.stefan.weathraw.utils.HourXAxisFormatter;
 import com.example.stefan.weathraw.viewmodel.ItemCurrentWeatherViewModel;
 import com.example.stefan.weathraw.viewmodel.ItemForecastViewModel;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
@@ -64,7 +67,7 @@ public class CityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 break;
             }
             case ITEM_DAILY_FORECAST: {
-                ((ItemForecastViewHolder) holder).bind(((ItemForecastViewHolder) holder).binding.lineChartDailyForecast.getContext(), new ItemForecastViewModel(weatherAndForecast.getForecastData()));
+                ((ItemForecastViewHolder) holder).bind(((ItemForecastViewHolder) holder).binding.cardViewContainer.getContext(), new ItemForecastViewModel(weatherAndForecast.getForecastData()));
                 break;
             }
         }
@@ -113,17 +116,9 @@ public class CityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         public void bind(Context context, ItemForecastViewModel viewModel) {
             binding.setViewModel(viewModel);
             binding.executePendingBindings();
-            setChartData(context, viewModel);
+
         }
 
-        private void setChartData(Context context, ItemForecastViewModel viewModel) {
-            LineDataSet dataSet = new LineDataSet(viewModel.generateTemperatureGraphEntries(), "Forecast");
-            dataSet.setFillColor(android.R.color.holo_blue_bright);
-            LineData lineData = new LineData(dataSet);
-            binding.lineChartDailyForecast.setData(lineData);
-            binding.lineChartDailyForecast.setDrawGridBackground(false);
-            binding.lineChartDailyForecast.invalidate();
-        }
     }
 
     public class Item24ForecastViewHolder extends RecyclerView.ViewHolder {
@@ -148,6 +143,7 @@ public class CityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             dataSet.setCircleColors(Color.BLUE);
             dataSet.setCircleRadius(3);
             dataSet.setValueTextSize(8);
+            dataSet.setDrawVerticalHighlightIndicator(false);
             LineData lineData = new LineData(dataSet);
             binding.lineChart24hForecast.setData(lineData);
             binding.lineChart24hForecast.setVisibleXRangeMaximum(8);

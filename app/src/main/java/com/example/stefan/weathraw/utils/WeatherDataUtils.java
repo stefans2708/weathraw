@@ -33,7 +33,7 @@ public class WeatherDataUtils {
     }
 
     public static String getIconUrl(String iconId) {
-        return "http://openweathermap.org/img/w/"+iconId+".png";
+        return "http://openweathermap.org/img/w/" + iconId + ".png";
     }
 
     public static String getFormattedDate(Date date) {
@@ -41,7 +41,7 @@ public class WeatherDataUtils {
     }
 
     public static Date getJavaDateFromUnixTime(int unixTime) {
-        return new Date((long)unixTime * 1000);
+        return new Date((long) unixTime * 1000);
     }
 
     public static String getHours(Date date) {

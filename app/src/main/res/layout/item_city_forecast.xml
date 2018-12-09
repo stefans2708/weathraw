@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -7,38 +7,146 @@
             name="viewModel"
             type="com.example.stefan.weathraw.viewmodel.ItemForecastViewModel" />
 
+        <import type="com.example.stefan.weathraw.utils.WeatherDataUtils" />
+
     </data>
 
     <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/card_view_container"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="12dp"
+        app:cardBackgroundColor="@color/colorWhiteTransparent"
         app:cardCornerRadius="5dp"
-        app:cardBackgroundColor="@color/colorWhiteTransparent">
+        app:cardUseCompatPadding="true">
 
         <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_margin="12dp">
 
             <TextView
-                android:id="@+id/text_title"
+                android:id="@+id/txt_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.forecast.cod}"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:text="@{viewModel.getDayData(0).date}"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Sun 9 Dec" />
 
-            <com.github.mikephil.charting.charts.LineChart
-                android:id="@+id/line_chart_daily_forecast"
-                android:layout_width="0dp"
-                android:layout_height="400dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/text_title" />
+            <ImageView
+                android:id="@+id/img_weather"
+                imageUrl="@{WeatherDataUtils.getIconUrl(viewModel.getDailyData(0).icon)}"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:contentDescription="@string/weather_icon"
+                app:layout_constraintEnd_toEndOf="@id/txt_date"
+                app:layout_constraintStart_toStartOf="@id/txt_date"
+                app:layout_constraintTop_toBottomOf="@id/txt_date"
+                tools:src="@drawable/ic_launcher_background" />
+
+            <TextView
+                android:id="@+id/txt_min_temp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:background="@drawable/bg_temperature_min"
+                android:padding="1dp"
+                android:paddingEnd="12dp"
+                android:paddingStart="12dp"
+                android:text="@{String.valueOf(WeatherDataUtils.getStandardTemperature(viewModel.getDayData(0).minTemperature)) + @string/degree_celsius}"
+                android:textColor="@android:color/white"
+                app:layout_constraintStart_toEndOf="@id/txt_date"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="23 C" />
+
+            <TextView
+                android:id="@+id/txt_max_temp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:background="@drawable/bg_temperature_max"
+                android:padding="1dp"
+                android:paddingEnd="12dp"
+                android:paddingStart="12dp"
+                android:text="@{String.valueOf(WeatherDataUtils.getStandardTemperature(viewModel.getDayData(0).maxTemperature)) + @string/degree_celsius}"
+                android:textColor="@android:color/white"
+                app:layout_constraintStart_toEndOf="@id/txt_min_temp"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="23 C" />
+
+            <TextView
+                android:id="@+id/txt_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:text="@{viewModel.getDayData(0).icon}"
+                android:textStyle="italic"
+                app:layout_constraintStart_toEndOf="@id/txt_max_temp"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Clear sky" />
+
+            <TextView
+                android:id="@+id/txt_wind_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/wind"
+                app:layout_constraintStart_toStartOf="@id/txt_min_temp"
+                app:layout_constraintTop_toBottomOf="@id/txt_min_temp" />
+
+            <TextView
+                android:id="@+id/txt_wind_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text='@{String.valueOf(viewModel.getDayData(0).avgWind) + " m/s"}'
+                android:textColor="@android:color/black"
+                app:layout_constraintStart_toEndOf="@id/txt_wind_title"
+                app:layout_constraintTop_toTopOf="@id/txt_wind_title"
+                tools:text="1.41 m/s" />
+
+            <TextView
+                android:id="@+id/txt_clouds_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/clouds"
+                android:layout_marginStart="8dp"
+                app:layout_constraintStart_toEndOf="@id/txt_wind_value"
+                app:layout_constraintTop_toTopOf="@id/txt_wind_title" />
+
+            <TextView
+                android:id="@+id/txt_clouds_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text='@{String.valueOf(viewModel.getDayData(0).avgClouds) + " %"}'
+                android:textColor="@android:color/black"
+                app:layout_constraintStart_toEndOf="@id/txt_clouds_title"
+                app:layout_constraintTop_toTopOf="@id/txt_clouds_title"
+                tools:text="47 %" />
+
+            <TextView
+                android:id="@+id/txt_pressure_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/pressure"
+                app:layout_constraintStart_toStartOf="@id/txt_wind_title"
+                app:layout_constraintTop_toBottomOf="@id/txt_wind_title" />
+
+            <TextView
+                android:id="@+id/txt_pressure_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text='@{String.valueOf(viewModel.getDayData(0).avgPressure) + " mbar"}'
+                android:textColor="@android:color/black"
+                app:layout_constraintStart_toEndOf="@id/txt_pressure_title"
+                app:layout_constraintTop_toTopOf="@id/txt_pressure_title"
+                tools:text="1013 mbar" />
 
         </android.support.constraint.ConstraintLayout>
 

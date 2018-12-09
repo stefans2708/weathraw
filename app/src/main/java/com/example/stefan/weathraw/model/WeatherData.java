@@ -43,6 +43,10 @@ public class WeatherData {
     @SerializedName("cod")
     @Expose
     private Integer cod;
+    @SerializedName("dt_txt")
+    @Expose
+    private String date;
+
 
     public Coordinates getCoordinates() {
         return coord;
@@ -142,5 +146,13 @@ public class WeatherData {
 
     public void setCod(Integer cod) {
         this.cod = cod;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }
