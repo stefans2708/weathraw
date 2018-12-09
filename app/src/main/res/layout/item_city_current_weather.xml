@@ -41,7 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:text="@{String.valueOf(WeatherDataUtils.getStandardTemperature(viewModel.weatherData.main.temperature)) + @string/degree_celsius}"
+                android:text="@{WeatherDataUtils.getTemperatureFormat(viewModel.weatherData.main.temperature)}"
                 android:textColor="@android:color/black"
                 android:textSize="32sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -106,7 +106,7 @@
                     android:id="@+id/text_pressure"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{String.valueOf(viewModel.weatherData.main.pressure)}"
+                    android:text="@{WeatherDataUtils.getPressureFormat(viewModel.weatherData.main.pressure)}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="1013mb" />
@@ -127,7 +127,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/more_info_item_margin_top"
-                    android:text="@{String.valueOf(viewModel.weatherData.main.humidity)}"
+                    android:text="@{WeatherDataUtils.getHumidityFormat(viewModel.weatherData.main.humidity)}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/text_pressure"
                     tools:text="23%" />
@@ -148,7 +148,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/more_info_item_margin_top"
-                    android:text="@{String.valueOf(viewModel.weatherData.visibility)}"
+                    android:text="@{WeatherDataUtils.getVisibilityFormat(viewModel.weatherData.visibility)}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/text_humidity"
                     tools:text="10000m" />
@@ -169,7 +169,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/more_info_item_margin_top"
-                    android:text="@{String.valueOf(viewModel.weatherData.wind.speed)}"
+                    android:text="@{WeatherDataUtils.getWindFormat(viewModel.weatherData.wind.speed)}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/text_visibility"
                     tools:text="45mps NW" />
@@ -190,7 +190,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/more_info_item_margin_top"
-                    android:text="@{String.valueOf(viewModel.weatherData.clouds.cloudPercent)}"
+                    android:text="@{WeatherDataUtils.getCloudFormat(viewModel.weatherData.clouds.cloudPercent)}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/text_wind"
                     tools:text="45%" />

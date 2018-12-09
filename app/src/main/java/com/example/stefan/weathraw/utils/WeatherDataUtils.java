@@ -4,10 +4,8 @@ import com.example.stefan.weathraw.R;
 import com.example.stefan.weathraw.WeatherApplication;
 
 import java.math.RoundingMode;
-import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Locale;
 
@@ -47,4 +45,34 @@ public class WeatherDataUtils {
     public static String getHours(Date date) {
         return new SimpleDateFormat("HH:mm", Locale.US).format(date);
     }
+
+    public static Double roundOneDecimals(double value) {
+        return Double.valueOf(getOneDecimalFormatter().format(value));
+    }
+
+    public static String getTemperatureFormat(double value) {
+        return getOneDecimalFormatter().format(getStandardTemperature(value))
+                + WeatherApplication.getAppContext().getString(R.string.degree_celsius);
+    }
+
+    public static String getWindFormat(double value) {
+        return getOneDecimalFormatter().format(value) + " m/s";
+    }
+
+    public static String getCloudFormat(double value) {
+        return getOneDecimalFormatter().format(value) + " %";
+    }
+
+    public static String getPressureFormat(double value) {
+        return getOneDecimalFormatter().format(value) + " mbar";
+    }
+
+    public static String getHumidityFormat(double value) {
+        return getOneDecimalFormatter().format(value) + " %";
+    }
+
+    public static String getVisibilityFormat(double value) {
+        return getOneDecimalFormatter().format(value) + " m";
+    }
+
 }

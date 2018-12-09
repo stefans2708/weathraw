@@ -47,7 +47,7 @@
             android:padding="1dp"
             android:paddingEnd="12dp"
             android:paddingStart="12dp"
-            android:text="@{String.valueOf(WeatherDataUtils.getStandardTemperature(dayAverageValues.minTemperature)) + @string/degree_celsius}"
+            android:text="@{WeatherDataUtils.getTemperatureFormat(dayAverageValues.minTemperature)}"
             android:textColor="@android:color/white"
             app:layout_constraintStart_toEndOf="@id/txt_date"
             app:layout_constraintTop_toTopOf="parent"
@@ -62,7 +62,7 @@
             android:padding="1dp"
             android:paddingEnd="12dp"
             android:paddingStart="12dp"
-            android:text="@{String.valueOf(WeatherDataUtils.getStandardTemperature(dayAverageValues.maxTemperature)) + @string/degree_celsius}"
+            android:text="@{WeatherDataUtils.getTemperatureFormat(dayAverageValues.maxTemperature)}"
             android:textColor="@android:color/white"
             app:layout_constraintStart_toEndOf="@id/txt_min_temp"
             app:layout_constraintTop_toTopOf="parent"
@@ -93,7 +93,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text='@{String.valueOf(dayAverageValues.avgWind) + " m/s"}'
+            android:text="@{WeatherDataUtils.getWindFormat(dayAverageValues.avgWind)}"
             android:textColor="@android:color/black"
             app:layout_constraintStart_toEndOf="@id/txt_wind_title"
             app:layout_constraintTop_toTopOf="@id/txt_wind_title"
@@ -103,7 +103,7 @@
             android:id="@+id/txt_clouds_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="18dp"
             android:text="@string/clouds"
             app:layout_constraintStart_toEndOf="@id/txt_wind_value"
             app:layout_constraintTop_toTopOf="@id/txt_wind_title" />
@@ -113,7 +113,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text='@{String.valueOf(dayAverageValues.avgClouds) + " %"}'
+            android:text="@{WeatherDataUtils.getCloudFormat(dayAverageValues.avgClouds)}"
             android:textColor="@android:color/black"
             app:layout_constraintStart_toEndOf="@id/txt_clouds_title"
             app:layout_constraintTop_toTopOf="@id/txt_clouds_title"
@@ -133,7 +133,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text='@{String.valueOf(dayAverageValues.avgPressure) + " mbar"}'
+            android:text="@{WeatherDataUtils.getPressureFormat(dayAverageValues.avgPressure)}"
             android:textColor="@android:color/black"
             app:layout_constraintStart_toEndOf="@id/txt_pressure_title"
             app:layout_constraintTop_toTopOf="@id/txt_pressure_title"
