@@ -4,6 +4,7 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
+import com.example.stefan.weathraw.model.ResponseMessage;
 import com.example.stefan.weathraw.utils.SingleLiveEvent;
 
 import io.reactivex.disposables.CompositeDisposable;
@@ -11,7 +12,7 @@ import io.reactivex.disposables.Disposable;
 
 public class BaseViewModel extends ViewModel {
 
-    private SingleLiveEvent<String> errorMessage = new SingleLiveEvent<>();
+    private SingleLiveEvent<Throwable> errorMessage = new SingleLiveEvent<>();
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     public void addDisposable(Disposable disposable) {
@@ -25,11 +26,12 @@ public class BaseViewModel extends ViewModel {
         compositeDisposable.dispose();
     }
 
-    public void onError(String message) {
+    public void setErrorMessage(Throwable message) {
         errorMessage.setValue(message);
     }
 
-    public LiveData<String> getErrorMessage() {
+    public LiveData<Throwable> getErrorMessage() {
         return errorMessage;
     }
+
 }

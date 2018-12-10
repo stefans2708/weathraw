@@ -5,6 +5,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.databinding.ObservableField;
 
 import com.example.stefan.weathraw.model.FiveDayCityForecast;
+import com.example.stefan.weathraw.model.ResponseMessage;
 import com.example.stefan.weathraw.model.WeatherAndForecast;
 import com.example.stefan.weathraw.model.WeatherData;
 import com.example.stefan.weathraw.repository.WeatherRepository;
@@ -16,15 +17,15 @@ import io.reactivex.functions.BiFunction;
 
 public class CityDataViewModel extends BaseViewModel {
 
-    private ObservableField<WeatherAndForecast> weatherAndForecast = new ObservableField<>();
     private WeatherRepository repository = new WeatherRepository();
     private MutableLiveData<WeatherAndForecast> weatherLiveData = new MutableLiveData<>();
+    private MutableLiveData<ResponseMessage> errorResponse = new MutableLiveData<>();
 
     public CityDataViewModel() {
         getData();
     }
 
-    private void getData() {
+    public void getData() {
         repository.getAllWeatherDataInZip(Constants.CITY_NIS,
                 new BiFunction<WeatherData, FiveDayCityForecast, WeatherAndForecast>() {
                     @Override
@@ -40,30 +41,24 @@ public class CityDataViewModel extends BaseViewModel {
 
                     @Override
                     public void onSuccess(WeatherAndForecast completeWeatherData) {
-                        weatherAndForecast.set(completeWeatherData);
                         weatherLiveData.setValue(completeWeatherData);
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        CityDataViewModel.super.onError("Problems with loading weather data.");
+                        setErrorMessage(e);
                     }
                 });
     }
 
     //region getters and setters
 
-
-    public ObservableField<WeatherAndForecast> getWeatherAndForecast() {
-        return weatherAndForecast;
-    }
-
-    public void setWeatherAndForecast(ObservableField<WeatherAndForecast> weatherAndForecast) {
-        this.weatherAndForecast = weatherAndForecast;
-    }
-
     public LiveData<WeatherAndForecast> getWeatherLiveData() {
         return weatherLiveData;
+    }
+
+    public LiveData<ResponseMessage> getErrorData() {
+        return errorResponse;
     }
 
     //endregion

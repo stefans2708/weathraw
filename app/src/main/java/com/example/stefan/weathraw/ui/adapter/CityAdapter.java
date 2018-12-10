@@ -122,8 +122,8 @@ public class CityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
 
         private void addItems(Context context, List<DayAverageValues> dayAverageValuesList) {
-
             LayoutInflater inflater = LayoutInflater.from(context);
+            binding.linearItemsHolder.removeAllViews();
             for (int i = 0; i < 4; i++) {
                 ItemCityForecastContentBinding itemBinding =
                         ItemCityForecastContentBinding.inflate(LayoutInflater.from(context), binding.linearItemsHolder, false);

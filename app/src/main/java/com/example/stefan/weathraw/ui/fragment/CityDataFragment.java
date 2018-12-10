@@ -6,6 +6,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,11 +14,12 @@ import android.view.ViewGroup;
 
 import com.example.stefan.weathraw.R;
 import com.example.stefan.weathraw.databinding.FragmentCityDataBinding;
+import com.example.stefan.weathraw.model.ResponseMessage;
 import com.example.stefan.weathraw.model.WeatherAndForecast;
 import com.example.stefan.weathraw.ui.adapter.CityAdapter;
 import com.example.stefan.weathraw.viewmodel.CityDataViewModel;
 
-public class CityDataFragment extends BaseFragment implements CityAdapter.OnClickListener {
+public class CityDataFragment extends BaseFragment implements CityAdapter.OnClickListener, SwipeRefreshLayout.OnRefreshListener, Observer<Throwable> {
 
     private CityDataViewModel viewModel;
     private FragmentCityDataBinding binding;
@@ -45,11 +47,19 @@ public class CityDataFragment extends BaseFragment implements CityAdapter.OnClic
         return binding.getRoot();
     }
 
+    @Override
+    public void onChanged(@Nullable Throwable error) {
+        super.onChanged(error);
+        changeRefreshingStatus(false);
+    }
+
     private void setUpObservers() {
+        viewModel.getErrorMessage().observe(this, this);
         viewModel.getWeatherLiveData().observe(this, new Observer<WeatherAndForecast>() {
             @Override
             public void onChanged(@Nullable WeatherAndForecast weatherAndForecast) {
                 setAdapter(weatherAndForecast);
+                changeRefreshingStatus(false);
             }
         });
     }
@@ -57,6 +67,8 @@ public class CityDataFragment extends BaseFragment implements CityAdapter.OnClic
     private void initViews() {
         binding.recyclerView.setHasFixedSize(true);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.swipeToRefresh.setOnRefreshListener(this);
+        changeRefreshingStatus(true);
     }
 
     private void setAdapter(WeatherAndForecast data) {
@@ -68,6 +80,13 @@ public class CityDataFragment extends BaseFragment implements CityAdapter.OnClic
         }
     }
 
+    @Override
+    public void onRefresh() {
+        viewModel.getData();
+        changeRefreshingStatus(true);
+    }
 
-
+    private void changeRefreshingStatus(boolean isRefreshing) {
+        binding.swipeToRefresh.setRefreshing(isRefreshing);
+    }
 }
