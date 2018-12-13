@@ -86,7 +86,7 @@
                     android:id="@+id/txt_label_pressure"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="30dp"
+                    android:layout_marginEnd="24dp"
                     android:drawablePadding="6dp"
                     android:drawableStart="@drawable/ic_speedometer"
                     android:gravity="center_vertical"

@@ -21,6 +21,12 @@
             android:layout_height="match_parent"
             android:background="@drawable/img_sun_sky_1">
 
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:text="Weathraw"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_view"
                 android:layout_width="0dp"

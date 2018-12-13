@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 
 import com.example.stefan.weathraw.R;
 import com.example.stefan.weathraw.databinding.FragmentCityDataBinding;
-import com.example.stefan.weathraw.model.ResponseMessage;
 import com.example.stefan.weathraw.model.WeatherAndForecast;
 import com.example.stefan.weathraw.ui.adapter.CityAdapter;
 import com.example.stefan.weathraw.viewmodel.CityDataViewModel;
