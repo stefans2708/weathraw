@@ -31,7 +31,7 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    private void replaceFragment(Fragment fragment, boolean addToBackStack, String tag) {
+    public void replaceFragment(Fragment fragment, boolean addToBackStack, String tag) {
         if (addToBackStack) {
             getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, fragment).addToBackStack(tag).commit();
         } else {

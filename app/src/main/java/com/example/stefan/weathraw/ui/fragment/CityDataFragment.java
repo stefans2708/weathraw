@@ -7,18 +7,28 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.stefan.weathraw.R;
 import com.example.stefan.weathraw.databinding.FragmentCityDataBinding;
+import com.example.stefan.weathraw.model.BottomMenuItem;
 import com.example.stefan.weathraw.model.WeatherAndForecast;
+import com.example.stefan.weathraw.ui.activity.MainActivity;
+import com.example.stefan.weathraw.ui.adapter.BottomMenuAdapter;
 import com.example.stefan.weathraw.ui.adapter.CityAdapter;
+import com.example.stefan.weathraw.ui.dialog.BottomMenuDialog;
 import com.example.stefan.weathraw.viewmodel.CityDataViewModel;
 
-public class CityDataFragment extends BaseFragment implements CityAdapter.OnClickListener, SwipeRefreshLayout.OnRefreshListener, Observer<Throwable> {
+import static com.example.stefan.weathraw.ui.adapter.BottomMenuAdapter.MENU_ITEM_ABOUT;
+import static com.example.stefan.weathraw.ui.adapter.BottomMenuAdapter.MENU_ITEM_ADD_CITY;
+import static com.example.stefan.weathraw.ui.adapter.BottomMenuAdapter.MENU_ITEM_SETTINGS;
+
+public class CityDataFragment extends BaseFragment implements CityAdapter.OnClickListener, SwipeRefreshLayout.OnRefreshListener, Observer<Throwable>,BottomMenuAdapter.OnMenuItemClickListener {
 
     private CityDataViewModel viewModel;
     private FragmentCityDataBinding binding;
@@ -68,6 +78,12 @@ public class CityDataFragment extends BaseFragment implements CityAdapter.OnClic
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.swipeToRefresh.setOnRefreshListener(this);
         changeRefreshingStatus(true);
+
+        if (getFragmentManager() != null) {
+            BottomMenuDialog dialog = BottomMenuDialog.newInstance();
+            dialog.setOnMenuItemClickListener(this);
+            dialog.show(getFragmentManager(), "BottomMenu");
+        }
     }
 
     private void setAdapter(WeatherAndForecast data) {
@@ -87,5 +103,23 @@ public class CityDataFragment extends BaseFragment implements CityAdapter.OnClic
 
     private void changeRefreshingStatus(boolean isRefreshing) {
         binding.swipeToRefresh.setRefreshing(isRefreshing);
+    }
+
+    @Override
+    public void onMenuItemClick(BottomMenuItem bottomMenuItem) {
+        switch (bottomMenuItem.getItemType()) {
+            case MENU_ITEM_SETTINGS: {
+                ((MainActivity) getActivity()).replaceFragment(SettingsFragment.newInstance(), true, SettingsFragment.class.getSimpleName());
+                break;
+            }
+            case MENU_ITEM_ADD_CITY: {
+                ((MainActivity) getActivity()).replaceFragment(AddCityFragment.newInstance(), true, SettingsFragment.class.getSimpleName());
+                break;
+            }
+            case MENU_ITEM_ABOUT: {
+                ((MainActivity) getActivity()).replaceFragment(AboutFragment.newInstance(), true, SettingsFragment.class.getSimpleName());
+                break;
+            }
+        }
     }
 }
