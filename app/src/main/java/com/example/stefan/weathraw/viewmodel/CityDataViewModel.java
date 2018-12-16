@@ -2,7 +2,6 @@ package com.example.stefan.weathraw.viewmodel;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
-import android.databinding.ObservableField;
 
 import com.example.stefan.weathraw.model.FiveDayCityForecast;
 import com.example.stefan.weathraw.model.ResponseMessage;
@@ -20,6 +19,7 @@ public class CityDataViewModel extends BaseViewModel {
     private WeatherRepository repository = new WeatherRepository();
     private MutableLiveData<WeatherAndForecast> weatherLiveData = new MutableLiveData<>();
     private MutableLiveData<ResponseMessage> errorResponse = new MutableLiveData<>();
+    private MutableLiveData<Boolean> bottomMenuState = new MutableLiveData<>();
 
     public CityDataViewModel() {
         getData();
@@ -51,6 +51,11 @@ public class CityDataViewModel extends BaseViewModel {
                 });
     }
 
+    public void onBottomMenuToggleClick() {
+        Boolean state = bottomMenuState.getValue();
+        bottomMenuState.setValue(state == null || !state);
+    }
+
     //region getters and setters
 
     public LiveData<WeatherAndForecast> getWeatherLiveData() {
@@ -59,6 +64,14 @@ public class CityDataViewModel extends BaseViewModel {
 
     public LiveData<ResponseMessage> getErrorData() {
         return errorResponse;
+    }
+
+    public LiveData<Boolean> getBottomMenuState() {
+        return bottomMenuState;
+    }
+
+    public void setBottomMenuState(Boolean state) {
+        this.bottomMenuState.setValue(state);
     }
 
     //endregion

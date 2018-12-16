@@ -6,13 +6,13 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.stefan.weathraw.R;
 import com.example.stefan.weathraw.databinding.FragmentCityDataBinding;
@@ -21,7 +21,6 @@ import com.example.stefan.weathraw.model.WeatherAndForecast;
 import com.example.stefan.weathraw.ui.activity.MainActivity;
 import com.example.stefan.weathraw.ui.adapter.BottomMenuAdapter;
 import com.example.stefan.weathraw.ui.adapter.CityAdapter;
-import com.example.stefan.weathraw.ui.dialog.BottomMenuDialog;
 import com.example.stefan.weathraw.viewmodel.CityDataViewModel;
 
 import static com.example.stefan.weathraw.ui.adapter.BottomMenuAdapter.MENU_ITEM_ABOUT;
@@ -33,6 +32,7 @@ public class CityDataFragment extends BaseFragment implements CityAdapter.OnClic
     private CityDataViewModel viewModel;
     private FragmentCityDataBinding binding;
     private CityAdapter adapter;
+    private BottomSheetBehavior bottomSheetBehavior;
 
     public static CityDataFragment newInstance() {
         return new CityDataFragment();
@@ -71,19 +71,56 @@ public class CityDataFragment extends BaseFragment implements CityAdapter.OnClic
                 changeRefreshingStatus(false);
             }
         });
+        viewModel.getBottomMenuState().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean expand) {
+                if (expand == null) return;
+                bottomSheetBehavior.setState(expand ? BottomSheetBehavior.STATE_EXPANDED : BottomSheetBehavior.STATE_COLLAPSED);
+            }
+        });
     }
 
     private void initViews() {
         binding.recyclerView.setHasFixedSize(true);
-        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        binding.recyclerView.setLayoutManager(layoutManager);
+        binding.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                binding.swipeToRefresh.setEnabled(layoutManager.findFirstCompletelyVisibleItemPosition() == 0);
+            }
+        });
         binding.swipeToRefresh.setOnRefreshListener(this);
         changeRefreshingStatus(true);
 
-        if (getFragmentManager() != null) {
-            BottomMenuDialog dialog = BottomMenuDialog.newInstance();
-            dialog.setOnMenuItemClickListener(this);
-            dialog.show(getFragmentManager(), "BottomMenu");
-        }
+        bottomSheetBehavior = BottomSheetBehavior.from(binding.linearBottomSheet);
+        binding.recyclerBottomMenu.setHasFixedSize(true);
+        binding.recyclerBottomMenu.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.recyclerBottomMenu.setAdapter(new BottomMenuAdapter(getContext(), this));
+        bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                switch (newState) {
+                    case BottomSheetBehavior.STATE_EXPANDED: {
+                        binding.imgToggleBottomSheet.setImageResource(R.drawable.ic_arrow_down);
+                        binding.swipeToRefresh.setEnabled(false);
+                        viewModel.setBottomMenuState(true);
+                        break;
+                    }
+                    case BottomSheetBehavior.STATE_COLLAPSED: {
+                        binding.imgToggleBottomSheet.setImageResource(R.drawable.ic_arrow_up);
+                        binding.swipeToRefresh.setEnabled(true);
+                        viewModel.setBottomMenuState(false);
+                    }
+                }
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+
+            }
+        });
     }
 
     private void setAdapter(WeatherAndForecast data) {
