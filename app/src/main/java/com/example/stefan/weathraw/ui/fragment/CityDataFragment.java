@@ -75,7 +75,7 @@ public class CityDataFragment extends BaseFragment implements CityAdapter.OnClic
             @Override
             public void onChanged(@Nullable Boolean expand) {
                 if (expand == null) return;
-                bottomSheetBehavior.setState(expand ? BottomSheetBehavior.STATE_EXPANDED : BottomSheetBehavior.STATE_COLLAPSED);
+                bottomSheetBehavior.setState(expand ? BottomSheetBehavior.STATE_EXPANDED : BottomSheetBehavior.STATE_HIDDEN);
             }
         });
     }
@@ -94,22 +94,28 @@ public class CityDataFragment extends BaseFragment implements CityAdapter.OnClic
         binding.swipeToRefresh.setOnRefreshListener(this);
         changeRefreshingStatus(true);
 
-        bottomSheetBehavior = BottomSheetBehavior.from(binding.linearBottomSheet);
         binding.recyclerBottomMenu.setHasFixedSize(true);
         binding.recyclerBottomMenu.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.recyclerBottomMenu.setAdapter(new BottomMenuAdapter(getContext(), this));
+        bottomSheetBehavior = BottomSheetBehavior.from(binding.linearBottomSheet);
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
         bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
                 switch (newState) {
                     case BottomSheetBehavior.STATE_EXPANDED: {
-                        binding.imgToggleBottomSheet.setImageResource(R.drawable.ic_arrow_down);
+                        binding.fab.setImageResource(R.drawable.ic_arrow_down);
                         binding.swipeToRefresh.setEnabled(false);
                         viewModel.setBottomMenuState(true);
                         break;
                     }
+
                     case BottomSheetBehavior.STATE_COLLAPSED: {
-                        binding.imgToggleBottomSheet.setImageResource(R.drawable.ic_arrow_up);
+                        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+                        break;
+                    }
+                    case BottomSheetBehavior.STATE_HIDDEN: {
+                        binding.fab.setImageResource(R.drawable.ic_arrow_up);
                         binding.swipeToRefresh.setEnabled(true);
                         viewModel.setBottomMenuState(false);
                     }
