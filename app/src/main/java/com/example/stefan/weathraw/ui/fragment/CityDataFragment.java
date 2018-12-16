@@ -81,8 +81,8 @@ public class CityDataFragment extends BaseFragment implements CityAdapter.OnClic
     }
 
     private void initViews() {
-        binding.recyclerView.setHasFixedSize(true);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        binding.recyclerView.setHasFixedSize(true);
         binding.recyclerView.setLayoutManager(layoutManager);
         binding.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -116,7 +116,7 @@ public class CityDataFragment extends BaseFragment implements CityAdapter.OnClic
                     }
                     case BottomSheetBehavior.STATE_HIDDEN: {
                         binding.fab.setImageResource(R.drawable.ic_arrow_up);
-                        binding.swipeToRefresh.setEnabled(true);
+                        binding.swipeToRefresh.setEnabled(layoutManager.findFirstCompletelyVisibleItemPosition() == 0);
                         viewModel.setBottomMenuState(false);
                     }
                 }

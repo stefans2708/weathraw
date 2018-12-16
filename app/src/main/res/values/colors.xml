@@ -11,4 +11,6 @@
     <color name="temp_min">#9e9e9e</color>
     <color name="temp_max">#ff6d00</color>
     <color name="transparent">#0FFF</color>
+    <color name="color_separator">#bdbdbd</color>
+
 </resources>
