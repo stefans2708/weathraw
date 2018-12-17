@@ -6,6 +6,8 @@ public class Constants {
     public static final String BASE_URL = "https://api.openweathermap.org/data/2.5/";
 
     public static final long CITY_NIS = 787657;
+    public static final String FILE_CITIES = "RScities.json";
+    public static final String FLAG_CITIES_LOADED = "FLAG_CITIES_LOADED";
 
     public static String getApiKey() {
         return "867b58713226291e35ea0471eee3dcf2";
