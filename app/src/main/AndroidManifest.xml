@@ -24,6 +24,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.activity.WidgetConfigurationActivity" />
+        <activity android:name=".ui.activity.AddCityActivity" />
 
         <receiver android:name=".ui.widget.WeatherWidgetProvider">
             <intent-filter>

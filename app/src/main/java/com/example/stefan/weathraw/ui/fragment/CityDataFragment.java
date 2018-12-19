@@ -2,6 +2,7 @@ package com.example.stefan.weathraw.ui.fragment;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -18,16 +19,19 @@ import com.example.stefan.weathraw.R;
 import com.example.stefan.weathraw.databinding.FragmentCityDataBinding;
 import com.example.stefan.weathraw.model.BottomMenuItem;
 import com.example.stefan.weathraw.model.WeatherAndForecast;
+import com.example.stefan.weathraw.ui.activity.AddCityActivity;
 import com.example.stefan.weathraw.ui.activity.MainActivity;
 import com.example.stefan.weathraw.ui.adapter.BottomMenuAdapter;
 import com.example.stefan.weathraw.ui.adapter.CityAdapter;
+import com.example.stefan.weathraw.ui.dialog.ChooseCityDialog;
+import com.example.stefan.weathraw.utils.Constants;
+import com.example.stefan.weathraw.utils.SharedPrefsUtils;
 import com.example.stefan.weathraw.viewmodel.CityDataViewModel;
 
 import static com.example.stefan.weathraw.ui.adapter.BottomMenuAdapter.MENU_ITEM_ABOUT;
-import static com.example.stefan.weathraw.ui.adapter.BottomMenuAdapter.MENU_ITEM_ADD_CITY;
 import static com.example.stefan.weathraw.ui.adapter.BottomMenuAdapter.MENU_ITEM_SETTINGS;
 
-public class CityDataFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, Observer<Throwable>,BottomMenuAdapter.OnMenuItemClickListener {
+public class CityDataFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, Observer<Throwable>, BottomMenuAdapter.OnMenuItemClickListener {
 
     private CityDataViewModel viewModel;
     private FragmentCityDataBinding binding;
@@ -131,16 +135,39 @@ public class CityDataFragment extends BaseFragment implements SwipeRefreshLayout
 
     private void setAdapter(WeatherAndForecast data) {
         if (adapter == null) {
-            adapter = new CityAdapter(data, getActivity().getFragmentManager());
+            adapter = new CityAdapter(data);
+            adapter.setOnChangeCityListener(new View.OnClickListener() {
+                @Override
+                public void onClick(final View v) {
+                    final ChooseCityDialog dialog = ChooseCityDialog.newInstance();
+                    dialog.setOnItemClickListener(new ChooseCityDialog.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(Integer cityId) {
+                            SharedPrefsUtils.putInteger(Constants.CURRENT_CITY_ID, cityId);
+                            viewModel.getData(cityId);
+                            changeRefreshingStatus(true);
+                            dialog.dismiss();
+                        }
+
+                        @Override
+                        public void onAddMoreClick() {
+                            startActivityForResult(new Intent(getContext(), AddCityActivity.class), 1);
+                            dialog.dismiss();
+                        }
+                    });
+
+                    dialog.show(getActivity().getFragmentManager(), "choose_day_dialog");
+                }
+            });
             binding.recyclerView.setAdapter(adapter);
         } else {
-            adapter.notifyDataSetChanged();
+            adapter.setData(data);
         }
     }
 
     @Override
     public void onRefresh() {
-        viewModel.getData();
+        viewModel.refreshData();
         changeRefreshingStatus(true);
     }
 
@@ -155,10 +182,7 @@ public class CityDataFragment extends BaseFragment implements SwipeRefreshLayout
                 ((MainActivity) getActivity()).replaceFragment(SettingsFragment.newInstance(), true, SettingsFragment.class.getSimpleName());
                 break;
             }
-            case MENU_ITEM_ADD_CITY: {
-                ((MainActivity) getActivity()).replaceFragment(AddCityFragment.newInstance(), true, SettingsFragment.class.getSimpleName());
-                break;
-            }
+
             case MENU_ITEM_ABOUT: {
                 ((MainActivity) getActivity()).replaceFragment(AboutFragment.newInstance(), true, SettingsFragment.class.getSimpleName());
                 break;

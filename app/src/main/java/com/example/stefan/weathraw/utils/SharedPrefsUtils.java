@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import com.example.stefan.weathraw.WeatherApplication;
 import com.google.gson.Gson;
 
+import java.lang.reflect.Type;
+
 public class SharedPrefsUtils {
 
     private static final String PREFS_NAME = "weathraw_prefs";
@@ -35,11 +37,20 @@ public class SharedPrefsUtils {
         return getInstance().getBoolean(key, false);
     }
 
+
+    public static void putInteger(String key, Integer value) {
+        getInstance().edit().putInt(key,value).apply();
+    }
+
+    public static Integer getInteger(String key) {
+        return getInstance().getInt(key, -1);
+    }
+
     public static void putObject(String key, Object object) {
         getInstance().edit().putString(key, new Gson().toJson(object)).apply();
     }
 
-    public static Object getObject(String key, Class type) {
+    public static <T> T getObject(String key, Type type) {
         String result = getString(key);
         if (result != null) {
             return new Gson().fromJson(result, type);

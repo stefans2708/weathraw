@@ -9,6 +9,7 @@ import com.example.stefan.weathraw.model.WeatherAndForecast;
 import com.example.stefan.weathraw.model.WeatherData;
 import com.example.stefan.weathraw.repository.WeatherRepository;
 import com.example.stefan.weathraw.utils.Constants;
+import com.example.stefan.weathraw.utils.SharedPrefsUtils;
 
 import io.reactivex.SingleObserver;
 import io.reactivex.disposables.Disposable;
@@ -20,13 +21,20 @@ public class CityDataViewModel extends BaseViewModel {
     private MutableLiveData<WeatherAndForecast> weatherLiveData = new MutableLiveData<>();
     private MutableLiveData<ResponseMessage> errorResponse = new MutableLiveData<>();
     private MutableLiveData<Boolean> bottomMenuState = new MutableLiveData<>();
+    private int cityId;
 
     public CityDataViewModel() {
-        getData();
+        cityId = SharedPrefsUtils.getInteger(Constants.CURRENT_CITY_ID);       //todo: zahtevati paljenje gps-a ili otvoriti acitivity za izbor grada
+        if (cityId == -1) {
+            SharedPrefsUtils.putInteger(Constants.CURRENT_CITY_ID, Constants.CITY_NIS);
+            cityId = Constants.CITY_NIS;
+        }
+        getData(cityId);
     }
 
-    public void getData() {
-        repository.getAllWeatherDataInZip(Constants.CITY_NIS,
+    public void getData(int cityId) {
+        this.cityId = cityId;
+        repository.getAllWeatherDataInZip(cityId,
                 new BiFunction<WeatherData, FiveDayCityForecast, WeatherAndForecast>() {
                     @Override
                     public WeatherAndForecast apply(WeatherData weatherData, FiveDayCityForecast forecast) throws Exception {
@@ -49,6 +57,10 @@ public class CityDataViewModel extends BaseViewModel {
                         setErrorMessage(e);
                     }
                 });
+    }
+
+    public void refreshData() {
+        getData(cityId);
     }
 
     public void onBottomMenuToggleClick() {

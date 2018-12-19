@@ -1,6 +1,5 @@
 package com.example.stefan.weathraw.ui.adapter;
 
-import android.app.FragmentManager;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
@@ -16,7 +15,6 @@ import com.example.stefan.weathraw.databinding.ItemCityForecastBinding;
 import com.example.stefan.weathraw.databinding.ItemCityForecastContentBinding;
 import com.example.stefan.weathraw.model.DayAverageValues;
 import com.example.stefan.weathraw.model.WeatherAndForecast;
-import com.example.stefan.weathraw.ui.dialog.ChooseCityDialog;
 import com.example.stefan.weathraw.utils.HourXAxisFormatter;
 import com.example.stefan.weathraw.viewmodel.ItemCurrentWeatherViewModel;
 import com.example.stefan.weathraw.viewmodel.ItemForecastViewModel;
@@ -35,11 +33,10 @@ public class CityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int ITEM_DAILY_FORECAST = 3;
 
     private WeatherAndForecast weatherAndForecast;
-    private FragmentManager fragmentManager;
+    private View.OnClickListener onChangeCityClickListener;
 
-    public CityAdapter(WeatherAndForecast data, FragmentManager fragmentManager) {
+    public CityAdapter(WeatherAndForecast data) {
         this.weatherAndForecast = data;
-        this.fragmentManager = fragmentManager;
     }
 
     @NonNull
@@ -95,18 +92,22 @@ public class CityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
+    public void setOnChangeCityListener(View.OnClickListener onClickListener) {
+        this.onChangeCityClickListener = onClickListener;
+    }
+
+    public void setData(WeatherAndForecast data) {
+        this.weatherAndForecast = data;
+        notifyDataSetChanged();
+    }
+
     public class ItemWeatherViewHolder extends RecyclerView.ViewHolder {
         private ItemCityCurrentWeatherBinding binding;
 
         ItemWeatherViewHolder(final ItemCityCurrentWeatherBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
-            binding.txtChangeCity.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ChooseCityDialog.newInstance().show(fragmentManager, "choose_day_dialog");
-                }
-            });
+            binding.txtChangeCity.setOnClickListener(onChangeCityClickListener);
         }
 
         public void bind(ItemCurrentWeatherViewModel viewModel) {
