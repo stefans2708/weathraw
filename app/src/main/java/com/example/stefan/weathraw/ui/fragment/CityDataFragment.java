@@ -27,7 +27,7 @@ import static com.example.stefan.weathraw.ui.adapter.BottomMenuAdapter.MENU_ITEM
 import static com.example.stefan.weathraw.ui.adapter.BottomMenuAdapter.MENU_ITEM_ADD_CITY;
 import static com.example.stefan.weathraw.ui.adapter.BottomMenuAdapter.MENU_ITEM_SETTINGS;
 
-public class CityDataFragment extends BaseFragment implements CityAdapter.OnClickListener, SwipeRefreshLayout.OnRefreshListener, Observer<Throwable>,BottomMenuAdapter.OnMenuItemClickListener {
+public class CityDataFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, Observer<Throwable>,BottomMenuAdapter.OnMenuItemClickListener {
 
     private CityDataViewModel viewModel;
     private FragmentCityDataBinding binding;
@@ -131,7 +131,7 @@ public class CityDataFragment extends BaseFragment implements CityAdapter.OnClic
 
     private void setAdapter(WeatherAndForecast data) {
         if (adapter == null) {
-            adapter = new CityAdapter(data, this);
+            adapter = new CityAdapter(data, getActivity().getFragmentManager());
             binding.recyclerView.setAdapter(adapter);
         } else {
             adapter.notifyDataSetChanged();

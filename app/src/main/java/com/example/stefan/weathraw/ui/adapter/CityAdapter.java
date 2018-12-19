@@ -1,5 +1,6 @@
 package com.example.stefan.weathraw.ui.adapter;
 
+import android.app.FragmentManager;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
@@ -15,6 +16,7 @@ import com.example.stefan.weathraw.databinding.ItemCityForecastBinding;
 import com.example.stefan.weathraw.databinding.ItemCityForecastContentBinding;
 import com.example.stefan.weathraw.model.DayAverageValues;
 import com.example.stefan.weathraw.model.WeatherAndForecast;
+import com.example.stefan.weathraw.ui.dialog.ChooseCityDialog;
 import com.example.stefan.weathraw.utils.HourXAxisFormatter;
 import com.example.stefan.weathraw.viewmodel.ItemCurrentWeatherViewModel;
 import com.example.stefan.weathraw.viewmodel.ItemForecastViewModel;
@@ -33,11 +35,11 @@ public class CityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int ITEM_DAILY_FORECAST = 3;
 
     private WeatherAndForecast weatherAndForecast;
-    private OnClickListener listener;
+    private FragmentManager fragmentManager;
 
-    public CityAdapter(WeatherAndForecast data, OnClickListener listener) {
+    public CityAdapter(WeatherAndForecast data, FragmentManager fragmentManager) {
         this.weatherAndForecast = data;
-        this.listener = listener;
+        this.fragmentManager = fragmentManager;
     }
 
     @NonNull
@@ -96,9 +98,15 @@ public class CityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public class ItemWeatherViewHolder extends RecyclerView.ViewHolder {
         private ItemCityCurrentWeatherBinding binding;
 
-        ItemWeatherViewHolder(ItemCityCurrentWeatherBinding binding) {
+        ItemWeatherViewHolder(final ItemCityCurrentWeatherBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
+            binding.txtChangeCity.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ChooseCityDialog.newInstance().show(fragmentManager, "choose_day_dialog");
+                }
+            });
         }
 
         public void bind(ItemCurrentWeatherViewModel viewModel) {
@@ -143,7 +151,7 @@ public class CityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public class Item24ForecastViewHolder extends RecyclerView.ViewHolder {
         private Item24hForecastBinding binding;
 
-        public Item24ForecastViewHolder(Item24hForecastBinding binding) {
+        Item24ForecastViewHolder(Item24hForecastBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }
@@ -186,7 +194,4 @@ public class CityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     }
 
-    public interface OnClickListener {
-
-    }
 }

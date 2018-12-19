@@ -2,7 +2,10 @@ package com.example.stefan.weathraw.utils;
 
 import android.databinding.BindingAdapter;
 import android.graphics.drawable.Drawable;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -25,5 +28,12 @@ public class BindingAdapters {
                     .load(imageUrl)
                     .into(imageView);
         }
+    }
+
+    @BindingAdapter("underline")
+    public static void underlineText(TextView textView, Boolean underline) {
+        SpannableString underlinedText = new SpannableString(textView.getText());
+        underlinedText.setSpan(new UnderlineSpan(), 0, underlinedText.length(), 0);
+        textView.setText(underlinedText);
     }
 }

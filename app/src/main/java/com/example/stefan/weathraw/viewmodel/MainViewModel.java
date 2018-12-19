@@ -27,8 +27,7 @@ public class MainViewModel extends BaseViewModel {
     private void loadDatabaseWithCityData() {
         String jsonArray = getJsonFromFile();
 
-        Type listType = new TypeToken<ArrayList<City>>() {
-        }.getType();
+        Type listType = new TypeToken<ArrayList<City>>() {}.getType();
         final List<City> cities = new Gson().fromJson(jsonArray, listType);
 
         new Thread(new Runnable() {

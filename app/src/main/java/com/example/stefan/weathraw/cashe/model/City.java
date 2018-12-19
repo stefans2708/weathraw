@@ -11,6 +11,11 @@ public class City {
     private String name;
     private String country;
 
+    public City(Integer id, String name, String country) {
+        this.id = id;
+        this.name = name;
+        this.country = country;
+    }
 
     public Integer getId() {
         return id;

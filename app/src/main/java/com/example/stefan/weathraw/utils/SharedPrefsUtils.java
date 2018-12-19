@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.example.stefan.weathraw.WeatherApplication;
+import com.google.gson.Gson;
 
 public class SharedPrefsUtils {
 
@@ -34,5 +35,16 @@ public class SharedPrefsUtils {
         return getInstance().getBoolean(key, false);
     }
 
+    public static void putObject(String key, Object object) {
+        getInstance().edit().putString(key, new Gson().toJson(object)).apply();
+    }
+
+    public static Object getObject(String key, Class type) {
+        String result = getString(key);
+        if (result != null) {
+            return new Gson().fromJson(result, type);
+        }
+        return null;
+    }
 
 }
