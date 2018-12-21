@@ -3,6 +3,8 @@ package com.example.stefan.weathraw.viewmodel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 
+import com.example.stefan.weathraw.cashe.model.City;
+import com.example.stefan.weathraw.model.CityList;
 import com.example.stefan.weathraw.model.FiveDayCityForecast;
 import com.example.stefan.weathraw.model.ResponseMessage;
 import com.example.stefan.weathraw.model.WeatherAndForecast;
@@ -10,6 +12,9 @@ import com.example.stefan.weathraw.model.WeatherData;
 import com.example.stefan.weathraw.repository.WeatherRepository;
 import com.example.stefan.weathraw.utils.Constants;
 import com.example.stefan.weathraw.utils.SharedPrefsUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import io.reactivex.SingleObserver;
 import io.reactivex.disposables.Disposable;
@@ -84,6 +89,13 @@ public class CityDataViewModel extends BaseViewModel {
 
     public void setBottomMenuState(Boolean state) {
         this.bottomMenuState.setValue(state);
+    }
+
+    public void updateFavouritesList(City city) {
+        CityList cityList = SharedPrefsUtils.getObject(Constants.SELECTED_CITIES, CityList.class);
+        List<City> cities = cityList == null ? new ArrayList<City>() : cityList.getCities();
+        cities.add(city);
+        SharedPrefsUtils.putObject(Constants.SELECTED_CITIES, cityList);
     }
 
     //endregion

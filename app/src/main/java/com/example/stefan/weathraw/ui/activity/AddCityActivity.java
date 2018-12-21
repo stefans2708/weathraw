@@ -18,7 +18,7 @@ import java.util.List;
 
 public class AddCityActivity extends BaseActivity implements AddCityAdapter.OnItemSelectListener {
 
-    public static final String EXTRA_CITY_ID = "EXTRA_CITY_ID";
+    public static final String EXTRA_CITY = "EXTRA_CITY";
     private ActivityAddCityBinding binding;
     private AddCityViewModel viewModel;
 
@@ -51,9 +51,9 @@ public class AddCityActivity extends BaseActivity implements AddCityAdapter.OnIt
     }
 
     @Override
-    public void onItemSelected(int cityId) {
+    public void onItemSelected(City city) {
         Intent intent = new Intent();
-        intent.putExtra(EXTRA_CITY_ID, cityId);
+        intent.putExtra(EXTRA_CITY, city);
         setResult(12, intent);
         finish();
     }

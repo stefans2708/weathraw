@@ -13,6 +13,7 @@ import com.example.stefan.weathraw.model.CityList;
 import com.example.stefan.weathraw.utils.Constants;
 import com.example.stefan.weathraw.utils.SharedPrefsUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ChooseCityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -22,8 +23,8 @@ public class ChooseCityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private List<City> cities;
     private OnItemClickListener listener;
 
-    public ChooseCityAdapter(List<City> cities, OnItemClickListener listener) {
-        this.cities = cities;
+    public ChooseCityAdapter(CityList cities, OnItemClickListener listener) {
+        this.cities = cities != null ? cities.getCities() : new ArrayList<City>();
         this.listener = listener;
     }
 
@@ -44,6 +45,13 @@ public class ChooseCityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public int getItemCount() {
         return cities.size() + 1;
+    }
+
+    public int itemInserted(City city) {
+        cities.add(city);
+        int position = cities.size() - 1;
+        notifyItemInserted(position);
+        return position;
     }
 
     @Override
@@ -70,6 +78,7 @@ public class ChooseCityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     }
                 }
             });
+
             binding.imgRemoveItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -109,7 +118,7 @@ public class ChooseCityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     public interface OnItemClickListener {
-        void onItemClick(Integer city);
+        void onItemClick(int cityId);
         void onAddMoreClick();
     }
 }

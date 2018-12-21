@@ -53,7 +53,7 @@ public class AddCityAdapter extends RecyclerView.Adapter<AddCityAdapter.ItemView
                 @Override
                 public void onClick(View v) {
                     if (listener != null) {
-                        listener.onItemSelected(cityList.get(getAdapterPosition()).getId());
+                        listener.onItemSelected(cityList.get(getAdapterPosition()));
                     }
                 }
             });
@@ -62,6 +62,6 @@ public class AddCityAdapter extends RecyclerView.Adapter<AddCityAdapter.ItemView
     }
 
     public interface OnItemSelectListener {
-        void onItemSelected(int cityId);
+        void onItemSelected(City city);
     }
 }

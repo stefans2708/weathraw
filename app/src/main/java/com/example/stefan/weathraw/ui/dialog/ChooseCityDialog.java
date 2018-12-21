@@ -15,13 +15,10 @@ import com.example.stefan.weathraw.ui.adapter.ChooseCityAdapter;
 import com.example.stefan.weathraw.utils.Constants;
 import com.example.stefan.weathraw.utils.SharedPrefsUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ChooseCityDialog extends DialogFragment implements ChooseCityAdapter.OnItemClickListener {
 
     private DialogChooseCityBinding binding;
-    private OnItemClickListener listener;
+    private OnDialogItemClickListener listener;
 
     public static ChooseCityDialog newInstance() {
         return new ChooseCityDialog();
@@ -38,15 +35,8 @@ public class ChooseCityDialog extends DialogFragment implements ChooseCityAdapte
     private void initViews() {
         binding.recyclerCities.setLayoutManager(new LinearLayoutManager(binding.getRoot().getContext()));
         binding.recyclerCities.setHasFixedSize(true);
-        List<City> cities = new ArrayList<>();
-//        cities = (List<City>) SharedPrefsUtils.getObject(Constants.SELECTED_CITIES, cities.getClass());
-        cities.add(new City(784227, "Vranje", "RS"));
-        cities.add(new City(787657, "Nis", "RS"));
-        cities.add(new City(788709, "Leskovac", "RS"));
-        CityList cityList = new CityList(cities);
-        SharedPrefsUtils.putObject(Constants.SELECTED_CITIES, cityList);
+        CityList cities = SharedPrefsUtils.getObject(Constants.SELECTED_CITIES, CityList.class);
         binding.recyclerCities.setAdapter(new ChooseCityAdapter(cities, this));
-        binding.recyclerCities.setNestedScrollingEnabled(false);
 
         binding.btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,9 +47,10 @@ public class ChooseCityDialog extends DialogFragment implements ChooseCityAdapte
     }
 
     @Override
-    public void onItemClick(Integer cityId) {
+    public void onItemClick(int cityId) {
         if(listener != null) {
             listener.onItemClick(cityId);
+            dismiss();
         }
     }
 
@@ -70,11 +61,16 @@ public class ChooseCityDialog extends DialogFragment implements ChooseCityAdapte
         }
     }
 
-    public void setOnItemClickListener(OnItemClickListener listener) {
+    public void setOnItemClickListener(OnDialogItemClickListener listener) {
         this.listener = listener;
     }
 
-    public interface OnItemClickListener {
+    public void refreshListAfterInsertion(City city) {
+        binding.recyclerCities.smoothScrollToPosition(
+                ((ChooseCityAdapter) binding.recyclerCities.getAdapter()).itemInserted(city) + 1);
+    }
+
+    public interface OnDialogItemClickListener {
         void onItemClick(Integer city);
         void onAddMoreClick();
     }

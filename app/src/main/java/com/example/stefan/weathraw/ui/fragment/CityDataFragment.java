@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.stefan.weathraw.R;
+import com.example.stefan.weathraw.cashe.model.City;
 import com.example.stefan.weathraw.databinding.FragmentCityDataBinding;
 import com.example.stefan.weathraw.model.BottomMenuItem;
 import com.example.stefan.weathraw.model.WeatherAndForecast;
@@ -31,12 +32,13 @@ import com.example.stefan.weathraw.viewmodel.CityDataViewModel;
 import static com.example.stefan.weathraw.ui.adapter.BottomMenuAdapter.MENU_ITEM_ABOUT;
 import static com.example.stefan.weathraw.ui.adapter.BottomMenuAdapter.MENU_ITEM_SETTINGS;
 
-public class CityDataFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, Observer<Throwable>, BottomMenuAdapter.OnMenuItemClickListener {
+public class CityDataFragment extends BaseFragment implements ChooseCityDialog.OnDialogItemClickListener, SwipeRefreshLayout.OnRefreshListener, Observer<Throwable>, BottomMenuAdapter.OnMenuItemClickListener {
 
     private static final int RC_ADD_MORE = 123;
     private CityDataViewModel viewModel;
     private FragmentCityDataBinding binding;
     private CityAdapter adapter;
+    private ChooseCityDialog dialog;
     private BottomSheetBehavior bottomSheetBehavior;
 
     public static CityDataFragment newInstance() {
@@ -140,23 +142,8 @@ public class CityDataFragment extends BaseFragment implements SwipeRefreshLayout
             adapter.setOnChangeCityListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
-                    final ChooseCityDialog dialog = ChooseCityDialog.newInstance();
-                    dialog.setOnItemClickListener(new ChooseCityDialog.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(Integer cityId) {
-                            SharedPrefsUtils.putInteger(Constants.CURRENT_CITY_ID, cityId);
-                            viewModel.getData(cityId);
-                            changeRefreshingStatus(true);
-                            dialog.dismiss();
-                        }
-
-                        @Override
-                        public void onAddMoreClick() {
-                            startActivityForResult(new Intent(getContext(), AddCityActivity.class), RC_ADD_MORE);
-                            dialog.dismiss();
-                        }
-                    });
-
+                    dialog = ChooseCityDialog.newInstance();
+                    dialog.setOnItemClickListener(CityDataFragment.this);
                     dialog.show(getActivity().getFragmentManager(), "choose_day_dialog");
                 }
             });
@@ -179,9 +166,10 @@ public class CityDataFragment extends BaseFragment implements SwipeRefreshLayout
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == RC_ADD_MORE && data != null) {
-            int cityId = data.getIntExtra(AddCityActivity.EXTRA_CITY_ID, -1);
-            if (cityId != -1) {
-                viewModel.getData(cityId);
+            City city = data.getParcelableExtra(AddCityActivity.EXTRA_CITY);
+            if (city != null) {
+                viewModel.updateFavouritesList(city);
+                dialog.refreshListAfterInsertion(city);
             }
         }
     }
@@ -199,5 +187,17 @@ public class CityDataFragment extends BaseFragment implements SwipeRefreshLayout
                 break;
             }
         }
+    }
+
+    @Override
+    public void onItemClick(Integer cityId) {
+        SharedPrefsUtils.putInteger(Constants.CURRENT_CITY_ID, cityId);
+        viewModel.getData(cityId);
+        changeRefreshingStatus(true);
+    }
+
+    @Override
+    public void onAddMoreClick() {
+        startActivityForResult(new Intent(getContext(), AddCityActivity.class), RC_ADD_MORE);
     }
 }
