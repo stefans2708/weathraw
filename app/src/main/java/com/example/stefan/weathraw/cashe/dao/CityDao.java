@@ -1,5 +1,6 @@
 package com.example.stefan.weathraw.cashe.dao;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
@@ -15,11 +16,12 @@ public interface CityDao {
     void insertAll(List<City> cities);
 
     @Query("SELECT * FROM city")
-    List<City> getAll();
+    LiveData<List<City>> getAll();
 
     @Query("SELECT COUNT(*) FROM city WHERE id=787657")
     Integer getStartCity();
 
-    @Query("SELECT * FROM city LIMIT :start, :end")
-    List<City> getPage(int start, int end);
+    @Query("SELECT * FROM city LIMIT :pageSize OFFSET :offset")
+    LiveData<List<City>> getPage(int pageSize, int offset);
+
 }

@@ -33,6 +33,7 @@ import static com.example.stefan.weathraw.ui.adapter.BottomMenuAdapter.MENU_ITEM
 
 public class CityDataFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, Observer<Throwable>, BottomMenuAdapter.OnMenuItemClickListener {
 
+    private static final int RC_ADD_MORE = 123;
     private CityDataViewModel viewModel;
     private FragmentCityDataBinding binding;
     private CityAdapter adapter;
@@ -151,7 +152,7 @@ public class CityDataFragment extends BaseFragment implements SwipeRefreshLayout
 
                         @Override
                         public void onAddMoreClick() {
-                            startActivityForResult(new Intent(getContext(), AddCityActivity.class), 1);
+                            startActivityForResult(new Intent(getContext(), AddCityActivity.class), RC_ADD_MORE);
                             dialog.dismiss();
                         }
                     });
@@ -173,6 +174,16 @@ public class CityDataFragment extends BaseFragment implements SwipeRefreshLayout
 
     private void changeRefreshingStatus(boolean isRefreshing) {
         binding.swipeToRefresh.setRefreshing(isRefreshing);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == RC_ADD_MORE && data != null) {
+            int cityId = data.getIntExtra(AddCityActivity.EXTRA_CITY_ID, -1);
+            if (cityId != -1) {
+                viewModel.getData(cityId);
+            }
+        }
     }
 
     @Override
