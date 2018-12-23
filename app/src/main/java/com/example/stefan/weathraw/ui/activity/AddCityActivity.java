@@ -7,15 +7,20 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.SearchView;
 
 import com.example.stefan.weathraw.R;
 import com.example.stefan.weathraw.cashe.model.City;
 import com.example.stefan.weathraw.databinding.ActivityAddCityBinding;
 import com.example.stefan.weathraw.ui.adapter.AddCityAdapter;
 import com.example.stefan.weathraw.viewmodel.AddCityViewModel;
+import com.jakewharton.rxbinding3.widget.RxSearchView;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 
 public class AddCityActivity extends BaseActivity implements AddCityAdapter.OnItemSelectListener {
 
@@ -58,18 +63,22 @@ public class AddCityActivity extends BaseActivity implements AddCityAdapter.OnIt
         binding.recyclerAddCity.setAdapter(new AddCityAdapter(this));
 
         binding.searchView.setIconified(false);
-        binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String query) {
-                viewModel.setSearchQuery(query);
-                return true;
-            }
-        });
+        addDisposable(RxSearchView.queryTextChanges(binding.searchView)
+                .skip(1)
+                .debounce(500, TimeUnit.MILLISECONDS)
+                .map(new Function<CharSequence, String>() {
+                    @Override
+                    public String apply(CharSequence charSequence) throws Exception {
+                        return charSequence.toString();
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<String>() {
+                    @Override
+                    public void accept(String query) throws Exception {
+                        viewModel.setSearchQuery(query);
+                    }
+                }));
     }
 
     @Override
