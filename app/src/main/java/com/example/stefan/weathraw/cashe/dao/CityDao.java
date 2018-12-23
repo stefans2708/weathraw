@@ -15,7 +15,7 @@ public interface CityDao {
     @Insert
     void insertAll(List<City> cities);
 
-    @Query("SELECT * FROM city")
+    @Query("SELECT * FROM city ORDER BY city.name")
     LiveData<List<City>> getAll();
 
     @Query("SELECT COUNT(*) FROM city WHERE id=787657")
@@ -24,4 +24,6 @@ public interface CityDao {
     @Query("SELECT * FROM city LIMIT :pageSize OFFSET :offset")
     LiveData<List<City>> getPage(int pageSize, int offset);
 
+    @Query("SELECT * FROM city WHERE city.name LIKE :query")
+    LiveData<List<City>> searchCities(String query);
 }

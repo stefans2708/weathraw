@@ -14,7 +14,7 @@ import java.util.List;
 
 public class AddCityAdapter extends RecyclerView.Adapter<AddCityAdapter.ItemViewHolder> {
 
-    private List<City> cityList = new ArrayList<>();
+    private List<City> cityList;
     private OnItemSelectListener listener;
 
     public AddCityAdapter(OnItemSelectListener listener) {
@@ -34,11 +34,11 @@ public class AddCityAdapter extends RecyclerView.Adapter<AddCityAdapter.ItemView
 
     @Override
     public int getItemCount() {
-        return cityList.size();
+        return cityList != null ? cityList.size() : 0;
     }
 
-    public void addItems(List<City> items) {
-        this.cityList.addAll(items);
+    public void setItems(List<City> items) {
+        this.cityList = new ArrayList<>(items);
         notifyDataSetChanged();
     }
 

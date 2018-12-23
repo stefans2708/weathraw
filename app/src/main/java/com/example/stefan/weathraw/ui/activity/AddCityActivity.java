@@ -7,6 +7,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.SearchView;
 
 import com.example.stefan.weathraw.R;
 import com.example.stefan.weathraw.cashe.model.City;
@@ -39,7 +40,14 @@ public class AddCityActivity extends BaseActivity implements AddCityAdapter.OnIt
         viewModel.getCities().observe(this, new Observer<List<City>>() {
             @Override
             public void onChanged(@Nullable List<City> cities) {
-                ((AddCityAdapter) binding.recyclerAddCity.getAdapter()).addItems(cities);
+                ((AddCityAdapter) binding.recyclerAddCity.getAdapter()).setItems(cities);
+            }
+        });
+
+        viewModel.getSearchResults().observe(this, new Observer<List<City>>() {
+            @Override
+            public void onChanged(@Nullable List<City> cities) {
+                ((AddCityAdapter) binding.recyclerAddCity.getAdapter()).setItems(cities);
             }
         });
     }
@@ -48,6 +56,20 @@ public class AddCityActivity extends BaseActivity implements AddCityAdapter.OnIt
         binding.recyclerAddCity.setHasFixedSize(true);
         binding.recyclerAddCity.setLayoutManager(new LinearLayoutManager(this));
         binding.recyclerAddCity.setAdapter(new AddCityAdapter(this));
+
+        binding.searchView.setIconified(false);
+        binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String query) {
+                viewModel.setSearchQuery(query);
+                return true;
+            }
+        });
     }
 
     @Override

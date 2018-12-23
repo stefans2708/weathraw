@@ -24,4 +24,7 @@ public class CityRepository {
         return cityDao.getAll();
     }
 
+    public LiveData<List<City>> searchCities(String query) {
+        return cityDao.searchCities("%"+query+"%");
+    }
 }

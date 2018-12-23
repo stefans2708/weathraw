@@ -33,6 +33,7 @@
                 android:text="@string/change_city"
                 underline="@{true}"
                 android:textSize="12sp"
+                android:padding="12dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/img_weather" />
 
