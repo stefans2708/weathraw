@@ -52,17 +52,23 @@
 
             </LinearLayout>
 
-            <android.support.design.widget.FloatingActionButton
+            <RelativeLayout
                 android:id="@+id/fab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="12dp"
-                android:onClick="@{() -> viewModel.onBottomMenuToggleClick()}"
-                android:src="@drawable/ic_arrow_up"
-                android:theme="@style/AppTheme.ActionButtons"
-                app:fabSize="mini"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/shape_round_button"
                 app:layout_anchor="@id/linear_bottom_sheet"
-                app:layout_anchorGravity="top|end" />
+                android:layout_margin="12dp"
+                app:layout_anchorGravity="top|end" >
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@null"
+                    android:onClick="@{() -> viewModel.onBottomMenuToggleClick()}"
+                    android:background="@drawable/ic_arrow_up"/>
+
+            </RelativeLayout>
 
         </android.support.design.widget.CoordinatorLayout>
 

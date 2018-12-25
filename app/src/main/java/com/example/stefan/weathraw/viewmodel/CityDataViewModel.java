@@ -29,6 +29,7 @@ public class CityDataViewModel extends BaseViewModel {
     private int cityId;
 
     public CityDataViewModel() {
+        setBottomMenuState(false);
         cityId = SharedPrefsUtils.getInteger(Constants.CURRENT_CITY_ID);       //todo: zahtevati paljenje gps-a ili otvoriti acitivity za izbor grada
         if (cityId == -1) {
             SharedPrefsUtils.putInteger(Constants.CURRENT_CITY_ID, Constants.CITY_NIS);
@@ -87,8 +88,8 @@ public class CityDataViewModel extends BaseViewModel {
         return bottomMenuState;
     }
 
-    public void setBottomMenuState(Boolean state) {
-        this.bottomMenuState.setValue(state);
+    public void setBottomMenuState(Boolean expanded) {
+        this.bottomMenuState.setValue(expanded);
     }
 
     public void updateFavouritesList(City city) {

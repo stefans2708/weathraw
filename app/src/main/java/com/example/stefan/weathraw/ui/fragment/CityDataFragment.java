@@ -1,5 +1,7 @@
 package com.example.stefan.weathraw.ui.fragment;
 
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
@@ -11,6 +13,7 @@ import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +43,7 @@ public class CityDataFragment extends BaseFragment implements ChooseCityDialog.O
     private CityAdapter adapter;
     private ChooseCityDialog dialog;
     private BottomSheetBehavior bottomSheetBehavior;
+    private int angle = 0;
 
     public static CityDataFragment newInstance() {
         return new CityDataFragment();
@@ -105,13 +109,11 @@ public class CityDataFragment extends BaseFragment implements ChooseCityDialog.O
         binding.recyclerBottomMenu.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.recyclerBottomMenu.setAdapter(new BottomMenuAdapter(getContext(), this));
         bottomSheetBehavior = BottomSheetBehavior.from(binding.linearBottomSheet);
-        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
         bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
                 switch (newState) {
                     case BottomSheetBehavior.STATE_EXPANDED: {
-                        binding.fab.setImageResource(R.drawable.ic_arrow_down);
                         binding.swipeToRefresh.setEnabled(false);
                         viewModel.setBottomMenuState(true);
                         break;
@@ -122,7 +124,6 @@ public class CityDataFragment extends BaseFragment implements ChooseCityDialog.O
                         break;
                     }
                     case BottomSheetBehavior.STATE_HIDDEN: {
-                        binding.fab.setImageResource(R.drawable.ic_arrow_up);
                         binding.swipeToRefresh.setEnabled(layoutManager.findFirstCompletelyVisibleItemPosition() == 0);
                         viewModel.setBottomMenuState(false);
                     }
@@ -131,8 +132,11 @@ public class CityDataFragment extends BaseFragment implements ChooseCityDialog.O
 
             @Override
             public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-
+                if (!Float.isNaN(slideOffset)) {
+                    binding.fab.setRotation(180f * (1 + slideOffset));
+                }
             }
+
         });
     }
 
