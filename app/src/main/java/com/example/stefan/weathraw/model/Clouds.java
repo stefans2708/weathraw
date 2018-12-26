@@ -9,6 +9,10 @@ public class Clouds {
     @Expose
     private Integer cloudPercent;
 
+    public Clouds(Integer cloudPercent) {
+        this.cloudPercent = cloudPercent;
+    }
+
     public Integer getCloudPercent() {
         return cloudPercent;
     }

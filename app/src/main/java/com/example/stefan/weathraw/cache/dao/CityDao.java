@@ -1,11 +1,11 @@
-package com.example.stefan.weathraw.cashe.dao;
+package com.example.stefan.weathraw.cache.dao;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 
-import com.example.stefan.weathraw.cashe.model.City;
+import com.example.stefan.weathraw.cache.model.City;
 
 import java.util.List;
 

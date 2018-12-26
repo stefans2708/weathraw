@@ -1,14 +1,13 @@
 package com.example.stefan.weathraw.viewmodel;
 
 import com.example.stefan.weathraw.WeatherApplication;
-import com.example.stefan.weathraw.cashe.model.City;
-import com.example.stefan.weathraw.cashe.repository.CityRepository;
+import com.example.stefan.weathraw.cache.model.City;
+import com.example.stefan.weathraw.cache.repository.CityRepository;
 import com.example.stefan.weathraw.utils.Constants;
 import com.example.stefan.weathraw.utils.SharedPrefsUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.ArrayList;

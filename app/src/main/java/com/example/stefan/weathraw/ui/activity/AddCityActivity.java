@@ -9,7 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 
 import com.example.stefan.weathraw.R;
-import com.example.stefan.weathraw.cashe.model.City;
+import com.example.stefan.weathraw.cache.model.City;
 import com.example.stefan.weathraw.databinding.ActivityAddCityBinding;
 import com.example.stefan.weathraw.ui.adapter.AddCityAdapter;
 import com.example.stefan.weathraw.viewmodel.AddCityViewModel;

@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.stefan.weathraw.cashe.model.City;
+import com.example.stefan.weathraw.cache.model.City;
 import com.example.stefan.weathraw.databinding.DialogChooseCityBinding;
 import com.example.stefan.weathraw.model.CityList;
 import com.example.stefan.weathraw.ui.adapter.ChooseCityAdapter;

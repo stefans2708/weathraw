@@ -1,10 +1,7 @@
-package com.example.stefan.weathraw.cashe.model;
+package com.example.stefan.weathraw.cache.model;
 
 
 import android.arch.persistence.room.ColumnInfo;
-
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 
 public class Coordinates {
 

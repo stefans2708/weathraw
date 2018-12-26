@@ -13,6 +13,11 @@ public class Coordinates {
     @Expose
     private Double latitude;
 
+    public Coordinates(Double latitude, Double longitude) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
     public Double getLongitude() {
         return longitude;
     }

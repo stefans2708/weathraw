@@ -10,6 +10,10 @@ public class WeatherAndForecast {
         this.forecastData = forecastData;
     }
 
+    public WeatherAndForecast() {
+
+    }
+
     public WeatherData getWeatherData() {
         return weatherData;
     }

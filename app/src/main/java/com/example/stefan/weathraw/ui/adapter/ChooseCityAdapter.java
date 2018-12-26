@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.stefan.weathraw.cashe.model.City;
+import com.example.stefan.weathraw.cache.model.City;
 import com.example.stefan.weathraw.databinding.ItemAddMoreBinding;
 import com.example.stefan.weathraw.databinding.ItemCityBinding;
 import com.example.stefan.weathraw.model.CityList;

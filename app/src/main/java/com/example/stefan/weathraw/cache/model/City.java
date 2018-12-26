@@ -1,4 +1,4 @@
-package com.example.stefan.weathraw.cashe.model;
+package com.example.stefan.weathraw.cache.model;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;

@@ -3,12 +3,10 @@ package com.example.stefan.weathraw.viewmodel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 
-import com.example.stefan.weathraw.cashe.model.City;
+import com.example.stefan.weathraw.cache.model.City;
 import com.example.stefan.weathraw.model.CityList;
-import com.example.stefan.weathraw.model.FiveDayCityForecast;
 import com.example.stefan.weathraw.model.ResponseMessage;
 import com.example.stefan.weathraw.model.WeatherAndForecast;
-import com.example.stefan.weathraw.model.WeatherData;
 import com.example.stefan.weathraw.repository.WeatherRepository;
 import com.example.stefan.weathraw.utils.Constants;
 import com.example.stefan.weathraw.utils.SharedPrefsUtils;
@@ -16,53 +14,31 @@ import com.example.stefan.weathraw.utils.SharedPrefsUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.SingleObserver;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.BiFunction;
-
 public class CityDataViewModel extends BaseViewModel {
 
     private WeatherRepository repository = new WeatherRepository();
-    private MutableLiveData<WeatherAndForecast> weatherLiveData = new MutableLiveData<>();
+    private LiveData<WeatherAndForecast> weatherLiveData;
     private MutableLiveData<ResponseMessage> errorResponse = new MutableLiveData<>();
     private MutableLiveData<Boolean> bottomMenuState = new MutableLiveData<>();
     private int cityId;
 
     public CityDataViewModel() {
         setBottomMenuState(false);
-        cityId = SharedPrefsUtils.getInteger(Constants.CURRENT_CITY_ID);       //todo: zahtevati paljenje gps-a ili otvoriti acitivity za izbor grada
-        if (cityId == -1) {
+        getCurrentCityId();
+        getData(cityId);
+    }
+
+    private void getCurrentCityId() {
+        cityId = SharedPrefsUtils.getInteger(Constants.CURRENT_CITY_ID);
+        if (cityId == -1) {                                                 //todo: zahtevati paljenje gps-a ili otvoriti acitivity za izbor grada
             SharedPrefsUtils.putInteger(Constants.CURRENT_CITY_ID, Constants.CITY_NIS);
             cityId = Constants.CITY_NIS;
         }
-        getData(cityId);
     }
 
     public void getData(int cityId) {
         this.cityId = cityId;
-        repository.getAllWeatherDataInZip(cityId,
-                new BiFunction<WeatherData, FiveDayCityForecast, WeatherAndForecast>() {
-                    @Override
-                    public WeatherAndForecast apply(WeatherData weatherData, FiveDayCityForecast forecast) throws Exception {
-                        return new WeatherAndForecast(weatherData, forecast);
-                    }
-                },
-                new SingleObserver<WeatherAndForecast>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                        addDisposable(d);
-                    }
-
-                    @Override
-                    public void onSuccess(WeatherAndForecast completeWeatherData) {
-                        weatherLiveData.setValue(completeWeatherData);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        setErrorMessage(e);
-                    }
-                });
+        weatherLiveData = repository.getData(cityId);
     }
 
     public void refreshData() {
@@ -100,4 +76,11 @@ public class CityDataViewModel extends BaseViewModel {
     }
 
     //endregion
+
+
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+        repository.dispose();
+    }
 }

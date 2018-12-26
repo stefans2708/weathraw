@@ -12,6 +12,11 @@ public class Wind {
     @Expose
     private Double deg;
 
+    public Wind(Double windSpeed, Double windDeg) {
+        this.speed = windSpeed;
+        this.deg = windDeg;
+    }
+
     public Double getSpeed() {
         return speed;
     }

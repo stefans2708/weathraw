@@ -5,8 +5,8 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Transformations;
 
-import com.example.stefan.weathraw.cashe.model.City;
-import com.example.stefan.weathraw.cashe.repository.CityRepository;
+import com.example.stefan.weathraw.cache.model.City;
+import com.example.stefan.weathraw.cache.repository.CityRepository;
 
 import java.util.List;
 

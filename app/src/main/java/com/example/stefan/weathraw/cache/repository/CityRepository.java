@@ -1,10 +1,10 @@
-package com.example.stefan.weathraw.cashe.repository;
+package com.example.stefan.weathraw.cache.repository;
 
 import android.arch.lifecycle.LiveData;
 
-import com.example.stefan.weathraw.cashe.LocalDatabase;
-import com.example.stefan.weathraw.cashe.dao.CityDao;
-import com.example.stefan.weathraw.cashe.model.City;
+import com.example.stefan.weathraw.cache.LocalDatabase;
+import com.example.stefan.weathraw.cache.dao.CityDao;
+import com.example.stefan.weathraw.cache.model.City;
 
 import java.util.List;
 

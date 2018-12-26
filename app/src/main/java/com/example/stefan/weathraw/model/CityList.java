@@ -1,6 +1,6 @@
 package com.example.stefan.weathraw.model;
 
-import com.example.stefan.weathraw.cashe.model.City;
+import com.example.stefan.weathraw.cache.model.City;
 
 import java.util.List;
 

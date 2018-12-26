@@ -46,6 +46,9 @@ public class MainWeatherData {
         this.humidity = humidity;
     }
 
+    public void setTempMin(Double tempMin) {
+        this.tempMin = tempMin;
+    }
 
     public Double getTempMin() {
         return tempMin;

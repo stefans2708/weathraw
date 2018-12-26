@@ -1,7 +1,5 @@
 package com.example.stefan.weathraw.ui.fragment;
 
-import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
@@ -13,13 +11,12 @@ import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.stefan.weathraw.R;
-import com.example.stefan.weathraw.cashe.model.City;
+import com.example.stefan.weathraw.cache.model.City;
 import com.example.stefan.weathraw.databinding.FragmentCityDataBinding;
 import com.example.stefan.weathraw.model.BottomMenuItem;
 import com.example.stefan.weathraw.model.WeatherAndForecast;
@@ -78,6 +75,9 @@ public class CityDataFragment extends BaseFragment implements ChooseCityDialog.O
         viewModel.getWeatherLiveData().observe(this, new Observer<WeatherAndForecast>() {
             @Override
             public void onChanged(@Nullable WeatherAndForecast weatherAndForecast) {
+                if (weatherAndForecast == null || weatherAndForecast.getForecastData() == null
+                        || weatherAndForecast.getWeatherData() == null)
+                    return;
                 setAdapter(weatherAndForecast);
                 changeRefreshingStatus(false);
             }
