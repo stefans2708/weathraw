@@ -58,29 +58,29 @@ public class WeatherDataMapper {
 
     public static WeatherDataLocal getLocalFromRemote(WeatherData weatherData) {
         WeatherDataLocal local = new WeatherDataLocal();
-        local.setId(weatherData.getId());
-        local.setLatitude(weatherData.getCoordinates() != null ? weatherData.getCoordinates().getLatitude() : 0);
-        local.setLongitude(weatherData.getCoordinates() != null ? weatherData.getCoordinates().getLongitude() : 0);
-        local.setWeatherId(weatherData.getWeatherDescription().getId());
-        local.setName(weatherData.getWeatherDescription().getName());
-        local.setDescription(weatherData.getWeatherDescription().getDescription());
-        local.setIcon(weatherData.getWeatherDescription().getIcon());
-        local.setTemperature(weatherData.getMain() != null ? weatherData.getMain().getTemperature() : 0);
-        local.setPressure(weatherData.getMain() != null ? weatherData.getMain().getPressure() : 0);
-        local.setHumidity(weatherData.getMain() != null ? weatherData.getMain().getHumidity() : 0);
-        local.setTempMin(weatherData.getMain() != null ? weatherData.getMain().getTempMin() : 0);
-        local.setTempMax(weatherData.getMain() != null ? weatherData.getMain().getTempMax() : 0);
-        local.setVisibility(weatherData.getVisibility());
-        local.setWindSpeed(weatherData.getWind() != null ? weatherData.getWind().getSpeed() : 0);
-        local.setWindDeg(weatherData.getWind() != null ? weatherData.getWind().getDeg() : 0);
-        local.setCloudPercent(weatherData.getClouds() != null ? weatherData.getClouds().getCloudPercent() : 0);
-        local.setDt(weatherData.getDt());
-        local.setCountry(weatherData.getSys() != null ? weatherData.getSys().getCountry() : "");
+        local.setId(weatherData.getId() != null ? weatherData.getId() : 0);
+        local.setLatitude(weatherData.getCoordinates() != null && weatherData.getCoordinates().getLatitude() != null ? weatherData.getCoordinates().getLatitude() : 0);
+        local.setLongitude(weatherData.getCoordinates() != null && weatherData.getCoordinates().getLongitude() != null ? weatherData.getCoordinates().getLongitude() : 0);
+        local.setWeatherId(weatherData.getWeatherDescription().getId() != null ? weatherData.getWeatherDescription().getId() : 0);
+        local.setName(weatherData.getWeatherDescription().getName() != null ? weatherData.getWeatherDescription().getName() : "");
+        local.setDescription(weatherData.getWeatherDescription().getDescription() != null ? weatherData.getWeatherDescription().getDescription() : "");
+        local.setIcon(weatherData.getWeatherDescription().getIcon() != null ? weatherData.getWeatherDescription().getIcon() : "");
+        local.setTemperature(weatherData.getMain() != null && weatherData.getMain().getTemperature() != null ? weatherData.getMain().getTemperature() : 0);
+        local.setPressure(weatherData.getMain() != null && weatherData.getMain().getPressure() != null ? weatherData.getMain().getPressure() : 0);
+        local.setHumidity(weatherData.getMain() != null && weatherData.getMain().getHumidity() != null ? weatherData.getMain().getHumidity() : 0);
+        local.setTempMin(weatherData.getMain() != null && weatherData.getMain().getTempMin() != null ? weatherData.getMain().getTempMin() : 0);
+        local.setTempMax(weatherData.getMain() != null && weatherData.getMain().getTempMax() != null ? weatherData.getMain().getTempMax() : 0);
+        local.setVisibility(weatherData.getVisibility() != null ? weatherData.getVisibility() : 0);
+        local.setWindSpeed(weatherData.getWind() != null && weatherData.getWind().getSpeed() != null ? weatherData.getWind().getSpeed() : 0);
+        local.setWindDeg(weatherData.getWind() != null && weatherData.getWind().getDeg() != null ? weatherData.getWind().getDeg() : 0);
+        local.setCloudPercent(weatherData.getClouds() != null && weatherData.getClouds().getCloudPercent() != null ? weatherData.getClouds().getCloudPercent() : 0);
+        local.setDt(weatherData.getDt() != null ? weatherData.getDt() : 0);
+        local.setCountry(weatherData.getSys() != null && weatherData.getSys().getCountry() != null ? weatherData.getSys().getCountry() : "");
         local.setSunrise(weatherData.getSys() != null && weatherData.getSys().getSunrise() != null ? weatherData.getSys().getSunrise() : 0);
         local.setSunset(weatherData.getSys() != null && weatherData.getSys().getSunset() != null ?weatherData.getSys().getSunset() : 0);
-        local.setCityName(weatherData.getName());
-        local.setResultCode(weatherData.getCod());
-        local.setDate(weatherData.getDate());
+        local.setCityName(weatherData.getName() != null ? weatherData.getName() : "");
+        local.setResultCode(weatherData.getCod() != null ? weatherData.getCod() : 0);
+        local.setDate(weatherData.getDate() != null ? weatherData.getDate() : "");
         return local;
     }
 

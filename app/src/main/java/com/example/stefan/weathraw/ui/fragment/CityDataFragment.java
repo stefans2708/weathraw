@@ -40,7 +40,6 @@ public class CityDataFragment extends BaseFragment implements ChooseCityDialog.O
     private CityAdapter adapter;
     private ChooseCityDialog dialog;
     private BottomSheetBehavior bottomSheetBehavior;
-    private int angle = 0;
 
     public static CityDataFragment newInstance() {
         return new CityDataFragment();

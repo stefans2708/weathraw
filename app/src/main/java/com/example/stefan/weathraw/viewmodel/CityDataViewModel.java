@@ -72,11 +72,11 @@ public class CityDataViewModel extends BaseViewModel {
         CityList cityList = SharedPrefsUtils.getObject(Constants.SELECTED_CITIES, CityList.class);
         List<City> cities = cityList == null ? new ArrayList<City>() : cityList.getCities();
         cities.add(city);
+        cityList = new CityList(cities);
         SharedPrefsUtils.putObject(Constants.SELECTED_CITIES, cityList);
     }
 
     //endregion
-
 
     @Override
     protected void onCleared() {
