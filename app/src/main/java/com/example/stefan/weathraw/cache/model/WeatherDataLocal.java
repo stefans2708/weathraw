@@ -7,7 +7,7 @@ import android.arch.persistence.room.PrimaryKey;
 public class WeatherDataLocal {
 
     @PrimaryKey
-    private Integer id;
+    private Integer dt;
     private Double longitude;
     private Double latitude;
     private Integer weatherId;
@@ -23,13 +23,14 @@ public class WeatherDataLocal {
     private Double windSpeed;
     private Double windDeg;
     private Integer cloudPercent;
-    private Integer dt;
+    private Integer id;
     private String country;
     private Integer sunrise;
     private Integer sunset;
     private String cityName;
     private Integer resultCode;
     private String date;
+    private String lastResponseTime;
 
     public Integer getId() {
         return id;
@@ -213,5 +214,13 @@ public class WeatherDataLocal {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public void setLastResponseTime(String lastResponseTime) {
+        this.lastResponseTime = lastResponseTime;
+    }
+
+    public String getLastResponseTime() {
+        return lastResponseTime;
     }
 }

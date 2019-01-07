@@ -10,7 +10,7 @@ import com.example.stefan.weathraw.cache.dao.WeatherDao;
 import com.example.stefan.weathraw.cache.model.City;
 import com.example.stefan.weathraw.cache.model.WeatherDataLocal;
 
-@Database(entities = {City.class, WeatherDataLocal.class}, version = 2, exportSchema = false)
+@Database(entities = {City.class, WeatherDataLocal.class}, version = 1, exportSchema = false)
 public abstract class LocalDatabase extends RoomDatabase {
 
     private static LocalDatabase instance;

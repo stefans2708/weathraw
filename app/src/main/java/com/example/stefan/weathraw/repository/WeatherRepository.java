@@ -13,7 +13,10 @@ import com.example.stefan.weathraw.model.FiveDayCityForecast;
 import com.example.stefan.weathraw.model.WeatherAndForecast;
 import com.example.stefan.weathraw.model.WeatherData;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import io.reactivex.Single;
 import io.reactivex.SingleObserver;
@@ -27,6 +30,11 @@ public class WeatherRepository {
 
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     private WeatherDao weatherDao = LocalDatabase.getInstance().weatherDao();
+    private OnResultListener listener;
+
+    public WeatherRepository (OnResultListener listener) {
+        this.listener = listener;
+    }
 
     public void getAllWeatherDataInZip(long id, BiFunction<WeatherData, FiveDayCityForecast, WeatherAndForecast> zipFun, SingleObserver<WeatherAndForecast> observer) {
         Single.zip(ApiManager.getInstance().getCurrentWeatherByCityId(id), ApiManager.getInstance().getFiveDayForecastByCityId(id), zipFun)
@@ -40,6 +48,7 @@ public class WeatherRepository {
                 new BiFunction<WeatherData, FiveDayCityForecast, WeatherAndForecast>() {
                     @Override
                     public WeatherAndForecast apply(WeatherData weatherData, FiveDayCityForecast forecast) throws Exception {
+                        weatherData.setLastResponseTime(new SimpleDateFormat("DD.MM. - HH:mm", Locale.US).format(new Date()));
                         return new WeatherAndForecast(weatherData, forecast);
                     }
                 },
@@ -56,7 +65,9 @@ public class WeatherRepository {
 
                     @Override
                     public void onError(Throwable e) {
-//                        setErrorMessage(e);       //todo: kako handle-ovati error?    //jos jedan mutablelivedata?
+                        if (listener != null) {
+                            listener.onError(e);
+                        }
                     }
                 });
     }
@@ -92,4 +103,12 @@ public class WeatherRepository {
         }
     }
 
+    public interface OnResultListener {
+        void onError(Throwable throwable);
+    }
+
 }
+
+/**
+ * Napraviti BaseRepository u koji ce da se nalazi logika za dispose-ovanje i za error handling(interfejs)
+ */

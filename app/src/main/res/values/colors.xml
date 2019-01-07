@@ -13,4 +13,6 @@
     <color name="transparent">#0FFF</color>
     <color name="color_separator">#bdbdbd</color>
 
+    <color name="bgStartColorBlue">#00e5ff</color>
+    <color name="bgEndColorBlue">#2196f3</color>
 </resources>

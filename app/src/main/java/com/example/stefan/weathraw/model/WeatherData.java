@@ -46,6 +46,9 @@ public class WeatherData {
     @SerializedName("dt_txt")
     @Expose
     private String date;
+    @SerializedName("apiCallTime")
+    @Expose
+    private String lastResponseTime;
 
 
     public Coordinates getCoordinates() {
@@ -154,5 +157,13 @@ public class WeatherData {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getLastResponseTime() {
+        return lastResponseTime;
+    }
+
+    public void setLastResponseTime(String lastResponseTime) {
+        this.lastResponseTime = lastResponseTime;
     }
 }

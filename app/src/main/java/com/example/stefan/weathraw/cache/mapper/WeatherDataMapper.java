@@ -52,6 +52,7 @@ public class WeatherDataMapper {
         weatherData.setId(local.getId());
         weatherData.setCod(local.getResultCode());
         weatherData.setDate(local.getDate());
+        weatherData.setLastResponseTime(local.getLastResponseTime());
 
         return weatherData;
     }
@@ -81,6 +82,7 @@ public class WeatherDataMapper {
         local.setCityName(weatherData.getName() != null ? weatherData.getName() : "");
         local.setResultCode(weatherData.getCod() != null ? weatherData.getCod() : 0);
         local.setDate(weatherData.getDate() != null ? weatherData.getDate() : "");
+        local.setLastResponseTime(weatherData.getLastResponseTime() != null ? weatherData.getLastResponseTime() : "");
         return local;
     }
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -26,30 +26,6 @@
             android:padding="12dp">
 
             <TextView
-                android:id="@+id/txt_change_city"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:text="@string/change_city"
-                underline="@{true}"
-                android:textSize="12sp"
-                android:padding="12dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/img_weather" />
-
-            <ImageView
-                android:id="@+id/img_weather"
-                imageUrl="@{WeatherDataUtils.getIconUrl(viewModel.weatherData.weatherDescription.icon)}"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="4dp"
-                android:contentDescription="@string/current_weather"
-                android:src="@drawable/ic_launcher_background"
-                app:layout_constraintStart_toEndOf="@id/txt_temperature"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
                 android:id="@+id/txt_temperature"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -61,17 +37,17 @@
                 app:layout_constraintTop_toTopOf="@id/img_weather"
                 tools:text="12 C" />
 
-            <TextView
-                android:id="@+id/txt_city_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="@{viewModel.weatherData.name}"
-                android:textColor="@color/colorPrimary"
-                android:textSize="20sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/txt_temperature"
-                tools:text="Vranje" />
+            <ImageView
+                android:id="@+id/img_weather"
+                imageUrl="@{WeatherDataUtils.getIconUrl(viewModel.weatherData.weatherDescription.icon)}"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="12dp"
+                android:contentDescription="@string/current_weather"
+                android:src="@drawable/ic_launcher_background"
+                app:layout_constraintStart_toEndOf="@id/txt_temperature"
+                app:layout_constraintTop_toTopOf="@id/txt_temperature" />
+
 
             <TextView
                 android:id="@+id/txt_description"
@@ -80,19 +56,66 @@
                 android:layout_marginTop="4dp"
                 android:text="@{viewModel.weatherData.weatherDescription.description}"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/txt_city_name"
+                app:layout_constraintTop_toBottomOf="@id/txt_temperature"
                 tools:text="Clear sky" />
+
+            <TextView
+                android:id="@+id/txt_update_time_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/updated"
+                android:textSize="12sp"
+                android:textStyle="italic"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txt_description" />
+
+            <TextView
+                android:id="@+id/txt_update_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:textSize="12sp"
+                android:textStyle="italic"
+                android:text="@{viewModel.weatherData.lastResponseTime}"
+                app:layout_constraintStart_toEndOf="@id/txt_update_time_label"
+                app:layout_constraintTop_toTopOf="@id/txt_update_time_label"
+                tools:text="24.01. - 12:23" />
+
+            <TextView
+                android:id="@+id/txt_city_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.weatherData.name}"
+                android:textColor="@color/colorPrimary"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/txt_temperature"
+                tools:text="Vranje" />
+
+            <TextView
+                android:id="@+id/txt_change_city"
+                underline="@{true}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:text="@string/change_city"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txt_city_name" />
 
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/linear_more_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintVertical_bias="0.85"
-                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.85">
 
                 <TextView
                     android:id="@+id/txt_label_pressure"

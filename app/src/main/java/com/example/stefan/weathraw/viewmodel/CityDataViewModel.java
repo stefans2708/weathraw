@@ -5,7 +5,6 @@ import android.arch.lifecycle.MutableLiveData;
 
 import com.example.stefan.weathraw.cache.model.City;
 import com.example.stefan.weathraw.model.CityList;
-import com.example.stefan.weathraw.model.ResponseMessage;
 import com.example.stefan.weathraw.model.WeatherAndForecast;
 import com.example.stefan.weathraw.repository.WeatherRepository;
 import com.example.stefan.weathraw.utils.Constants;
@@ -14,11 +13,10 @@ import com.example.stefan.weathraw.utils.SharedPrefsUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CityDataViewModel extends BaseViewModel {
+public class CityDataViewModel extends BaseViewModel implements WeatherRepository.OnResultListener {
 
-    private WeatherRepository repository = new WeatherRepository();
+    private WeatherRepository repository = new WeatherRepository(this);
     private LiveData<WeatherAndForecast> weatherLiveData;
-    private MutableLiveData<ResponseMessage> errorResponse = new MutableLiveData<>();
     private MutableLiveData<Boolean> bottomMenuState = new MutableLiveData<>();
     private int cityId;
 
@@ -56,10 +54,6 @@ public class CityDataViewModel extends BaseViewModel {
         return weatherLiveData;
     }
 
-    public LiveData<ResponseMessage> getErrorData() {
-        return errorResponse;
-    }
-
     public LiveData<Boolean> getBottomMenuState() {
         return bottomMenuState;
     }
@@ -83,4 +77,10 @@ public class CityDataViewModel extends BaseViewModel {
         super.onCleared();
         repository.dispose();
     }
+
+    @Override
+    public void onError(Throwable message) {
+        setErrorMessage(message);
+    }
+
 }
