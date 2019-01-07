@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#03A9F4</color>
+    <color name="colorPrimaryDark">#0288D1</color>
+    <color name="colorPrimaryLight">#B3E5FC</color>
+    <color name="colorAccent">#FFC107</color>
 
     <color name="widgetStartColorBlue">#B389f7fe</color>
     <color name="widgetEndColorBlue">#B366a6ff</color>
     <color name="colorWhiteTransparent">#99FFFFFF</color>
-    <color name="yellow">#FFFF00</color>
+    <color name="yellow">#FFC107</color>
     <color name="temp_min">#9e9e9e</color>
-    <color name="temp_max">#ff6d00</color>
+    <color name="temp_max">#FF3900</color>
     <color name="transparent">#0FFF</color>
     <color name="color_separator">#bdbdbd</color>
 
-    <color name="bgStartColorBlue">#00e5ff</color>
+    <color name="bgStartColorBlue">#B3E5FC</color>
     <color name="bgEndColorBlue">#2196f3</color>
 </resources>

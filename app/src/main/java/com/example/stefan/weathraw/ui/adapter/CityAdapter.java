@@ -138,11 +138,8 @@ public class CityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         ItemCityForecastContentBinding.inflate(LayoutInflater.from(context), binding.linearItemsHolder, false);
                 itemBinding.setDayAverageValues(dayAverageValuesList.get(i));
                 binding.executePendingBindings();
+                binding.linearItemsHolder.addView(inflater.inflate(R.layout.view_separator, binding.linearItemsHolder, false));
                 binding.linearItemsHolder.addView(itemBinding.getRoot());
-                if (i < 3) {
-                    View view = inflater.inflate(R.layout.view_separator, binding.linearItemsHolder, false);
-                    binding.linearItemsHolder.addView(view);
-                }
             }
 
         }
@@ -166,9 +163,9 @@ public class CityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         private void setChartData(ItemForecastViewModel viewModel) {
             LineDataSet dataSet = new LineDataSet(viewModel.generate24HoursForecast(), null);
             dataSet.disableDashedLine();
-            dataSet.setColors(Color.YELLOW);
+            dataSet.setColors(binding.txtTitle.getContext().getResources().getColor(R.color.colorAccent));
             dataSet.setLineWidth(3);
-            dataSet.setCircleColors(Color.BLUE);
+            dataSet.setCircleColors(binding.txtTitle.getContext().getResources().getColor(R.color.colorPrimaryDark));
             dataSet.setCircleRadius(3);
             dataSet.setValueTextSize(8);
             dataSet.setDrawVerticalHighlightIndicator(false);
