@@ -5,8 +5,8 @@
     <color name="colorPrimaryLight">#B3E5FC</color>
     <color name="colorAccent">#FFC107</color>
 
-    <color name="widgetStartColorBlue">#B389f7fe</color>
-    <color name="widgetEndColorBlue">#B366a6ff</color>
+    <color name="widgetStartColorBlue">#B3B3E5FC</color>
+    <color name="widgetEndColorBlue">#B303A9F4</color>
     <color name="colorWhiteTransparent">#99FFFFFF</color>
     <color name="yellow">#FFC107</color>
     <color name="temp_min">#9e9e9e</color>

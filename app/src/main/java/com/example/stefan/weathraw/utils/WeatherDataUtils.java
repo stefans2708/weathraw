@@ -35,7 +35,7 @@ public class WeatherDataUtils {
     }
 
     public static String getFormattedDate(Date date) {
-        return new SimpleDateFormat("dd.MM.yyyy \n HH:mm:ss", Locale.US).format(date);
+        return new SimpleDateFormat("dd/MM, HH:mm", Locale.US).format(date);
     }
 
     public static Date getJavaDateFromUnixTime(int unixTime) {
