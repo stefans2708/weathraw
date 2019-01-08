@@ -44,9 +44,9 @@
             <LinearLayout
                 android:id="@+id/linear_images_container"
                 android:layout_width="0dp"
-                android:layout_height="40dp"
+                android:layout_height="25dp"
                 android:orientation="horizontal"
-                android:layout_marginTop="4dp"
+                android:layout_marginBottom="8dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/line_chart_24h_forecast"
