@@ -34,8 +34,12 @@ public class WeatherDataUtils {
         return "http://openweathermap.org/img/w/" + iconId + ".png";
     }
 
-    public static String getFormattedDate(Date date) {
+    public static String getDayHourFormat(Date date) {
         return new SimpleDateFormat("dd/MM, HH:mm", Locale.US).format(date);
+    }
+
+    public static String getDayMonthFormat(Date date) {
+        return new SimpleDateFormat("EEE, dd.MMMM", Locale.US).format(date);
     }
 
     public static Date getJavaDateFromUnixTime(int unixTime) {

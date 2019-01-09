@@ -2,28 +2,30 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="@drawable/widget_background"
     android:padding="8dp">
 
     <RelativeLayout
         android:id="@+id/relative_data_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="visible"
-        android:layout_margin="8dp">
+        android:layout_height="match_parent"
+        android:layout_margin="8dp"
+        android:visibility="visible">
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/relative_icon_container"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_centerInParent="true">
 
             <ImageView
                 android:id="@+id/image_icon"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_marginBottom=""
-                android:layout_centerHorizontal="true"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="40dp"
                 android:contentDescription="@string/weather_icon"
                 tools:src="@drawable/ic_launcher_background" />
 
@@ -31,19 +33,18 @@
                 android:id="@+id/text_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/image_icon"
-                android:layout_alignParentStart="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="-60dp"
                 android:textColor="@android:color/black"
                 tools:text="scattered clouds" />
 
-        </RelativeLayout>
+        </LinearLayout>
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="6dp"
-            android:layout_toEndOf="@id/relative_icon_container">
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true">
 
             <TextView
                 android:id="@+id/text_city_name"
@@ -53,13 +54,13 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:textColor="@android:color/black"
-                android:textSize="20sp"
+                android:textSize="24sp"
                 tools:text="Vranje" />
 
             <ImageView
                 android:id="@+id/img_city"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_centerVertical="true"
                 android:contentDescription="@null"
                 android:src="@drawable/ic_location_on_black_24dp" />
@@ -76,43 +77,42 @@
             android:textSize="32sp"
             tools:text="12 C" />
 
-        <TextView
-            android:id="@+id/text_date"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/relative_icon_container"
-            android:layout_alignEnd="@id/text_temperature"
-            android:layout_marginStart="12dp"
+            android:orientation="vertical"
+            android:gravity="end"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true">
+
+            <TextView
+                android:id="@+id/text_last_update_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/last_update"
+                android:textSize="12sp"
+                android:textColor="@android:color/black"
+                android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/text_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:textStyle="italic"
+                android:textColor="@android:color/black"
+                tools:text="21/11, 23:11" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/text_todays_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:textColor="@android:color/black"
-            tools:text="21/11, 23:11" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/relative_error_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:padding="21dp"
-        android:visibility="gone">
-
-        <ImageView
-            android:id="@+id/image_error"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_centerVertical="true"
-            android:contentDescription="@string/weather_icon"
-            android:src="@drawable/ic_signal_cellular_connected_no_internet_0_bar_black_24dp" />
-
-        <TextView
-            android:id="@+id/text_error_message"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginStart="20dp"
-            android:layout_toEndOf="@id/image_error"
-            android:text="@string/no_internet_connection"
-            android:textSize="18sp" />
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            tools:text="Wed, 9.January " />
 
     </RelativeLayout>
 

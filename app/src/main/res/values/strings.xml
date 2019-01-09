@@ -21,4 +21,5 @@
     <string name="add_more">Add more</string>
     <string name="remove_item">Remove item from list</string>
     <string name="updated">Updated:</string>
+    <string name="last_update">Last update:</string>
 </resources>

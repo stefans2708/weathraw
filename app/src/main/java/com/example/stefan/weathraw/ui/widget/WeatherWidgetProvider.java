@@ -6,7 +6,6 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.RemoteViews;
@@ -54,8 +53,8 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
             case WidgetService.ACTION_ERROR: {
                 changeProgressState(context, false);
                 int errorType = intent.getIntExtra(WidgetService.EXTRA_ERROR_TYPE, -1);
-                setError(context, context.getString(errorType == WidgetService.ERROR_TYPE_NO_INTERNET
-                        ? R.string.no_internet_connection : R.string.request_timed_out));
+                Toast.makeText(context, context.getString(errorType == WidgetService.ERROR_TYPE_NO_INTERNET
+                        ? R.string.no_internet_connection : R.string.request_timed_out), Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -87,11 +86,11 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
 
         RemoteViews remoteViews = getRemoteViews(context);
         remoteViews.setViewVisibility(R.id.relative_data_container, View.VISIBLE);
-        remoteViews.setViewVisibility(R.id.relative_error_container, View.GONE);
         remoteViews.setTextViewText(R.id.text_city_name, widgetData.getCity());
         remoteViews.setTextViewText(R.id.text_temperature, WeatherDataUtils.getFormattedTemperature(widgetData.getTemperature()));
         remoteViews.setTextViewText(R.id.text_description, widgetData.getDescription());
-        remoteViews.setTextViewText(R.id.text_date, WeatherDataUtils.getFormattedDate(new Date()));
+        remoteViews.setTextViewText(R.id.text_date, WeatherDataUtils.getDayHourFormat(new Date()));
+        remoteViews.setTextViewText(R.id.text_todays_date, WeatherDataUtils.getDayMonthFormat(new Date()));
 
         AppWidgetTarget appWidgetTarget = new AppWidgetTarget(context, R.id.image_icon, remoteViews, AppWidgetManager.getInstance(context).getAppWidgetIds(new ComponentName(context, WeatherWidgetProvider.class)));
         Glide.with(context.getApplicationContext())
@@ -114,14 +113,6 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
         RemoteViews remoteViews = getRemoteViews(context);
         remoteViews.setViewVisibility(R.id.progress_bar, showProgressBar ? View.VISIBLE : View.GONE);
         remoteViews.setViewVisibility(R.id.image_refresh, showProgressBar ? View.GONE : View.VISIBLE);
-        refreshAllWidgetInstances(context);
-    }
-
-    private void setError(Context context, String message) {
-        RemoteViews remoteViews = getRemoteViews(context);
-        remoteViews.setViewVisibility(R.id.relative_data_container, View.GONE);
-        remoteViews.setViewVisibility(R.id.relative_error_container, View.VISIBLE);
-        remoteViews.setTextViewText(R.id.text_error_message, message);
         refreshAllWidgetInstances(context);
     }
 
