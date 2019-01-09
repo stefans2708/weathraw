@@ -19,6 +19,7 @@ import com.example.stefan.weathraw.databinding.ItemCityForecastContentBinding;
 import com.example.stefan.weathraw.model.DayAverageValues;
 import com.example.stefan.weathraw.model.WeatherAndForecast;
 import com.example.stefan.weathraw.model.WeatherData;
+import com.example.stefan.weathraw.utils.GeneralUtils;
 import com.example.stefan.weathraw.utils.HourXAxisFormatter;
 import com.example.stefan.weathraw.utils.WeatherDataUtils;
 import com.example.stefan.weathraw.viewmodel.ItemCurrentWeatherViewModel;
@@ -162,8 +163,8 @@ public class CityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         public void bind(ItemForecastViewModel viewModel) {
             binding.setViewModel(viewModel);
             binding.executePendingBindings();
-            setChartData(viewModel);
             setImages(viewModel);
+            setChartData(viewModel);
         }
 
         private void setImages(ItemForecastViewModel viewModel) {
@@ -172,16 +173,21 @@ public class CityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             binding.linearImagesContainer.removeAllViews();
             List<WeatherData> list = viewModel.getForecast().getList();
             for (int i = 0; i < 8; i++) {
+                LinearLayout imageContainer = new LinearLayout(binding.txtTitle.getContext());
+                LinearLayout.LayoutParams containerParams = new LinearLayout.LayoutParams(GeneralUtils.dpToPixel(81), ViewGroup.LayoutParams.MATCH_PARENT);
+                imageContainer.setLayoutParams(containerParams);
+
                 ImageView imageView = new ImageView(binding.txtTitle.getContext());
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT,1);
-                imageView.setLayoutParams(params);
+                LinearLayout.LayoutParams imageParams = new LinearLayout.LayoutParams(GeneralUtils.dpToPixel(28),ViewGroup.LayoutParams.MATCH_PARENT);
+                imageContainer.addView(imageView);
+                imageView.setLayoutParams(imageParams);
 
                 WeatherData data = list.get(i); //todo: sacuvati slike offline i na osnovu id-a uzimati...
                 Glide.with(binding.txtTitle.getContext())
                         .load(WeatherDataUtils.getIconUrl(data.getWeatherDescription().getIcon()))
                         .into(imageView);
 
-                binding.linearImagesContainer.addView(imageView);
+                binding.linearImagesContainer.addView(imageContainer);
             }
         }
 
@@ -201,6 +207,9 @@ public class CityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             binding.lineChart24hForecast.getLegend().setEnabled(false);
             binding.lineChart24hForecast.getAxisLeft().setDrawLabels(false);
             binding.lineChart24hForecast.bringToFront();
+            binding.lineChart24hForecast.getXAxis().setDrawGridLines(false);
+            binding.lineChart24hForecast.getAxisLeft().setDrawGridLines(false);
+            binding.lineChart24hForecast.getAxisRight().setDrawGridLines(false);
 
             XAxis xAxis = binding.lineChart24hForecast.getXAxis();
             xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
