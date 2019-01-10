@@ -22,4 +22,6 @@
     <string name="remove_item">Remove item from list</string>
     <string name="updated">Updated:</string>
     <string name="last_update">Last update:</string>
+    <string name="sunrise">Sunrise</string>
+    <string name="sunset">Sunset</string>
 </resources>

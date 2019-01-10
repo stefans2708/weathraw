@@ -50,10 +50,6 @@ public class WeatherDataUtils {
         return new SimpleDateFormat("HH:mm", Locale.US).format(date);
     }
 
-    public static Double roundOneDecimals(double value) {
-        return Double.valueOf(getOneDecimalFormatter().format(value));
-    }
-
     public static String getTemperatureFormat(double value) {
         return getOneDecimalFormatter().format(getStandardTemperature(value))
                 + WeatherApplication.getAppContext().getString(R.string.degree_celsius);
@@ -77,6 +73,10 @@ public class WeatherDataUtils {
 
     public static String getVisibilityFormat(double value) {
         return getOneDecimalFormatter().format(value) + " m";
+    }
+
+    public static String getHourMinuteFormat(int seconds) {
+        return new SimpleDateFormat("HH:mm", Locale.US).format(new Date((long)seconds * 1000));
     }
 
 }
