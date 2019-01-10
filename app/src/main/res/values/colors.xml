@@ -9,7 +9,7 @@
     <color name="widgetEndColorBlue">#B303A9F4</color>
     <color name="colorWhiteTransparent">#99FFFFFF</color>
     <color name="yellow">#FFC107</color>
-    <color name="temp_min">#9e9e9e</color>
+    <color name="temp_min">#e0e0e0</color>
     <color name="temp_max">#FF3900</color>
     <color name="transparent">#0FFF</color>
     <color name="color_separator">#bdbdbd</color>
