@@ -1,17 +1,11 @@
 package com.example.stefan.weathraw.service;
 
-import android.app.IntentService;
-import android.app.Notification;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.JobIntentService;
-import android.support.v4.app.NotificationCompat;
-import android.widget.Toast;
 
-import com.example.stefan.weathraw.R;
 import com.example.stefan.weathraw.WeatherApplication;
 import com.example.stefan.weathraw.api.ApiManager;
 import com.example.stefan.weathraw.model.WeatherData;
@@ -25,7 +19,7 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.HttpException;
 
-public class WidgetService extends IntentService {
+public class WidgetService extends JobIntentService {
 
     public static final String ACTION_UPDATE = "ACTION_UPDATE";
     public static final String ACTION_UPDATE_RESPONSE = "ACTION_UPDATE_RESPONSE";
@@ -36,48 +30,22 @@ public class WidgetService extends IntentService {
     public static final int ERROR_TYPE_NO_INTERNET = 1;
     public static final int ERROR_TYPE_REQUEST_TIMEOUT = 2;
 
-    public static final String ACTION_COMPLETE="com.example.stefan.weathraw.service.action.COMPLETE";
-    private static final int UNIQUE_JOB_ID=1337;
+    private static final int UNIQUE_JOB_ID = 1337;
 
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-    public WidgetService(String name) {
-        super(name);
-    }
-
-    public WidgetService() {
-        super("WidgetService");
+    public static void enqueueJob(Context context, Intent work) {
+        enqueueWork(context, WidgetService.class, UNIQUE_JOB_ID, work);
     }
 
     @Override
-    public void onCreate() {
-        super.onCreate();
-        startForeground(23, createNotification());
-        Toast.makeText(this, "Service started", Toast.LENGTH_SHORT).show();
-    }
-
-    private Notification createNotification() {
-        return new NotificationCompat.Builder(this, WeatherApplication.CHANNEL_ID)
-                .setContentTitle(getString(R.string.refreshing_weather_data))
-                .setPriority(NotificationCompat.PRIORITY_MIN)
-                .setSmallIcon(R.drawable.ic_location_on_black_24dp)
-                .build();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Toast.makeText(this, "Service destroyed", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    protected void onHandleIntent(@Nullable Intent intent) {
-        if (intent == null || intent.getAction() == null) return;
+    protected void onHandleWork(@NonNull Intent intent) {
+        if (intent.getAction() == null) return;
 
         if (intent.getAction().equals(ACTION_UPDATE)) {
             getWidgetData(new Consumer<WeatherData>() {
                 @Override
-                public void accept(WeatherData weatherData) throws Exception {
+                public void accept(WeatherData weatherData) {
                     sendDataToWidgetProvider(weatherData);
                 }
             }, new OnError() {
@@ -123,7 +91,6 @@ public class WidgetService extends IntentService {
     }
 
     abstract class OnError implements Consumer<Throwable> {
-
         @Override
         public void accept(Throwable throwable) throws Exception {
             if (!isNetworkAvailable()) {
@@ -134,9 +101,9 @@ public class WidgetService extends IntentService {
             if (throwable instanceof HttpException) {
                 if (((HttpException) throwable).code() == 408) { //request time out
                     sendErrorToWidgetProvider(ERROR_TYPE_REQUEST_TIMEOUT);
-//                    return;
                 }
             }
         }
     }
+
 }

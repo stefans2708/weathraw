@@ -63,11 +63,6 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
     private void initWidgetViews(Context context) {
         RemoteViews remoteViews = getRemoteViews(context);
 
-        //ne salji intent do ovde (u provider) nego direktno startuj servis...
-        //ne radi na oreo, na 6.0 radi
-//        Intent refreshIntent = new Intent(context, WidgetService.class);
-//        refreshIntent.setAction(WidgetService.ACTION_UPDATE);
-//        PendingIntent refreshPendingIntent = PendingIntent.getService(context, 0, refreshIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         Intent refreshIntent = new Intent(context, WeatherWidgetProvider.class);
         refreshIntent.setAction(WidgetService.ACTION_REFRESH);
         PendingIntent refreshPendingIntent = PendingIntent.getBroadcast(context, 0, refreshIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -106,7 +101,7 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
         Intent intent = new Intent(context, WidgetService.class);
         intent.setAction(WidgetService.ACTION_UPDATE);
 
-        ContextCompat.startForegroundService(context, intent);
+        WidgetService.enqueueJob(context, intent);
     }
 
     private void changeProgressState(Context context, boolean showProgressBar) {
@@ -130,9 +125,7 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
         }
 
         int[] appWidgetIds = appWidgetManager.getAppWidgetIds(componentName);
-        for (int appWidgetId : appWidgetIds) {
-            appWidgetManager.updateAppWidget(appWidgetId, getRemoteViews(context));
-        }
+        appWidgetManager.updateAppWidget(appWidgetIds,getRemoteViews(context));
     }
 
 }
