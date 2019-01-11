@@ -4,6 +4,8 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.view.MenuItem;
 
 import com.example.stefan.weathraw.R;
 import com.example.stefan.weathraw.databinding.ActivityMainBinding;
@@ -24,11 +26,14 @@ public class MainActivity extends BaseActivity {
         binding.setViewModel(viewModel);
 
         replaceFragment(CityDataFragment.newInstance(), false, CityDataFragment.class.getSimpleName());
-        setUpObservers();
     }
 
-    private void setUpObservers() {
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void replaceFragment(Fragment fragment, boolean addToBackStack, String tag) {

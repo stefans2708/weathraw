@@ -24,4 +24,12 @@
     <string name="last_update">Last update:</string>
     <string name="sunrise">Sunrise</string>
     <string name="sunset">Sunset</string>
+
+    <string name="widget_settings">Widget settings</string>
+    <string name="city">City</string>
+    <string name="auto_refresh">Widget auto refresh</string>
+    <string name="notification_settings">Notification settings</string>
+    <string name="enable_notification">Enable daily notification</string>
+    <string name="notification_explanation">Notification about current weather will be shown every day between 10h and 12h if there is an internet connection available.</string>
+    <string name="settings">Settings</string>
 </resources>
