@@ -62,6 +62,19 @@ public class SettingsFragment extends BaseFragment implements ChooseCityDialog.O
                 }
             }
         });
+
+        viewModel.getCurrentWidgetCityName().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String s) {
+                updateWidget();
+            }
+        });
+        viewModel.getAutoUpdateStatus().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean aBoolean) {
+                updateWidget();
+            }
+        });
     }
 
     private void setUpToolbar() {

@@ -22,6 +22,7 @@ public class SettingsViewModel extends BaseViewModel {
     private SingleLiveEvent<Boolean> changeCityClick = new SingleLiveEvent<>();
     private LiveData<String> currentWidgetCityName;
     private MutableLiveData<Integer> currentWidgetCityId = new MutableLiveData<>();
+    private MutableLiveData<Boolean> autoUpdateStatus = new MutableLiveData<>();
     private CityRepository cityRepository = new CityRepository();
 
     public SettingsViewModel() {
@@ -61,6 +62,7 @@ public class SettingsViewModel extends BaseViewModel {
     public void onAutoRefreshClick(boolean isChecked) {
         settings.setWidgetAutoRefreshEnabled(isChecked);
         SharedPrefsUtils.putObject(Constants.APP_SETTINGS, settings);
+        autoUpdateStatus.setValue(isChecked);
     }
 
     public void onEnableNotificationClick(boolean isChecked) {
@@ -78,5 +80,9 @@ public class SettingsViewModel extends BaseViewModel {
 
     public LiveData<String> getCurrentWidgetCityName() {
         return currentWidgetCityName;
+    }
+
+    public LiveData<Boolean> getAutoUpdateStatus() {
+        return autoUpdateStatus;
     }
 }

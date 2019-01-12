@@ -8,10 +8,12 @@ import android.support.v4.app.JobIntentService;
 
 import com.example.stefan.weathraw.WeatherApplication;
 import com.example.stefan.weathraw.api.ApiManager;
+import com.example.stefan.weathraw.model.ApplicationSettings;
 import com.example.stefan.weathraw.model.WeatherData;
 import com.example.stefan.weathraw.model.WidgetDataModel;
 import com.example.stefan.weathraw.ui.widget.WeatherWidgetProvider;
 import com.example.stefan.weathraw.utils.Constants;
+import com.example.stefan.weathraw.utils.SharedPrefsUtils;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -33,6 +35,8 @@ public class WidgetService extends JobIntentService {
     private static final int UNIQUE_JOB_ID = 1337;
 
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private int currentCityId;
+    private boolean autoRefreshingEnabled;
 
     public static void enqueueJob(Context context, Intent work) {
         enqueueWork(context, WidgetService.class, UNIQUE_JOB_ID, work);
@@ -43,6 +47,8 @@ public class WidgetService extends JobIntentService {
         if (intent.getAction() == null) return;
 
         if (intent.getAction().equals(ACTION_UPDATE)) {
+            readWidgetSettings();
+
             getWidgetData(new Consumer<WeatherData>() {
                 @Override
                 public void accept(WeatherData weatherData) {
@@ -55,6 +61,15 @@ public class WidgetService extends JobIntentService {
                 }
             });
         }
+    }
+
+    private void readWidgetSettings() {
+        ApplicationSettings settings = SharedPrefsUtils.getObject(Constants.APP_SETTINGS, ApplicationSettings.class);
+        if (settings == null) {
+            settings = ApplicationSettings.defaultValues();
+        }
+        currentCityId = settings.getWidgetCityId();
+        autoRefreshingEnabled = settings.isWidgetAutoRefreshEnabled();
     }
 
     private void sendDataToWidgetProvider(WeatherData weatherData) {
@@ -71,7 +86,7 @@ public class WidgetService extends JobIntentService {
     }
 
     private void getWidgetData(Consumer<WeatherData> onSuccess, OnError onError) {
-        compositeDisposable.add(ApiManager.getInstance().getCurrentWeatherByCityId(Constants.CITY_NIS)
+        compositeDisposable.add(ApiManager.getInstance().getCurrentWeatherByCityId(currentCityId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(onSuccess, onError));
