@@ -18,11 +18,12 @@ import java.util.List;
 
 public class SettingsViewModel extends BaseViewModel {
 
-    private ApplicationSettings settings;
     private SingleLiveEvent<Boolean> changeCityClick = new SingleLiveEvent<>();
     private LiveData<String> currentWidgetCityName;
     private MutableLiveData<Integer> currentWidgetCityId = new MutableLiveData<>();
     private MutableLiveData<Boolean> autoUpdateStatus = new MutableLiveData<>();
+    private MutableLiveData<Boolean> enableNotifications = new MutableLiveData<>();
+    private ApplicationSettings settings;
     private CityRepository cityRepository = new CityRepository();
 
     public SettingsViewModel() {
@@ -68,6 +69,7 @@ public class SettingsViewModel extends BaseViewModel {
     public void onEnableNotificationClick(boolean isChecked) {
         settings.setNotificationEnabled(isChecked);
         SharedPrefsUtils.putObject(Constants.APP_SETTINGS, settings);
+        enableNotifications.setValue(isChecked);
     }
 
     public LiveData<Boolean> getChangeCityClick() {
@@ -84,5 +86,9 @@ public class SettingsViewModel extends BaseViewModel {
 
     public LiveData<Boolean> getAutoUpdateStatus() {
         return autoUpdateStatus;
+    }
+
+    public LiveData<Boolean> getNotificationsStatus() {
+        return enableNotifications;
     }
 }

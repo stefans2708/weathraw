@@ -1,7 +1,10 @@
 package com.example.stefan.weathraw.ui.fragment;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -13,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.stefan.weathraw.NotificationBroadcastReceiver;
 import com.example.stefan.weathraw.R;
 import com.example.stefan.weathraw.cache.model.City;
 import com.example.stefan.weathraw.databinding.FragmentSettingsBinding;
@@ -21,10 +25,14 @@ import com.example.stefan.weathraw.ui.activity.AddCityActivity;
 import com.example.stefan.weathraw.ui.dialog.ChooseCityDialog;
 import com.example.stefan.weathraw.viewmodel.SettingsViewModel;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import static com.example.stefan.weathraw.ui.fragment.CityDataFragment.RC_ADD_MORE;
 
 public class SettingsFragment extends BaseFragment implements ChooseCityDialog.OnDialogItemClickListener {
 
+    private static final int RC_DAILY_ALARM = 3;
     private SettingsViewModel viewModel;
     private FragmentSettingsBinding binding;
     private ChooseCityDialog dialog;
@@ -76,6 +84,44 @@ public class SettingsFragment extends BaseFragment implements ChooseCityDialog.O
                 updateWidgetWithAction(WidgetService.ACTION_UPDATE_SETTINGS);
             }
         });
+        viewModel.getNotificationsStatus().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean notificationsEnabled) {
+                if (notificationsEnabled == null) return;
+                if (notificationsEnabled) {
+                    setDailyAlarm();
+                } else {
+                    cancelDailyAlarm();
+                }
+            }
+        });
+    }
+
+    private void setDailyAlarm() {
+        AlarmManager alarmManager = ((AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE));
+        Intent intent = new Intent(getContext(), NotificationBroadcastReceiver.class);
+        intent.setAction(NotificationBroadcastReceiver.ACTION_SHOW_NOTIFICATION);
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(getContext(), RC_DAILY_ALARM, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        if (alarmManager != null) {
+            Calendar calendar = Calendar.getInstance();
+//            if (calendar.get(Calendar.HOUR_OF_DAY) > 12) {
+//                calendar.add(Calendar.DAY_OF_MONTH, 1);
+//            }
+//            calendar.set(Calendar.HOUR_OF_DAY, 10);
+//            calendar.set(Calendar.MINUTE, 0);
+            calendar.add(Calendar.MINUTE,1);
+            alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), 60*1000, alarmIntent);
+        }
+    }
+
+    private void cancelDailyAlarm() {
+        AlarmManager alarmManager = ((AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE));
+        Intent intent = new Intent(getContext(), NotificationBroadcastReceiver.class);
+        intent.setAction(NotificationBroadcastReceiver.ACTION_SHOW_NOTIFICATION);
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(getContext(), RC_DAILY_ALARM, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        if (alarmManager != null) {
+            alarmManager.cancel(alarmIntent);
+        }
     }
 
     private void setUpToolbar() {

@@ -217,10 +217,6 @@ public class CityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             YAxis yAxis = binding.lineChart24hForecast.getAxisRight();
             yAxis.setDrawLabels(false);
-            LimitLine limitLine = new LimitLine(0);
-            limitLine.setLineColor(Color.BLACK);
-            limitLine.setLineWidth(1);
-            yAxis.addLimitLine(limitLine);
 
             binding.lineChart24hForecast.invalidate();
         }
