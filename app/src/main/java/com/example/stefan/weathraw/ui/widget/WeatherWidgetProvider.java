@@ -1,11 +1,13 @@
 package com.example.stefan.weathraw.ui.widget;
 
+import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.os.SystemClock;
 import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.Toast;
@@ -13,15 +15,22 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.AppWidgetTarget;
 import com.example.stefan.weathraw.R;
+import com.example.stefan.weathraw.model.ApplicationSettings;
 import com.example.stefan.weathraw.model.WidgetDataModel;
 import com.example.stefan.weathraw.service.WidgetService;
 import com.example.stefan.weathraw.ui.activity.MainActivity;
+import com.example.stefan.weathraw.utils.Constants;
+import com.example.stefan.weathraw.utils.GeneralUtils;
+import com.example.stefan.weathraw.utils.SharedPrefsUtils;
 import com.example.stefan.weathraw.utils.WeatherDataUtils;
 
 import java.util.Date;
 
+import static android.content.Context.ALARM_SERVICE;
+
 public class WeatherWidgetProvider extends AppWidgetProvider {
 
+    private static final int RC_REFRESH = 123;
     private RemoteViews remoteViews;
     private ComponentName componentName;
     private AppWidgetManager appWidgetManager;
@@ -34,7 +43,7 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        super.onReceive(context, intent);
+         super.onReceive(context, intent);
 
         if (intent == null || intent.getAction() == null) return;
 
@@ -55,8 +64,49 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
                 Toast.makeText(context, context.getString(errorType == WidgetService.ERROR_TYPE_NO_INTERNET
                         ? R.string.no_internet_connection : R.string.request_timed_out), Toast.LENGTH_SHORT).show();
             }
+            case WidgetService.ACTION_UPDATE_SETTINGS: {
+                ApplicationSettings settings = SharedPrefsUtils.getObject(Constants.APP_SETTINGS, ApplicationSettings.class);
+                if (settings == null) {
+                    settings = ApplicationSettings.defaultValues();
+                }
+
+                if (settings.isWidgetAutoRefreshEnabled()) {
+                    setAlarm(context);
+                } else {
+                    cancelAlarm(context);
+                }
+            }
         }
 
+    }
+
+    @Override
+    public void onDisabled(Context context) {
+        super.onDisabled(context);
+        cancelAlarm(context);
+    }
+
+    private void cancelAlarm(Context context) {
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(ALARM_SERVICE);
+        Intent intent = new Intent(context, WeatherWidgetProvider.class);
+        intent.setAction(WidgetService.ACTION_REFRESH);
+        PendingIntent alarmAction = PendingIntent.getBroadcast(context, RC_REFRESH, intent, 0);
+        if (alarmManager != null) {
+            alarmManager.cancel(alarmAction);
+        }
+    }
+
+    private void setAlarm(Context context) {
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(ALARM_SERVICE);
+        Intent intent = new Intent(context, WeatherWidgetProvider.class);
+        intent.setAction(WidgetService.ACTION_REFRESH);
+        PendingIntent alarmAction = PendingIntent.getBroadcast(context, RC_REFRESH, intent, 0);
+
+        if (alarmManager != null) {
+            alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME,
+                    SystemClock.elapsedRealtime() + AlarmManager.INTERVAL_HALF_HOUR,
+                    AlarmManager.INTERVAL_HALF_HOUR, alarmAction);
+        }
     }
 
     private void initWidgetViews(Context context) {
@@ -98,7 +148,7 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
 
     private void startWidgetUpdateService(Context context) {
         Intent intent = new Intent(context, WidgetService.class);
-        intent.setAction(WidgetService.ACTION_UPDATE);
+        intent.setAction(WidgetService.ACTION_REFRESH);
 
         WidgetService.enqueueJob(context, intent);
     }
@@ -124,7 +174,7 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
         }
 
         int[] appWidgetIds = appWidgetManager.getAppWidgetIds(componentName);
-        appWidgetManager.updateAppWidget(appWidgetIds,getRemoteViews(context));
+        appWidgetManager.updateAppWidget(appWidgetIds, getRemoteViews(context));
     }
 
 }

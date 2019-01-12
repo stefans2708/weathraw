@@ -2,17 +2,16 @@ package com.example.stefan.weathraw.service;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.JobIntentService;
 
-import com.example.stefan.weathraw.WeatherApplication;
 import com.example.stefan.weathraw.api.ApiManager;
 import com.example.stefan.weathraw.model.ApplicationSettings;
 import com.example.stefan.weathraw.model.WeatherData;
 import com.example.stefan.weathraw.model.WidgetDataModel;
 import com.example.stefan.weathraw.ui.widget.WeatherWidgetProvider;
 import com.example.stefan.weathraw.utils.Constants;
+import com.example.stefan.weathraw.utils.GeneralUtils;
 import com.example.stefan.weathraw.utils.SharedPrefsUtils;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -23,12 +22,12 @@ import retrofit2.HttpException;
 
 public class WidgetService extends JobIntentService {
 
-    public static final String ACTION_UPDATE = "ACTION_UPDATE";
     public static final String ACTION_UPDATE_RESPONSE = "ACTION_UPDATE_RESPONSE";
     public static final String ACTION_ERROR = "ACTION_ERROR";
+    public static final String ACTION_REFRESH = "ACTION_REFRESH";
+    public static final String ACTION_UPDATE_SETTINGS = "ACTION_UPDATE_SETTINGS";
     public static final String EXTRA_WEATHER_DATA = "EXTRA_WEATHER_DATA";
     public static final String EXTRA_ERROR_TYPE = "EXTRA_ERROR_TYPE";
-    public static final String ACTION_REFRESH = "ACTION_REFRESH";
     public static final int ERROR_TYPE_NO_INTERNET = 1;
     public static final int ERROR_TYPE_REQUEST_TIMEOUT = 2;
 
@@ -36,7 +35,6 @@ public class WidgetService extends JobIntentService {
 
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     private int currentCityId;
-    private boolean autoRefreshingEnabled;
 
     public static void enqueueJob(Context context, Intent work) {
         enqueueWork(context, WidgetService.class, UNIQUE_JOB_ID, work);
@@ -46,7 +44,7 @@ public class WidgetService extends JobIntentService {
     protected void onHandleWork(@NonNull Intent intent) {
         if (intent.getAction() == null) return;
 
-        if (intent.getAction().equals(ACTION_UPDATE)) {
+        if (intent.getAction().equals(ACTION_REFRESH)) {
             readWidgetSettings();
 
             getWidgetData(new Consumer<WeatherData>() {
@@ -69,7 +67,6 @@ public class WidgetService extends JobIntentService {
             settings = ApplicationSettings.defaultValues();
         }
         currentCityId = settings.getWidgetCityId();
-        autoRefreshingEnabled = settings.isWidgetAutoRefreshEnabled();
     }
 
     private void sendDataToWidgetProvider(WeatherData weatherData) {
@@ -99,16 +96,10 @@ public class WidgetService extends JobIntentService {
         sendBroadcast(errorIntent);
     }
 
-    public boolean isNetworkAvailable() {
-        final ConnectivityManager connectivityManager =
-                ((ConnectivityManager) WeatherApplication.getAppContext().getSystemService(Context.CONNECTIVITY_SERVICE));
-        return connectivityManager != null && connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().isConnected();
-    }
-
     abstract class OnError implements Consumer<Throwable> {
         @Override
         public void accept(Throwable throwable) throws Exception {
-            if (!isNetworkAvailable()) {
+            if (!GeneralUtils.isNetworkAvailable()) {
                 sendErrorToWidgetProvider(ERROR_TYPE_NO_INTERNET);
                 return;
             }

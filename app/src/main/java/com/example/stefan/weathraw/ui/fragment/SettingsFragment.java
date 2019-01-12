@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import com.example.stefan.weathraw.R;
 import com.example.stefan.weathraw.cache.model.City;
 import com.example.stefan.weathraw.databinding.FragmentSettingsBinding;
+import com.example.stefan.weathraw.service.WidgetService;
 import com.example.stefan.weathraw.ui.activity.AddCityActivity;
 import com.example.stefan.weathraw.ui.dialog.ChooseCityDialog;
 import com.example.stefan.weathraw.viewmodel.SettingsViewModel;
@@ -72,7 +73,7 @@ public class SettingsFragment extends BaseFragment implements ChooseCityDialog.O
         viewModel.getAutoUpdateStatus().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(@Nullable Boolean aBoolean) {
-                updateWidget();
+                updateWidgetWithAction(WidgetService.ACTION_UPDATE_SETTINGS);
             }
         });
     }

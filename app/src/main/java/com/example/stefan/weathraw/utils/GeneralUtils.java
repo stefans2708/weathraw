@@ -1,5 +1,7 @@
 package com.example.stefan.weathraw.utils;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
 import android.util.TypedValue;
 
 import com.example.stefan.weathraw.WeatherApplication;
@@ -14,4 +16,10 @@ public class GeneralUtils {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, WeatherApplication.getAppContext().getResources().getDisplayMetrics());
     }
 
+
+    public static boolean isNetworkAvailable() {
+        final ConnectivityManager connectivityManager =
+                ((ConnectivityManager) WeatherApplication.getAppContext().getSystemService(Context.CONNECTIVITY_SERVICE));
+        return connectivityManager != null && connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().isConnected();
+    }
 }

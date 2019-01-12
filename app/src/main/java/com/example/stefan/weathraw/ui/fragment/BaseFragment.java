@@ -10,12 +10,10 @@ import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.widget.RemoteViews;
 import android.widget.Toast;
 
-import com.example.stefan.weathraw.R;
-import com.example.stefan.weathraw.model.ResponseMessage;
 import com.example.stefan.weathraw.ui.widget.WeatherWidgetProvider;
+import com.example.stefan.weathraw.utils.GeneralUtils;
 import com.example.stefan.weathraw.viewmodel.BaseViewModel;
 
 public abstract class BaseFragment extends Fragment implements Observer<Throwable> {
@@ -33,7 +31,7 @@ public abstract class BaseFragment extends Fragment implements Observer<Throwabl
     public void onChanged(@Nullable Throwable error) {
         if (error == null) return;
 
-        if (!hasInternetConnection()) {
+        if (!GeneralUtils.isNetworkAvailable()) {
             makeToast("No internet connection");
         } else {
             makeToast(error.getMessage());
@@ -44,12 +42,6 @@ public abstract class BaseFragment extends Fragment implements Observer<Throwabl
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 
-    public boolean hasInternetConnection() {
-        ConnectivityManager cm = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnectedOrConnecting();
-    }
-
-
     public void updateWidget() {
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(getContext());
         ComponentName componentName = new ComponentName(getActivity(), WeatherWidgetProvider.class);
@@ -57,6 +49,18 @@ public abstract class BaseFragment extends Fragment implements Observer<Throwabl
         if (appWidgetIds.length != 0) {
             Intent intent = new Intent(getActivity(), WeatherWidgetProvider.class);
             intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
+            getActivity().sendBroadcast(intent);
+        }
+    }
+
+    public void updateWidgetWithAction(String action) {
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(getContext());
+        ComponentName componentName = new ComponentName(getActivity(), WeatherWidgetProvider.class);
+        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(componentName);
+        if (appWidgetIds.length != 0) {
+            Intent intent = new Intent(getActivity(), WeatherWidgetProvider.class);
+            intent.setAction(action);
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
             getActivity().sendBroadcast(intent);
         }
