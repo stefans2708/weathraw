@@ -10,6 +10,7 @@ public class Constants {
     public static final String FLAG_CITIES_LOADED = "FLAG_CITIES_LOADED";
     public static final String SELECTED_CITIES = "SELECTED_CITIES";
     public static final String CURRENT_CITY_ID = "CURRENT_CITY_ID";
+    public static final String APP_SETTINGS = "APP_SETTINGS";
 
     public static String getApiKey() {
         return "867b58713226291e35ea0471eee3dcf2";

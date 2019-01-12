@@ -34,7 +34,7 @@ import static com.example.stefan.weathraw.ui.adapter.BottomMenuAdapter.MENU_ITEM
 
 public class CityDataFragment extends BaseFragment implements ChooseCityDialog.OnDialogItemClickListener, SwipeRefreshLayout.OnRefreshListener, Observer<Throwable>, BottomMenuAdapter.OnMenuItemClickListener {
 
-    private static final int RC_ADD_MORE = 123;
+    public static final int RC_ADD_MORE = 123;
     private CityDataViewModel viewModel;
     private FragmentCityDataBinding binding;
     private CityAdapter adapter;

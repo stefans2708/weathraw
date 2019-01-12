@@ -72,12 +72,15 @@
 
             <TextView
                 android:id="@+id/txt_widget_city_value"
+                underline="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="@{()-> viewModel.onCityClick()}"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/txt_widget_city_label"
-                tools:text="Aleksandrovac" />
+                tools:text="Aleksandrovac"
+                android:text="@{viewModel.currentWidgetCityName}"/>
 
             <View
                 android:layout_width="0dp"
@@ -103,6 +106,9 @@
                 android:id="@+id/switch_auto_refresh"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="@{(view)->viewModel.onAutoRefreshClick(((android.support.v7.widget.SwitchCompat)view).isChecked)}"
+                android:padding="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/txt_widget_autorefresh_label"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/txt_widget_autorefresh_label" />
 
@@ -155,6 +161,9 @@
                 android:id="@+id/switch_enable_notification"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="@{(view)->viewModel.onEnableNotificationClick(((android.support.v7.widget.SwitchCompat)view).isChecked)}"
+                android:padding="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/txt_enable_notification_label"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/txt_enable_notification_label" />
 

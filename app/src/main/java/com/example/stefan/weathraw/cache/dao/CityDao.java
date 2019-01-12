@@ -18,12 +18,15 @@ public interface CityDao {
     @Query("SELECT * FROM city ORDER BY city.name")
     LiveData<List<City>> getAll();
 
-    @Query("SELECT COUNT(*) FROM city WHERE id=787657")
-    Integer getStartCity();
-
     @Query("SELECT * FROM city LIMIT :pageSize OFFSET :offset")
     LiveData<List<City>> getPage(int pageSize, int offset);
 
     @Query("SELECT * FROM city WHERE city.name LIKE :query")
     LiveData<List<City>> searchCities(String query);
+
+    @Query("SELECT * FROM city WHERE city.id = :id")
+    LiveData<City> getCityById(int id);
+
+    @Query("SELECT city.name FROM city WHERE city.id = :cityId")
+    LiveData<String> getCityNameById(int cityId);
 }
