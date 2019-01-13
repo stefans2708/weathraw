@@ -139,7 +139,7 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
         AppWidgetTarget appWidgetTarget = new AppWidgetTarget(context, R.id.image_icon, remoteViews, AppWidgetManager.getInstance(context).getAppWidgetIds(new ComponentName(context, WeatherWidgetProvider.class)));
         Glide.with(context.getApplicationContext())
                 .asBitmap()
-                .load(WeatherDataUtils.getIconUrl(widgetData.getIconId()))
+                .load(WeatherDataUtils.getOfflineIconUrl(widgetData.getIconId()))
                 .into(appWidgetTarget);
 
         refreshAllWidgetInstances(context);

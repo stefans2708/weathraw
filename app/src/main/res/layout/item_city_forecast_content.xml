@@ -29,7 +29,7 @@
 
         <ImageView
             android:id="@+id/img_weather"
-            imageUrl="@{WeatherDataUtils.getIconUrl(dayAverageValues.icon)}"
+            imageUrl="@{WeatherDataUtils.getOfflineIconUrl(dayAverageValues.icon)}"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:contentDescription="@string/weather_icon"

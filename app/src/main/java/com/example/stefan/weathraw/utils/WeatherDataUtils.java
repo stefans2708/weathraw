@@ -34,6 +34,10 @@ public class WeatherDataUtils {
         return "http://openweathermap.org/img/w/" + iconId + ".png";
     }
 
+    public static String getOfflineIconUrl(String iconId) {
+        return "file:///android_asset/" + iconId + ".png";
+    }
+
     public static String getDayHourFormat(Date date) {
         return new SimpleDateFormat("dd/MM, HH:mm", Locale.US).format(date);
     }

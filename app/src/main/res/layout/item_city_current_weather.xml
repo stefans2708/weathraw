@@ -39,7 +39,7 @@
 
             <ImageView
                 android:id="@+id/img_weather"
-                imageUrl="@{WeatherDataUtils.getIconUrl(viewModel.weatherData.weatherDescription.icon)}"
+                imageUrl="@{WeatherDataUtils.getOfflineIconUrl(viewModel.weatherData.weatherDescription.icon)}"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginStart="12dp"

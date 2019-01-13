@@ -182,9 +182,9 @@ public class CityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 imageContainer.addView(imageView);
                 imageView.setLayoutParams(imageParams);
 
-                WeatherData data = list.get(i); //todo: sacuvati slike offline i na osnovu id-a uzimati...
+                WeatherData data = list.get(i);
                 Glide.with(binding.txtTitle.getContext())
-                        .load(WeatherDataUtils.getIconUrl(data.getWeatherDescription().getIcon()))
+                        .load(WeatherDataUtils.getOfflineIconUrl(data.getWeatherDescription().getIcon()))
                         .into(imageView);
 
                 binding.linearImagesContainer.addView(imageContainer);
