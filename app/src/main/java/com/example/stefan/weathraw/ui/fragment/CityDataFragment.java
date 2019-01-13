@@ -190,7 +190,7 @@ public class CityDataFragment extends BaseFragment implements ChooseCityDialog.O
             }
 
             case MENU_ITEM_ABOUT: {
-                ((MainActivity) getActivity()).replaceFragment(AboutFragment.newInstance(), true, SettingsFragment.class.getSimpleName());
+                ((MainActivity) getActivity()).replaceFragment(AboutFragment.newInstance(), true, AboutFragment.class.getSimpleName());
                 break;
             }
         }

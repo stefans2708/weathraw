@@ -9,6 +9,7 @@ import com.example.stefan.weathraw.model.WeatherAndForecast;
 import com.example.stefan.weathraw.repository.WeatherRepository;
 import com.example.stefan.weathraw.utils.Constants;
 import com.example.stefan.weathraw.utils.SharedPrefsUtils;
+import com.example.stefan.weathraw.utils.SingleLiveEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,7 @@ public class CityDataViewModel extends BaseViewModel implements WeatherRepositor
 
     private WeatherRepository repository = new WeatherRepository(this);
     private LiveData<WeatherAndForecast> weatherLiveData;
-    private MutableLiveData<Boolean> bottomMenuState = new MutableLiveData<>();
+    private SingleLiveEvent<Boolean> bottomMenuState = new SingleLiveEvent<>();
     private int cityId;
 
     public CityDataViewModel() {

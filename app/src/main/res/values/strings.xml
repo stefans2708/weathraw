@@ -42,5 +42,10 @@
     <string name="day_short_sunday">Sun</string>
     <string name="notification_time">Notification time</string>
     <string name="notification_test">Notification test</string>
+    <string name="about">About</string>
+    <string name="version_1_0">Version 1.0</string>
+    <string name="about_application">This application has been created as student project. Idea for creating this application was to fulfill the needs of creator himself for a weather application with some advance features.</string>
+    <string name="about_api">Application is using <a href="https://openweathermap.org/">OpenWeatherMap</a> API for fetching images and data. Currently, application is using free API pricing plan which comes with some limitations in server up-time and limited api calls per minute.</string>
+    <string name="copyright">&#169; All rights reserved</string>
 
 </resources>

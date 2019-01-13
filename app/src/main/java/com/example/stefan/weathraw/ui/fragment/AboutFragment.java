@@ -4,14 +4,18 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.stefan.weathraw.R;
+import com.example.stefan.weathraw.databinding.FragmentAboutBinding;
 
 public class AboutFragment extends BaseFragment {
 
+    private FragmentAboutBinding binding;
 
     public static AboutFragment newInstance() {
         return new AboutFragment();
@@ -20,6 +24,19 @@ public class AboutFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return DataBindingUtil.inflate(inflater, R.layout.fragment_about, container, false).getRoot();
+        if (binding == null) {
+            binding = DataBindingUtil.inflate(inflater, R.layout.fragment_about, container, false);
+        }
+        setUpToolbar();
+        return binding.getRoot();
+    }
+
+    private void setUpToolbar() {
+        ((AppCompatActivity) getActivity()).setSupportActionBar((android.support.v7.widget.Toolbar) binding.getRoot().findViewById(R.id.toolbar));
+        ActionBar supportActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        if (supportActionBar != null) {
+            supportActionBar.setTitle(getContext().getString(R.string.about));
+            supportActionBar.setDisplayHomeAsUpEnabled(true);
+        }
     }
 }
