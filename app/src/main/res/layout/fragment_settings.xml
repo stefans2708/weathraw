@@ -85,7 +85,7 @@
             <View
                 android:layout_width="0dp"
                 android:layout_height="0.3dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="18dp"
                 android:background="@color/color_separator"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -169,11 +169,21 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/txt_enable_notification_label" />
 
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0.3dp"
+                android:layout_marginTop="18dp"
+                android:background="@color/color_separator"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txt_enable_notification_label" />
+
+
             <TextView
                 android:id="@+id/txt_notification_time_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="32dp"
                 android:text="@string/notification_time"
                 android:textColor="@android:color/black"
                 android:textSize="16sp"
@@ -200,7 +210,7 @@
                 android:id="@+id/btn_notification_test"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="24dp"
                 android:background="@drawable/bg_button"
                 android:padding="4dp"
                 android:onClick="@{() -> viewModel.onNotificationTestClick()}"

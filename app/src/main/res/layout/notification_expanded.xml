@@ -73,13 +73,13 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/txt_day_in_week_1"
+                android:id="@+id/txt_next_data_hour_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="Monday" />
+                tools:text="15h" />
 
             <ImageView
-                android:id="@+id/img_next_day_1"
+                android:id="@+id/img_next_data_1"
                 android:layout_width="50dp"
                 android:contentDescription="@null"
                 android:layout_height="50dp" />
@@ -88,10 +88,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/txt_day_1_min"
+                    android:id="@+id/txt_data_1_temperature"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAlignment="center"
@@ -99,18 +99,11 @@
                     tools:text="-12" />
 
                 <TextView
+                    android:id="@+id/txt_data_1_description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAlignment="center"
-                    android:text="/" />
-
-                <TextView
-                    android:id="@+id/txt_day_1_max"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:maxLines="1"
-                    android:textAlignment="center"
-                    tools:text="-2" />
+                    tools:text="scattered clouds" />
 
             </LinearLayout>
 
@@ -120,18 +113,18 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"
             android:layout_marginEnd="4dp"
+            android:gravity="center"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/txt_day_in_week_2"
+                android:id="@+id/txt_next_data_hour_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="Tuesday" />
+                tools:text="15h" />
 
             <ImageView
-                android:id="@+id/img_next_day_2"
+                android:id="@+id/img_next_data_2"
                 android:layout_width="50dp"
                 android:contentDescription="@null"
                 android:layout_height="50dp" />
@@ -139,11 +132,11 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center">
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/txt_day_2_min"
+                    android:id="@+id/txt_data_2_temperature"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAlignment="center"
@@ -151,18 +144,11 @@
                     tools:text="-12" />
 
                 <TextView
+                    android:id="@+id/txt_data_2_description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAlignment="center"
-                    android:text="/" />
-
-                <TextView
-                    android:id="@+id/txt_day_2_max"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:maxLines="1"
-                    android:textAlignment="center"
-                    tools:text="-2" />
+                    tools:text="scattered clouds" />
 
             </LinearLayout>
 
@@ -172,18 +158,18 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"
             android:layout_marginEnd="4dp"
+            android:gravity="center"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/txt_day_in_week_3"
+                android:id="@+id/txt_next_data_hour_3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="Wednesday" />
+                tools:text="15h" />
 
             <ImageView
-                android:id="@+id/img_next_day_3"
+                android:id="@+id/img_next_data_3"
                 android:layout_width="50dp"
                 android:contentDescription="@null"
                 android:layout_height="50dp" />
@@ -191,11 +177,11 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center">
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/txt_day_3_min"
+                    android:id="@+id/txt_data_3_temperature"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAlignment="center"
@@ -203,18 +189,11 @@
                     tools:text="-12" />
 
                 <TextView
+                    android:id="@+id/txt_data_3_description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAlignment="center"
-                    android:text="/" />
-
-                <TextView
-                    android:id="@+id/txt_day_3_max"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:maxLines="1"
-                    android:textAlignment="center"
-                    tools:text="-2" />
+                    tools:text="scattered clouds" />
 
             </LinearLayout>
 
@@ -224,29 +203,30 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_marginEnd="4dp"
             android:gravity="center"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/txt_day_in_week_4"
+                android:id="@+id/txt_next_data_hour_4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="Thursday" />
+                tools:text="15h" />
 
             <ImageView
-                android:id="@+id/img_next_day_4"
+                android:id="@+id/img_next_data_4"
                 android:layout_width="50dp"
                 android:contentDescription="@null"
-                android:layout_height="50dp"  />
+                android:layout_height="50dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center">
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/txt_day_4_min"
+                    android:id="@+id/txt_data_4_temperature"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAlignment="center"
@@ -254,22 +234,16 @@
                     tools:text="-12" />
 
                 <TextView
+                    android:id="@+id/txt_data_4_description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAlignment="center"
-                    android:text="/" />
-
-                <TextView
-                    android:id="@+id/txt_day_4_max"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:maxLines="1"
-                    android:textAlignment="center"
-                    tools:text="-2" />
+                    tools:text="scattered clouds" />
 
             </LinearLayout>
 
         </LinearLayout>
+
 
     </LinearLayout>
 

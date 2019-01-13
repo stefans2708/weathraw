@@ -91,7 +91,22 @@ public class WeatherDataUtils {
     }
 
     public static String getHourMinuteFormat(int seconds) {
-        return new SimpleDateFormat("HH:mm", Locale.US).format(new Date((long)seconds * 1000));
+        return new SimpleDateFormat("HH:mm", Locale.US).format(new Date((long) seconds * 1000));
+    }
+
+    public static String getHourMinuteFromUnixTime(int unixTime) {
+        return new SimpleDateFormat("HH:mm", Locale.US).format(getJavaDateFromUnixTime(unixTime));
+    }
+
+    public static List<WeatherData> extractNextFourValues(FiveDayCityForecast forecast) {
+        List<WeatherData> allData = forecast.getList();
+        List<WeatherData> nextFourData = new ArrayList<>();
+
+        for (int i = 0; i < 4; i++) {
+            nextFourData.add(allData.get(i));
+        }
+
+        return nextFourData;
     }
 
     public static List<DayAverageValues> extractDayAverageValuesInList(FiveDayCityForecast forecast) {

@@ -1,6 +1,7 @@
 package com.example.stefan.weathraw.service;
 
 import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
@@ -16,21 +17,17 @@ import com.example.stefan.weathraw.NotificationBroadcastReceiver;
 import com.example.stefan.weathraw.R;
 import com.example.stefan.weathraw.WeatherApplication;
 import com.example.stefan.weathraw.api.ApiManager;
-import com.example.stefan.weathraw.model.DayAverageValues;
 import com.example.stefan.weathraw.model.FiveDayCityForecast;
 import com.example.stefan.weathraw.model.WeatherAndForecast;
 import com.example.stefan.weathraw.model.WeatherData;
+import com.example.stefan.weathraw.ui.activity.MainActivity;
 import com.example.stefan.weathraw.utils.Constants;
 import com.example.stefan.weathraw.utils.GeneralUtils;
 import com.example.stefan.weathraw.utils.SharedPrefsUtils;
 import com.example.stefan.weathraw.utils.WeatherDataUtils;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -91,9 +88,11 @@ public class NotificationService extends JobIntentService {
     }
 
     private void createNotification(WeatherAndForecast weatherData) {
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 32,new Intent(this, MainActivity.class), 0);
         Notification notification = new NotificationCompat.Builder(this, Constants.NOTIFICATION_CHANNEL_ID)
                 .setSmallIcon(R.drawable.weather_sunny)
                 .setAutoCancel(true)
+                .setContentIntent(pendingIntent)
                 .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
                 .setCustomContentView(getCollapsedView(weatherData))
                 .setCustomBigContentView(getExpandedView(weatherData))
@@ -121,39 +120,28 @@ public class NotificationService extends JobIntentService {
         remoteViews.setTextViewText(R.id.txt_weather_description, weatherData.getWeatherData().getWeatherDescription().getDescription());
         remoteViews.setTextViewText(R.id.txt_temperature, WeatherDataUtils.getTemperatureFormat(weatherData.getWeatherData().getMain().getTemperature()));
         loadNotificationImage(remoteViews, R.id.img_weather, weatherData.getWeatherData().getWeatherDescription().getIcon());
-        //days
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DAY_OF_WEEK, 1);
-        Date date = calendar.getTime();
-        SimpleDateFormat dayFormat = new SimpleDateFormat("EEE", Locale.US);
-        remoteViews.setTextViewText(R.id.txt_day_in_week_1, dayFormat.format(date));
-        calendar.add(Calendar.DAY_OF_WEEK, 1);
-        date.setTime(calendar.getTimeInMillis());
-        remoteViews.setTextViewText(R.id.txt_day_in_week_2, dayFormat.format(date));
-        calendar.add(Calendar.DAY_OF_WEEK, 1);
-        date.setTime(calendar.getTimeInMillis());
-        remoteViews.setTextViewText(R.id.txt_day_in_week_3, dayFormat.format(date));
-        calendar.add(Calendar.DAY_OF_WEEK, 1);
-        date.setTime(calendar.getTimeInMillis());
-        remoteViews.setTextViewText(R.id.txt_day_in_week_4, dayFormat.format(date));
 
-        List<DayAverageValues> dayAverageValues = WeatherDataUtils.extractDayAverageValuesInList(weatherData.getForecastData());
-        DayAverageValues oneDayValues = dayAverageValues.get(0);
-        remoteViews.setTextViewText(R.id.txt_day_1_min, WeatherDataUtils.getTemperatureFormat(oneDayValues.getMinTemperature()));
-        remoteViews.setTextViewText(R.id.txt_day_1_max, WeatherDataUtils.getTemperatureFormat(oneDayValues.getMaxTemperature()));
-        loadNotificationImage(remoteViews, R.id.img_next_day_1, oneDayValues.getIcon());
-        oneDayValues = dayAverageValues.get(1);
-        remoteViews.setTextViewText(R.id.txt_day_2_min, WeatherDataUtils.getTemperatureFormat(oneDayValues.getMinTemperature()));
-        remoteViews.setTextViewText(R.id.txt_day_2_max, WeatherDataUtils.getTemperatureFormat(oneDayValues.getMaxTemperature()));
-        loadNotificationImage(remoteViews, R.id.img_next_day_2, oneDayValues.getIcon());
-        oneDayValues = dayAverageValues.get(2);
-        remoteViews.setTextViewText(R.id.txt_day_3_min, WeatherDataUtils.getTemperatureFormat(oneDayValues.getMinTemperature()));
-        remoteViews.setTextViewText(R.id.txt_day_3_max, WeatherDataUtils.getTemperatureFormat(oneDayValues.getMaxTemperature()));
-        loadNotificationImage(remoteViews, R.id.img_next_day_3, oneDayValues.getIcon());
-        oneDayValues = dayAverageValues.get(3);
-        remoteViews.setTextViewText(R.id.txt_day_4_min, WeatherDataUtils.getTemperatureFormat(oneDayValues.getMinTemperature()));
-        remoteViews.setTextViewText(R.id.txt_day_4_max, WeatherDataUtils.getTemperatureFormat(oneDayValues.getMaxTemperature()));
-        loadNotificationImage(remoteViews, R.id.img_next_day_4, oneDayValues.getIcon());
+        List<WeatherData> nextFourValues = WeatherDataUtils.extractNextFourValues(weatherData.getForecastData());
+        WeatherData hourValue = nextFourValues.get(0);
+        remoteViews.setTextViewText(R.id.txt_next_data_hour_1, WeatherDataUtils.getHourMinuteFromUnixTime(hourValue.getDt()));
+        remoteViews.setTextViewText(R.id.txt_data_1_temperature, WeatherDataUtils.getTemperatureFormat(hourValue.getMain().getTemperature()));
+        remoteViews.setTextViewText(R.id.txt_data_1_description, hourValue.getWeatherDescription().getDescription());
+        loadNotificationImage(remoteViews, R.id.img_next_data_1, hourValue.getWeatherDescription().getIcon());
+        hourValue = nextFourValues.get(1);
+        remoteViews.setTextViewText(R.id.txt_next_data_hour_2, WeatherDataUtils.getHourMinuteFromUnixTime(hourValue.getDt()));
+        remoteViews.setTextViewText(R.id.txt_data_2_temperature, WeatherDataUtils.getTemperatureFormat(hourValue.getMain().getTemperature()));
+        remoteViews.setTextViewText(R.id.txt_data_2_description, hourValue.getWeatherDescription().getDescription());
+        loadNotificationImage(remoteViews, R.id.img_next_data_2, hourValue.getWeatherDescription().getIcon());
+        hourValue = nextFourValues.get(2);
+        remoteViews.setTextViewText(R.id.txt_next_data_hour_3, WeatherDataUtils.getHourMinuteFromUnixTime(hourValue.getDt()));
+        remoteViews.setTextViewText(R.id.txt_data_3_temperature, WeatherDataUtils.getTemperatureFormat(hourValue.getMain().getTemperature()));
+        remoteViews.setTextViewText(R.id.txt_data_3_description, hourValue.getWeatherDescription().getDescription());
+        loadNotificationImage(remoteViews, R.id.img_next_data_3, hourValue.getWeatherDescription().getIcon());
+        hourValue = nextFourValues.get(3);
+        remoteViews.setTextViewText(R.id.txt_next_data_hour_4, WeatherDataUtils.getHourMinuteFromUnixTime(hourValue.getDt()));
+        remoteViews.setTextViewText(R.id.txt_data_4_temperature, WeatherDataUtils.getTemperatureFormat(hourValue.getMain().getTemperature()));
+        remoteViews.setTextViewText(R.id.txt_data_4_description, hourValue.getWeatherDescription().getDescription());
+        loadNotificationImage(remoteViews, R.id.img_next_data_4, hourValue.getWeatherDescription().getIcon());
 
         return remoteViews;
     }
