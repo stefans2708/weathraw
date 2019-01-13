@@ -94,10 +94,6 @@ public class WeatherDataUtils {
         return new SimpleDateFormat("HH:mm", Locale.US).format(new Date((long)seconds * 1000));
     }
 
-    public static String getHourMinuteFormat(DateTime date) {
-        return DateTimeFormat.forPattern("HH:mm").print(date);
-    }
-
     public static List<DayAverageValues> extractDayAverageValuesInList(FiveDayCityForecast forecast) {
         List<WeatherData> allData = forecast.getList();
         List<DayAverageValues> dayAverageValuesList = new ArrayList<>();

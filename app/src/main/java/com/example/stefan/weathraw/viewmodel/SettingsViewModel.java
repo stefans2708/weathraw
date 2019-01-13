@@ -13,6 +13,9 @@ import com.example.stefan.weathraw.utils.Constants;
 import com.example.stefan.weathraw.utils.SharedPrefsUtils;
 import com.example.stefan.weathraw.utils.SingleLiveEvent;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,7 +71,8 @@ public class SettingsViewModel extends BaseViewModel {
     }
 
     private String getTimeFormat(int hour, int minute) {
-        return hour + ":" + minute;
+        DateTime dateTime = DateTime.now().withTime(hour, minute, 0, 0);
+        return DateTimeFormat.forPattern("HH:mm").print(dateTime);
     }
 
     public void onCityClick() {
