@@ -2,6 +2,7 @@ package com.example.stefan.weathraw.ui.fragment;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.app.TimePickerDialog;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
@@ -15,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TimePicker;
 
 import com.example.stefan.weathraw.NotificationBroadcastReceiver;
 import com.example.stefan.weathraw.R;
@@ -36,6 +38,7 @@ public class SettingsFragment extends BaseFragment implements ChooseCityDialog.O
     private SettingsViewModel viewModel;
     private FragmentSettingsBinding binding;
     private ChooseCityDialog dialog;
+    private TimePickerDialog.OnTimeSetListener onTimeSetListener;
 
     public static SettingsFragment newInstance() {
         return new SettingsFragment();
@@ -51,6 +54,17 @@ public class SettingsFragment extends BaseFragment implements ChooseCityDialog.O
             binding.setLifecycleOwner(this);
         }
         return binding.getRoot();
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                viewModel.updateNotificationTime(hourOfDay, minute);
+            }
+        };
     }
 
     @Override
@@ -89,16 +103,31 @@ public class SettingsFragment extends BaseFragment implements ChooseCityDialog.O
             public void onChanged(@Nullable Boolean notificationsEnabled) {
                 if (notificationsEnabled == null) return;
 
+                Intent intent = new Intent(getContext(), NotificationBroadcastReceiver.class);
+                intent.setAction(NotificationBroadcastReceiver.ACTION_SHOW_NOTIFICATION);
+                if (notificationsEnabled) {
+                    setDailyAlarm();
+                } else {
+                    cancelDailyAlarm();
+                }
+            }
+        });
+        viewModel.getNotificationTestClick().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean click) {
+                if (click == null) return;
 
                 Intent intent = new Intent(getContext(), NotificationBroadcastReceiver.class);
                 intent.setAction(NotificationBroadcastReceiver.ACTION_SHOW_NOTIFICATION);
                 NotificationService.enqueueWork(getContext(), NotificationService.class, NotificationService.UNIQUE_JOB_ID, intent);
 
-//                if (notificationsEnabled) {
-//                    setDailyAlarm();
-//                } else {
-//                    cancelDailyAlarm();
-//                }
+            }
+        });
+        viewModel.getNotificationTimeClick().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean click) {
+                if (click == null) return;
+                new TimePickerDialog(getContext(), onTimeSetListener, 12, 0, true).show();
             }
         });
     }

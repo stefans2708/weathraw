@@ -8,6 +8,9 @@ import com.example.stefan.weathraw.model.DayAverageValues;
 import com.example.stefan.weathraw.model.FiveDayCityForecast;
 import com.example.stefan.weathraw.model.WeatherData;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -89,6 +92,10 @@ public class WeatherDataUtils {
 
     public static String getHourMinuteFormat(int seconds) {
         return new SimpleDateFormat("HH:mm", Locale.US).format(new Date((long)seconds * 1000));
+    }
+
+    public static String getHourMinuteFormat(DateTime date) {
+        return DateTimeFormat.forPattern("HH:mm").print(date);
     }
 
     public static List<DayAverageValues> extractDayAverageValuesInList(FiveDayCityForecast forecast) {

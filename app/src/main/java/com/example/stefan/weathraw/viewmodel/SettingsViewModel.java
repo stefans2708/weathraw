@@ -18,11 +18,14 @@ import java.util.List;
 
 public class SettingsViewModel extends BaseViewModel {
 
-    private SingleLiveEvent<Boolean> changeCityClick = new SingleLiveEvent<>();
     private LiveData<String> currentWidgetCityName;
     private MutableLiveData<Integer> currentWidgetCityId = new MutableLiveData<>();
+    private SingleLiveEvent<Boolean> changeCityClick = new SingleLiveEvent<>();
     private MutableLiveData<Boolean> autoUpdateStatus = new MutableLiveData<>();
     private MutableLiveData<Boolean> enableNotifications = new MutableLiveData<>();
+    private SingleLiveEvent<Boolean> notificationTestClick = new SingleLiveEvent<>();
+    private SingleLiveEvent<Boolean> notificationTimeClick = new SingleLiveEvent<>();
+    private MutableLiveData<String> notificationTime = new MutableLiveData<>();
     private ApplicationSettings settings;
     private CityRepository cityRepository = new CityRepository();
 
@@ -40,6 +43,7 @@ public class SettingsViewModel extends BaseViewModel {
         });
 
         currentWidgetCityId.setValue(settings.getWidgetCityId());
+        notificationTime.setValue(getTimeFormat(settings.getNotificationTimeHour(), settings.getNotificationTimeMinute()));
     }
 
     public void onNewCitySelected(int newCityId) {
@@ -56,6 +60,17 @@ public class SettingsViewModel extends BaseViewModel {
         SharedPrefsUtils.putObject(Constants.SELECTED_CITIES, cityList);
     }
 
+    public void updateNotificationTime(int hourOfDay, int minute) {
+        settings.setNotificationTimeHour(hourOfDay);
+        settings.setNotificationTimeMinute(minute);
+        SharedPrefsUtils.putObject(Constants.APP_SETTINGS, settings);
+        notificationTime.setValue(getTimeFormat(hourOfDay, minute));
+    }
+
+    private String getTimeFormat(int hour, int minute) {
+        return hour + ":" + minute;
+    }
+
     public void onCityClick() {
         changeCityClick.setValue(true);
     }
@@ -70,6 +85,14 @@ public class SettingsViewModel extends BaseViewModel {
         settings.setNotificationEnabled(isChecked);
         SharedPrefsUtils.putObject(Constants.APP_SETTINGS, settings);
         enableNotifications.setValue(isChecked);
+    }
+
+    public void onNotificationTestClick() {
+        notificationTestClick.setValue(true);
+    }
+
+    public void onNotificationTimeClick() {
+        notificationTimeClick.setValue(true);
     }
 
     public LiveData<Boolean> getChangeCityClick() {
@@ -90,5 +113,17 @@ public class SettingsViewModel extends BaseViewModel {
 
     public LiveData<Boolean> getNotificationsStatus() {
         return enableNotifications;
+    }
+
+    public LiveData<Boolean> getNotificationTestClick() {
+        return notificationTestClick;
+    }
+
+    public LiveData<Boolean> getNotificationTimeClick() {
+        return notificationTimeClick;
+    }
+
+    public LiveData<String> getNotificationTime() {
+        return notificationTime;
     }
 }
