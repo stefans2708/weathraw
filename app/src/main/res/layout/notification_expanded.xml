@@ -2,26 +2,27 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="192dp">
+    android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/img_weather"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_margin="4dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
         android:contentDescription="@null"
         tools:src="@drawable/ic_launcher_background" />
 
     <TextView
         android:id="@+id/txt_city"
-        style="@style/TextAppearance.Compat.Notification.Time.Media"
+        style="@style/TextAppearance.Compat.Notification.Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="12dp"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="4dp"
         android:layout_toEndOf="@id/img_weather"
-        android:textSize="18sp"
+        android:textSize="14sp"
         tools:text="Vranje" />
 
     <TextView
@@ -33,7 +34,7 @@
         android:layout_marginStart="12dp"
         android:layout_marginTop="4dp"
         android:layout_toEndOf="@id/txt_city"
-        android:textSize="18sp"
+        android:textSize="14sp"
         tools:text="23" />
 
     <TextView
@@ -41,14 +42,15 @@
         style="@style/TextAppearance.Compat.Notification.Info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/img_weather"
-        android:layout_marginStart="12dp"
-        android:layout_marginBottom="4dp"
+        android:layout_below="@+id/txt_city"
+        android:layout_marginStart="4dp"
         android:layout_toEndOf="@id/img_weather"
-        android:textSize="18sp"
+        android:layout_marginTop="4dp"
+        android:maxLines="1"
+        android:textSize="14sp"
         tools:text="clear sky" />
 
-    <View
+    <TextView
         android:id="@+id/view_separator"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
@@ -66,6 +68,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_marginEnd="4dp"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -77,9 +80,9 @@
 
             <ImageView
                 android:id="@+id/img_next_day_1"
-                android:layout_width="64dp"
+                android:layout_width="50dp"
                 android:contentDescription="@null"
-                android:layout_height="64dp" />
+                android:layout_height="50dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -99,8 +102,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAlignment="center"
-                    android:layout_marginStart="2dp"
-                    android:layout_marginEnd="2dp"
                     android:text="/" />
 
                 <TextView
@@ -120,6 +121,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
+            android:layout_marginEnd="4dp"
             android:orientation="vertical">
 
             <TextView
@@ -130,9 +132,9 @@
 
             <ImageView
                 android:id="@+id/img_next_day_2"
-                android:layout_width="64dp"
+                android:layout_width="50dp"
                 android:contentDescription="@null"
-                android:layout_height="64dp" />
+                android:layout_height="50dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -152,8 +154,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAlignment="center"
-                    android:layout_marginStart="2dp"
-                    android:layout_marginEnd="2dp"
                     android:text="/" />
 
                 <TextView
@@ -173,6 +173,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
+            android:layout_marginEnd="4dp"
             android:orientation="vertical">
 
             <TextView
@@ -183,9 +184,9 @@
 
             <ImageView
                 android:id="@+id/img_next_day_3"
-                android:layout_width="64dp"
+                android:layout_width="50dp"
                 android:contentDescription="@null"
-                android:layout_height="64dp" />
+                android:layout_height="50dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -205,8 +206,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAlignment="center"
-                    android:layout_marginStart="2dp"
-                    android:layout_marginEnd="2dp"
                     android:text="/" />
 
                 <TextView
@@ -236,9 +235,9 @@
 
             <ImageView
                 android:id="@+id/img_next_day_4"
-                android:layout_width="64dp"
+                android:layout_width="50dp"
                 android:contentDescription="@null"
-                android:layout_height="64dp" />
+                android:layout_height="50dp"  />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -258,8 +257,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAlignment="center"
-                    android:layout_marginStart="2dp"
-                    android:layout_marginEnd="2dp"
                     android:text="/" />
 
                 <TextView

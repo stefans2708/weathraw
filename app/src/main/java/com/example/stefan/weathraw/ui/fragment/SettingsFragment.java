@@ -20,13 +20,13 @@ import com.example.stefan.weathraw.NotificationBroadcastReceiver;
 import com.example.stefan.weathraw.R;
 import com.example.stefan.weathraw.cache.model.City;
 import com.example.stefan.weathraw.databinding.FragmentSettingsBinding;
+import com.example.stefan.weathraw.service.NotificationService;
 import com.example.stefan.weathraw.service.WidgetService;
 import com.example.stefan.weathraw.ui.activity.AddCityActivity;
 import com.example.stefan.weathraw.ui.dialog.ChooseCityDialog;
 import com.example.stefan.weathraw.viewmodel.SettingsViewModel;
 
 import java.util.Calendar;
-import java.util.Date;
 
 import static com.example.stefan.weathraw.ui.fragment.CityDataFragment.RC_ADD_MORE;
 
@@ -88,11 +88,17 @@ public class SettingsFragment extends BaseFragment implements ChooseCityDialog.O
             @Override
             public void onChanged(@Nullable Boolean notificationsEnabled) {
                 if (notificationsEnabled == null) return;
-                if (notificationsEnabled) {
-                    setDailyAlarm();
-                } else {
-                    cancelDailyAlarm();
-                }
+
+
+                Intent intent = new Intent(getContext(), NotificationBroadcastReceiver.class);
+                intent.setAction(NotificationBroadcastReceiver.ACTION_SHOW_NOTIFICATION);
+                NotificationService.enqueueWork(getContext(), NotificationService.class, NotificationService.UNIQUE_JOB_ID, intent);
+
+//                if (notificationsEnabled) {
+//                    setDailyAlarm();
+//                } else {
+//                    cancelDailyAlarm();
+//                }
             }
         });
     }
@@ -109,8 +115,8 @@ public class SettingsFragment extends BaseFragment implements ChooseCityDialog.O
 //            }
 //            calendar.set(Calendar.HOUR_OF_DAY, 10);
 //            calendar.set(Calendar.MINUTE, 0);
-            calendar.add(Calendar.MINUTE,1);
-            alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), 60*1000, alarmIntent);
+            calendar.add(Calendar.MINUTE, 1);
+            alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), 60 * 1000, alarmIntent);
         }
     }
 
