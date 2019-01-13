@@ -194,6 +194,7 @@ public class CityDataFragment extends BaseFragment implements ChooseCityDialog.O
                 break;
             }
         }
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
     }
 
     @Override

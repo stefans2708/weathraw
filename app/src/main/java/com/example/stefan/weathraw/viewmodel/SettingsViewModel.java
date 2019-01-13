@@ -68,6 +68,7 @@ public class SettingsViewModel extends BaseViewModel {
         settings.setNotificationTimeMinute(minute);
         SharedPrefsUtils.putObject(Constants.APP_SETTINGS, settings);
         notificationTime.setValue(getTimeFormat(hourOfDay, minute));
+        enableNotifications.setValue(true); //to reset alarm with new time
     }
 
     private String getTimeFormat(int hour, int minute) {

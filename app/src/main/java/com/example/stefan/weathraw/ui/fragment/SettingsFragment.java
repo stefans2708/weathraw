@@ -22,13 +22,14 @@ import com.example.stefan.weathraw.NotificationBroadcastReceiver;
 import com.example.stefan.weathraw.R;
 import com.example.stefan.weathraw.cache.model.City;
 import com.example.stefan.weathraw.databinding.FragmentSettingsBinding;
+import com.example.stefan.weathraw.model.ApplicationSettings;
 import com.example.stefan.weathraw.service.NotificationService;
 import com.example.stefan.weathraw.service.WidgetService;
 import com.example.stefan.weathraw.ui.activity.AddCityActivity;
 import com.example.stefan.weathraw.ui.dialog.ChooseCityDialog;
 import com.example.stefan.weathraw.viewmodel.SettingsViewModel;
 
-import java.util.Calendar;
+import org.joda.time.DateTime;
 
 import static com.example.stefan.weathraw.ui.fragment.CityDataFragment.RC_ADD_MORE;
 
@@ -103,6 +104,7 @@ public class SettingsFragment extends BaseFragment implements ChooseCityDialog.O
             public void onChanged(@Nullable Boolean notificationsEnabled) {
                 if (notificationsEnabled == null) return;
 
+                binding.switchEnableNotification.setEnabled(notificationsEnabled);
                 Intent intent = new Intent(getContext(), NotificationBroadcastReceiver.class);
                 intent.setAction(NotificationBroadcastReceiver.ACTION_SHOW_NOTIFICATION);
                 if (notificationsEnabled) {
@@ -133,19 +135,18 @@ public class SettingsFragment extends BaseFragment implements ChooseCityDialog.O
     }
 
     private void setDailyAlarm() {
+        ApplicationSettings settings = viewModel.getSettings();
         AlarmManager alarmManager = ((AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE));
         Intent intent = new Intent(getContext(), NotificationBroadcastReceiver.class);
         intent.setAction(NotificationBroadcastReceiver.ACTION_SHOW_NOTIFICATION);
         PendingIntent alarmIntent = PendingIntent.getBroadcast(getContext(), RC_DAILY_ALARM, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         if (alarmManager != null) {
-            Calendar calendar = Calendar.getInstance();
-//            if (calendar.get(Calendar.HOUR_OF_DAY) > 12) {
-//                calendar.add(Calendar.DAY_OF_MONTH, 1);
-//            }
-//            calendar.set(Calendar.HOUR_OF_DAY, 10);
-//            calendar.set(Calendar.MINUTE, 0);
-            calendar.add(Calendar.MINUTE, 1);
-            alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), 60 * 1000, alarmIntent);
+            DateTime alarmTime = DateTime.now()
+                    .withTime(settings.getNotificationTimeHour(), settings.getNotificationTimeMinute(),0,0);
+            if (alarmTime.isBeforeNow()) {
+                alarmTime = alarmTime.plusDays(1);
+            }
+            alarmManager.setRepeating(AlarmManager.RTC, alarmTime.getMillis(), AlarmManager.INTERVAL_DAY, alarmIntent);
         }
     }
 
