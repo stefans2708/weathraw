@@ -143,7 +143,6 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
                 .into(appWidgetTarget);
 
         refreshAllWidgetInstances(context);
-        Toast.makeText(context, "Weather data updated", Toast.LENGTH_SHORT).show();
     }
 
     private void startWidgetUpdateService(Context context) {

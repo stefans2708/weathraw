@@ -104,7 +104,6 @@ public class SettingsFragment extends BaseFragment implements ChooseCityDialog.O
             public void onChanged(@Nullable Boolean notificationsEnabled) {
                 if (notificationsEnabled == null) return;
 
-                binding.switchEnableNotification.setEnabled(notificationsEnabled);
                 Intent intent = new Intent(getContext(), NotificationBroadcastReceiver.class);
                 intent.setAction(NotificationBroadcastReceiver.ACTION_SHOW_NOTIFICATION);
                 if (notificationsEnabled) {

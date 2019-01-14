@@ -29,7 +29,7 @@ public class CityDataViewModel extends BaseViewModel implements WeatherRepositor
 
     private void getCurrentCityId() {
         cityId = SharedPrefsUtils.getInteger(Constants.CURRENT_CITY_ID);
-        if (cityId == -1) {                                                 //todo: zahtevati paljenje gps-a ili otvoriti acitivity za izbor grada
+        if (cityId == -1) {
             SharedPrefsUtils.putInteger(Constants.CURRENT_CITY_ID, Constants.CITY_NIS);
             cityId = Constants.CITY_NIS;
         }

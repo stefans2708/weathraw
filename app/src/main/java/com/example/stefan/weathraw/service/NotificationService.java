@@ -90,7 +90,7 @@ public class NotificationService extends JobIntentService {
     private void createNotification(WeatherAndForecast weatherData) {
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 32,new Intent(this, MainActivity.class), 0);
         Notification notification = new NotificationCompat.Builder(this, Constants.NOTIFICATION_CHANNEL_ID)
-                .setSmallIcon(R.drawable.weather_sunny)
+                .setSmallIcon(R.drawable.notification_icon_sun)
                 .setAutoCancel(true)
                 .setContentIntent(pendingIntent)
                 .setStyle(new NotificationCompat.DecoratedCustomViewStyle())

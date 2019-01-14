@@ -47,6 +47,7 @@ public class SettingsViewModel extends BaseViewModel {
 
         currentWidgetCityId.setValue(settings.getWidgetCityId());
         notificationTime.setValue(getTimeFormat(settings.getNotificationTimeHour(), settings.getNotificationTimeMinute()));
+        enableNotifications.setValue(settings.isNotificationEnabled());
     }
 
     public void onNewCitySelected(int newCityId) {

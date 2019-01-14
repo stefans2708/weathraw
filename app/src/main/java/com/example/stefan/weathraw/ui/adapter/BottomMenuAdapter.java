@@ -19,9 +19,8 @@ import java.util.List;
 public class BottomMenuAdapter extends RecyclerView.Adapter<BottomMenuAdapter.ItemViewHolder> {
 
     public static final int MENU_ITEM_SETTINGS = 1;
-    public static final int MENU_ITEM_ADD_CITY = 2;
-    public static final int MENU_ITEM_ABOUT = 3;
-    private static final int MENU_ITEMS_COUNT = 3;
+    public static final int MENU_ITEM_ABOUT = 2;
+    private static final int MENU_ITEMS_COUNT = 2;
 
     private List<BottomMenuItem> items;
     private OnMenuItemClickListener listener;
@@ -30,7 +29,6 @@ public class BottomMenuAdapter extends RecyclerView.Adapter<BottomMenuAdapter.It
         this.listener = listener;
         items = new ArrayList<>(MENU_ITEMS_COUNT);
         items.add(new BottomMenuItem(MENU_ITEM_SETTINGS, context.getString(R.string.menu_item_settings)));
-        items.add(new BottomMenuItem(MENU_ITEM_ADD_CITY, context.getString(R.string.menu_item_add_city)));
         items.add(new BottomMenuItem(MENU_ITEM_ABOUT, context.getString(R.string.menu_item_about)));
     }
 
@@ -62,7 +60,7 @@ public class BottomMenuAdapter extends RecyclerView.Adapter<BottomMenuAdapter.It
     public class ItemViewHolder extends RecyclerView.ViewHolder {
         private ItemBottomSheetBinding binding;
 
-        public ItemViewHolder(ItemBottomSheetBinding binding) {
+        ItemViewHolder(ItemBottomSheetBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }

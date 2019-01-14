@@ -162,7 +162,7 @@
                 android:id="@+id/switch_enable_notification"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="@{viewModel.settings.notificationEnabled}"
+                android:checked="@{viewModel.notificationsStatus}"
                 android:onClick="@{(view)->viewModel.onEnableNotificationClick(((android.support.v7.widget.SwitchCompat)view).isChecked)}"
                 android:padding="8dp"
                 app:layout_constraintBottom_toBottomOf="@+id/txt_enable_notification_label"
@@ -192,12 +192,12 @@
 
             <TextView
                 android:id="@+id/txt_notification_time_value"
-                underline="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="@{()-> viewModel.onNotificationTimeClick()}"
                 android:padding="12dp"
                 android:text="@{viewModel.notificationTime}"
+                android:enabled="@{viewModel.notificationsStatus}"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="@+id/txt_notification_time_label"
                 app:layout_constraintEnd_toEndOf="parent"
