@@ -38,6 +38,7 @@ public class CityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private WeatherAndForecast weatherAndForecast;
     private View.OnClickListener onChangeCityClickListener;
+    private View.OnClickListener onNextDayClickListener;
 
     public CityAdapter(WeatherAndForecast data) {
         this.weatherAndForecast = data;
@@ -100,6 +101,10 @@ public class CityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         this.onChangeCityClickListener = onClickListener;
     }
 
+    public void setOnNextDayClickListener(View.OnClickListener onClickListener) {
+        this.onNextDayClickListener = onClickListener;
+    }
+
     public void setData(WeatherAndForecast data) {
         this.weatherAndForecast = data;
         notifyDataSetChanged();
@@ -132,6 +137,7 @@ public class CityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             binding.setViewModel(viewModel);
             binding.executePendingBindings();
             addItems(context, viewModel.getDayAverageValuesList());
+            binding.linearItemsHolder.setOnClickListener(onNextDayClickListener);
         }
 
         private void addItems(Context context, List<DayAverageValues> dayAverageValuesList) {

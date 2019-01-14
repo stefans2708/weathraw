@@ -27,6 +27,7 @@ import com.example.stefan.weathraw.ui.adapter.CityAdapter;
 import com.example.stefan.weathraw.ui.dialog.ChooseCityDialog;
 import com.example.stefan.weathraw.utils.Constants;
 import com.example.stefan.weathraw.utils.SharedPrefsUtils;
+import com.example.stefan.weathraw.utils.WeatherDataUtils;
 import com.example.stefan.weathraw.viewmodel.CityDataViewModel;
 
 import static com.example.stefan.weathraw.ui.adapter.BottomMenuAdapter.MENU_ITEM_ABOUT;
@@ -152,6 +153,13 @@ public class CityDataFragment extends BaseFragment implements ChooseCityDialog.O
                     dialog = ChooseCityDialog.newInstance();
                     dialog.setOnItemClickListener(CityDataFragment.this);
                     dialog.show(getActivity().getFragmentManager(), "choose_day_dialog");
+                }
+            });
+            adapter.setOnNextDayClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent openLinkIntent = new Intent(Intent.ACTION_VIEW, WeatherDataUtils.getCurrentCityUrl());
+                    startActivity(openLinkIntent);
                 }
             });
             binding.recyclerView.setAdapter(adapter);

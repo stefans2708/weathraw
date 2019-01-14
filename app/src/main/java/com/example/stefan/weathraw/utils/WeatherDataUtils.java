@@ -1,5 +1,6 @@
 package com.example.stefan.weathraw.utils;
 
+import android.net.Uri;
 import android.util.ArrayMap;
 
 import com.example.stefan.weathraw.R;
@@ -7,9 +8,6 @@ import com.example.stefan.weathraw.WeatherApplication;
 import com.example.stefan.weathraw.model.DayAverageValues;
 import com.example.stefan.weathraw.model.FiveDayCityForecast;
 import com.example.stefan.weathraw.model.WeatherData;
-
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -166,4 +164,8 @@ public class WeatherDataUtils {
                 pressureSum / DATA_PER_DAY, windSum / DATA_PER_DAY, note, formatedDate);
     }
 
+    public static Uri getCurrentCityUrl() {
+        Integer cityId = SharedPrefsUtils.getInteger(Constants.CURRENT_CITY_ID);
+        return Uri.parse("https://openweathermap.org/city/" + cityId);
+    }
 }
