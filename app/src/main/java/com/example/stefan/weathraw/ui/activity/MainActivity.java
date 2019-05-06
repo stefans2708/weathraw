@@ -4,7 +4,6 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.MenuItem;
 
 import com.example.stefan.weathraw.R;

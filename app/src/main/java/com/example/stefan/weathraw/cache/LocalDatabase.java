@@ -17,8 +17,8 @@ public abstract class LocalDatabase extends RoomDatabase {
 
     public static LocalDatabase getInstance() {
         if (instance == null) {
-            instance = Room.databaseBuilder(WeatherApplication.getAppContext(), LocalDatabase.class, "weathraw-database")
-                    .build();
+            instance = Room.databaseBuilder(WeatherApplication.getAppContext(),
+                    LocalDatabase.class, "weathraw-database").build();
         }
         return instance;
     }

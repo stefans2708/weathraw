@@ -16,9 +16,9 @@ public class CityRepository {
         cityDao.insertAll(cities);
     }
 
-    public LiveData<List<City>> getCities(int page, int pageSize) {
-        return cityDao.getPage(pageSize, page * pageSize);
-    }
+//    public LiveData<List<City>> getCities(int page, int pageSize) {
+//        return cityDao.getPage(pageSize, page * pageSize);
+//    }
 
     public LiveData<List<City>> getAllCities() {
         return cityDao.getAll();

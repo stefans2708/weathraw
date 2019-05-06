@@ -1,5 +1,7 @@
 package com.example.stefan.weathraw.api;
 
+import android.support.annotation.NonNull;
+
 import com.example.stefan.weathraw.utils.Constants;
 import com.google.gson.Gson;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -24,7 +26,7 @@ public class ApiManager {
             OkHttpClient okHttpClient = new OkHttpClient.Builder()
                     .addInterceptor(new Interceptor() {
                         @Override
-                        public Response intercept(Chain chain) throws IOException {
+                        public Response intercept(@NonNull Chain chain) throws IOException {
                             Request original = chain.request();
                             HttpUrl originalUrl = original.url();
 
@@ -43,7 +45,6 @@ public class ApiManager {
                     .addConverterFactory(GsonConverterFactory.create(new Gson()))
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .client(okHttpClient)
-//                    .client(new OkHttpClient.Builder().addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)).build())
                     .build()
                     .create(ApiInterface.class);
         }

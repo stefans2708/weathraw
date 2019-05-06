@@ -106,7 +106,7 @@ public class SettingsFragment extends BaseFragment implements ChooseCityDialog.O
 
                 Intent intent = new Intent(getContext(), NotificationBroadcastReceiver.class);
                 intent.setAction(NotificationBroadcastReceiver.ACTION_SHOW_NOTIFICATION);
-                if (notificationsEnabled) {
+                if (notificationsEnabled) { //todo: neka settingsViewModel nasledi AndroidViewModel i tamo set-uje alarm https://developer.android.com/topic/libraries/architecture/viewmodel#implement
                     setDailyAlarm();
                 } else {
                     cancelDailyAlarm();

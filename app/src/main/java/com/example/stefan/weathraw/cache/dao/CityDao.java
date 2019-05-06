@@ -18,9 +18,6 @@ public interface CityDao {
     @Query("SELECT * FROM city ORDER BY city.name")
     LiveData<List<City>> getAll();
 
-    @Query("SELECT * FROM city LIMIT :pageSize OFFSET :offset")
-    LiveData<List<City>> getPage(int pageSize, int offset);
-
     @Query("SELECT * FROM city WHERE city.name LIKE :query")
     LiveData<List<City>> searchCities(String query);
 
