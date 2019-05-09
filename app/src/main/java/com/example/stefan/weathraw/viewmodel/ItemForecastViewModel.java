@@ -12,11 +12,9 @@ import java.util.List;
 public class ItemForecastViewModel extends BaseViewModel {
 
     private FiveDayCityForecast forecast;
-    private List<DayAverageValues> dayAverageValuesList;
 
     public ItemForecastViewModel(FiveDayCityForecast forecast) {
         this.forecast = forecast;
-        dayAverageValuesList = WeatherDataUtils.extractDayAverageValuesInList(forecast);
     }
 
     public FiveDayCityForecast getForecast() {
@@ -24,7 +22,7 @@ public class ItemForecastViewModel extends BaseViewModel {
     }
 
     public List<DayAverageValues> getDayAverageValuesList() {
-        return dayAverageValuesList;
+        return WeatherDataUtils.extractDayAverageValuesInList(forecast);
     }
 
     public List<Entry> generate24HoursForecast() {
@@ -32,18 +30,9 @@ public class ItemForecastViewModel extends BaseViewModel {
         List<WeatherData> list = forecast.getList();
         for (int i = 0; i < 8; i++) {
             WeatherData weatherData = list.get(i);
-            entries.add(new Entry(i,
-                    WeatherDataUtils.getStandardTemperature(weatherData.getMain().getTemperature()).floatValue()));
+            entries.add(new Entry(i, WeatherDataUtils.getStandardTemperature(weatherData.getMain().getTemperature()).floatValue()));
         }
         return entries;
-    }
-
-    public DayAverageValues getDayData(int day) {
-        if (dayAverageValuesList != null && dayAverageValuesList.get(day) != null) {
-            return dayAverageValuesList.get(day);
-        } else {
-            return new DayAverageValues();
-        }
     }
 
 }

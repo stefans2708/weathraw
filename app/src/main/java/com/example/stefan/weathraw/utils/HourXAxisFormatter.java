@@ -1,6 +1,6 @@
 package com.example.stefan.weathraw.utils;
 
-import com.example.stefan.weathraw.viewmodel.ItemForecastViewModel;
+import com.example.stefan.weathraw.model.WeatherData;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 
@@ -11,10 +11,10 @@ public class HourXAxisFormatter implements IAxisValueFormatter {
 
     private List<Integer> weatherTimes;
 
-    public HourXAxisFormatter(ItemForecastViewModel viewModel) {
+    public HourXAxisFormatter(List<WeatherData> weatherDataList) {
         this.weatherTimes = new ArrayList<>();
         for (int i = 0; i < 8; i++) {
-            weatherTimes.add(viewModel.getForecast().getList().get(i).getDt());
+            weatherTimes.add(weatherDataList.get(i).getDt());
         }
     }
 

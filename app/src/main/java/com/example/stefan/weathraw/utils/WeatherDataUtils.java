@@ -64,8 +64,7 @@ public class WeatherDataUtils {
     }
 
     public static String getTemperatureFormat(double value) {
-        return getOneDecimalFormatter().format(getStandardTemperature(value))
-                + WeatherApplication.getAppContext().getString(R.string.degree_celsius);
+        return getOneDecimalFormatter().format(getStandardTemperature(value))+ WeatherApplication.getAppContext().getString(R.string.degree_celsius);
     }
 
     public static String getWindFormat(double value) {
@@ -113,7 +112,7 @@ public class WeatherDataUtils {
 
         ArrayMap<String, ArrayList<WeatherData>> averageValuesArrayMap = new ArrayMap<>();
         for (WeatherData weatherData : allData) {
-            String time[] = weatherData.getDate().split(" ");
+            String[] time = weatherData.getDate().split(" ");
             String dateOnly = time[0];
             if (averageValuesArrayMap.get(dateOnly) == null) {
                 ArrayList<WeatherData> newList = new ArrayList<>();
@@ -136,9 +135,9 @@ public class WeatherDataUtils {
         Double minTemp = Double.MAX_VALUE;
         Double maxTemp = Double.MIN_VALUE;
         int icon = 0;
-        Double cloudsSum = 0.0;
-        Double windSum = 0.0;
-        Double pressureSum = 0.0;
+        double cloudsSum = 0.0;
+        double windSum = 0.0;
+        double pressureSum = 0.0;
         String note = "";
 
         for (WeatherData singleData : dailyData) {
@@ -158,10 +157,10 @@ public class WeatherDataUtils {
         String iconCode = icon + "d";
         iconCode = iconCode.length() < 3 ? "0".concat(iconCode) : iconCode;
         Date date = WeatherDataUtils.getJavaDateFromUnixTime(dailyData.get(0).getDt());
-        String formatedDate = new SimpleDateFormat("EEE dd MMM", Locale.US).format(date);
+        String formattedDate = new SimpleDateFormat("EEE dd MMM", Locale.US).format(date);
 
         return new DayAverageValues(iconCode, maxTemp, minTemp, cloudsSum / DATA_PER_DAY,
-                pressureSum / DATA_PER_DAY, windSum / DATA_PER_DAY, note, formatedDate);
+                pressureSum / DATA_PER_DAY, windSum / DATA_PER_DAY, note, formattedDate);
     }
 
     public static Uri getCurrentCityUrl() {

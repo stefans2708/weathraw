@@ -48,7 +48,7 @@ public class WeatherRepository {
                 new BiFunction<WeatherData, FiveDayCityForecast, WeatherAndForecast>() {
                     @Override
                     public WeatherAndForecast apply(WeatherData weatherData, FiveDayCityForecast forecast) throws Exception {
-                        weatherData.setLastResponseTime(new SimpleDateFormat("DD.MM. - HH:mm", Locale.US).format(new Date()));
+                        weatherData.setLastResponseTime(new SimpleDateFormat("dd.MM. - HH:mm", Locale.US).format(new Date()));
                         return new WeatherAndForecast(weatherData, forecast);
                     }
                 },

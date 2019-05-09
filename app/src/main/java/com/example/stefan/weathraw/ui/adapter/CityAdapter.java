@@ -73,7 +73,8 @@ public class CityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 break;
             }
             case ITEM_DAILY_FORECAST: {
-                ((ItemForecastViewHolder) holder).bind(((ItemForecastViewHolder) holder).binding.cardViewContainer.getContext(), new ItemForecastViewModel(weatherAndForecast.getForecastData()));
+                ((ItemForecastViewHolder) holder).bind(((ItemForecastViewHolder) holder).binding.cardViewContainer.getContext(),
+                        new ItemForecastViewModel(weatherAndForecast.getForecastData()));
                 break;
             }
         }
@@ -151,7 +152,6 @@ public class CityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 binding.linearItemsHolder.addView(inflater.inflate(R.layout.view_separator, binding.linearItemsHolder, false));
                 binding.linearItemsHolder.addView(itemBinding.getRoot());
             }
-
         }
 
     }
@@ -217,7 +217,7 @@ public class CityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             XAxis xAxis = binding.lineChart24hForecast.getXAxis();
             xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-            xAxis.setValueFormatter(new HourXAxisFormatter(viewModel));
+            xAxis.setValueFormatter(new HourXAxisFormatter(viewModel.getForecast().getList()));
 
             YAxis yAxis = binding.lineChart24hForecast.getAxisRight();
             yAxis.setDrawLabels(false);

@@ -184,7 +184,7 @@ public class CityDataFragment extends BaseFragment implements ChooseCityDialog.O
             City city = data.getParcelableExtra(AddCityActivity.EXTRA_CITY);
             if (city != null) {
                 viewModel.updateFavouritesList(city);
-                dialog.refreshListAfterInsertion(city);
+                dialog.addCityToList(city);
             }
         }
     }

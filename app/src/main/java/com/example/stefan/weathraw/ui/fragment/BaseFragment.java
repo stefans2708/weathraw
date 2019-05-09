@@ -2,30 +2,16 @@ package com.example.stefan.weathraw.ui.fragment;
 
 import android.appwidget.AppWidgetManager;
 import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.widget.Toast;
 
 import com.example.stefan.weathraw.ui.widget.WeatherWidgetProvider;
 import com.example.stefan.weathraw.utils.GeneralUtils;
-import com.example.stefan.weathraw.viewmodel.BaseViewModel;
 
 public abstract class BaseFragment extends Fragment implements Observer<Throwable> {
-
-    private BaseViewModel baseViewModel;
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        baseViewModel = ViewModelProviders.of(this).get(BaseViewModel.class);
-    }
 
     @Override
     public void onChanged(@Nullable Throwable error) {

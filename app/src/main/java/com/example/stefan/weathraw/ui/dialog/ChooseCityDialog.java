@@ -65,7 +65,7 @@ public class ChooseCityDialog extends DialogFragment implements ChooseCityAdapte
         this.listener = listener;
     }
 
-    public void refreshListAfterInsertion(City city) {
+    public void addCityToList(City city) {
         ((ChooseCityAdapter) binding.recyclerCities.getAdapter()).addItem(city);
         binding.recyclerCities.smoothScrollToPosition(binding.recyclerCities.getAdapter().getItemCount());
     }

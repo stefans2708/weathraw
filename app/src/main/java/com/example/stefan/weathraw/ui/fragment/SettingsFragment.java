@@ -163,7 +163,7 @@ public class SettingsFragment extends BaseFragment implements ChooseCityDialog.O
         ((AppCompatActivity) getActivity()).setSupportActionBar((android.support.v7.widget.Toolbar) binding.getRoot().findViewById(R.id.toolbar));
         ActionBar supportActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         if (supportActionBar != null) {
-            supportActionBar.setTitle(getContext().getString(R.string.settings));
+            supportActionBar.setTitle(getString(R.string.settings));
             supportActionBar.setDisplayHomeAsUpEnabled(true);
         }
     }
@@ -173,7 +173,7 @@ public class SettingsFragment extends BaseFragment implements ChooseCityDialog.O
         if (requestCode == RC_ADD_MORE && data != null) {
             City city = data.getParcelableExtra(AddCityActivity.EXTRA_CITY);
             if (city != null) {
-                dialog.refreshListAfterInsertion(city);
+                dialog.addCityToList(city);
                 viewModel.updateFavouritesList(city);
             }
         }

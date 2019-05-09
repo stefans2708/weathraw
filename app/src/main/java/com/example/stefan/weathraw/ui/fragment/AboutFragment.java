@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,14 +29,20 @@ public class AboutFragment extends BaseFragment {
             binding = DataBindingUtil.inflate(inflater, R.layout.fragment_about, container, false);
         }
         setUpToolbar();
+        initViews();
         return binding.getRoot();
     }
 
+    private void initViews() {
+        binding.txtAboutApi.setMovementMethod(LinkMovementMethod.getInstance());
+    }
+
     private void setUpToolbar() {
-        ((AppCompatActivity) getActivity()).setSupportActionBar((android.support.v7.widget.Toolbar) binding.getRoot().findViewById(R.id.toolbar));
+        ((AppCompatActivity) getActivity()).setSupportActionBar(
+                (android.support.v7.widget.Toolbar) binding.getRoot().findViewById(R.id.toolbar));
         ActionBar supportActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         if (supportActionBar != null) {
-            supportActionBar.setTitle(getContext().getString(R.string.about));
+            supportActionBar.setTitle(getString(R.string.about));
             supportActionBar.setDisplayHomeAsUpEnabled(true);
         }
     }

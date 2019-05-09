@@ -75,9 +75,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
+                android:text="@{viewModel.weatherData.lastResponseTime}"
                 android:textSize="12sp"
                 android:textStyle="italic"
-                android:text="@{viewModel.weatherData.lastResponseTime}"
                 app:layout_constraintStart_toEndOf="@id/txt_update_time_label"
                 app:layout_constraintTop_toTopOf="@id/txt_update_time_label"
                 tools:text="24.01. - 12:23" />
@@ -114,7 +114,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txt_update_time"
                 app:layout_constraintVertical_bias="0.85">
 
                 <TextView
@@ -122,12 +122,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="24dp"
-                    android:drawablePadding="6dp"
                     android:drawableStart="@drawable/ic_speedometer"
+                    android:drawablePadding="6dp"
                     android:gravity="center_vertical"
                     android:text="@string/pressure"
                     app:layout_constraintEnd_toEndOf="@id/guideline"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/txt_pressure"
@@ -135,6 +136,8 @@
                     android:layout_height="wrap_content"
                     android:text="@{WeatherDataUtils.getPressureFormat(viewModel.weatherData.main.pressure)}"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1"
+                    app:layout_constraintStart_toStartOf="@id/guideline"
                     app:layout_constraintTop_toTopOf="@id/txt_label_pressure"
                     tools:text="1013mb" />
 
@@ -143,8 +146,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/more_info_item_margin_top"
-                    android:drawablePadding="6dp"
                     android:drawableStart="@drawable/ic_water_percent"
+                    android:drawablePadding="6dp"
                     android:gravity="center_vertical"
                     android:text="@string/humidity"
                     app:layout_constraintEnd_toEndOf="@id/guideline"
@@ -158,6 +161,8 @@
                     android:layout_height="wrap_content"
                     android:text="@{WeatherDataUtils.getHumidityFormat(viewModel.weatherData.main.humidity)}"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1"
+                    app:layout_constraintStart_toStartOf="@id/guideline"
                     app:layout_constraintTop_toTopOf="@id/txt_label_humidity"
                     tools:text="23%" />
 
@@ -166,8 +171,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/more_info_item_margin_top"
-                    android:drawablePadding="6dp"
                     android:drawableStart="@drawable/ic_eye"
+                    android:drawablePadding="6dp"
                     android:gravity="center_vertical"
                     android:text="@string/visibility"
                     app:layout_constraintEnd_toEndOf="@id/guideline"
@@ -181,6 +186,8 @@
                     android:layout_height="wrap_content"
                     android:text="@{WeatherDataUtils.getVisibilityFormat(viewModel.weatherData.visibility)}"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1"
+                    app:layout_constraintStart_toStartOf="@id/guideline"
                     app:layout_constraintTop_toTopOf="@id/txt_label_visibility"
                     tools:text="10000m" />
 
@@ -189,8 +196,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/more_info_item_margin_top"
-                    android:drawablePadding="6dp"
                     android:drawableStart="@drawable/ic_wind"
+                    android:drawablePadding="6dp"
                     android:gravity="center_vertical"
                     android:text="@string/wind"
                     app:layout_constraintEnd_toEndOf="@id/guideline"
@@ -204,6 +211,8 @@
                     android:layout_height="wrap_content"
                     android:text="@{WeatherDataUtils.getWindFormat(viewModel.weatherData.wind.speed)}"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1"
+                    app:layout_constraintStart_toStartOf="@id/guideline"
                     app:layout_constraintTop_toTopOf="@id/txt_label_wind"
                     tools:text="45mps NW" />
 
@@ -212,8 +221,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/more_info_item_margin_top"
-                    android:drawablePadding="6dp"
                     android:drawableStart="@drawable/ic_cloud"
+                    android:drawablePadding="6dp"
                     android:gravity="center_vertical"
                     android:text="@string/clouds"
                     app:layout_constraintEnd_toEndOf="@id/guideline"
@@ -227,6 +236,8 @@
                     android:layout_height="wrap_content"
                     android:text="@{WeatherDataUtils.getCloudFormat(viewModel.weatherData.clouds.cloudPercent)}"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1"
+                    app:layout_constraintStart_toStartOf="@id/guideline"
                     app:layout_constraintTop_toTopOf="@id/txt_label_clouds"
                     tools:text="45%" />
 
@@ -235,8 +246,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="32dp"
-                    android:drawablePadding="6dp"
                     android:drawableStart="@drawable/ic_sunrise"
+                    android:drawablePadding="6dp"
                     android:gravity="center_vertical"
                     android:text="@string/sunrise"
                     app:layout_constraintEnd_toEndOf="@id/guideline"
@@ -250,6 +261,8 @@
                     android:layout_height="wrap_content"
                     android:text="@{WeatherDataUtils.getHourMinuteFormat(viewModel.weatherData.sys.sunrise)}"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1"
+                    app:layout_constraintStart_toStartOf="@id/guideline"
                     app:layout_constraintTop_toTopOf="@id/txt_label_sunrise"
                     tools:text="06:23" />
 
@@ -258,8 +271,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/more_info_item_margin_top"
-                    android:drawablePadding="6dp"
                     android:drawableStart="@drawable/ic_sunset"
+                    android:drawablePadding="6dp"
                     android:gravity="center_vertical"
                     android:text="@string/sunset"
                     app:layout_constraintEnd_toEndOf="@id/guideline"
@@ -273,6 +286,8 @@
                     android:layout_height="wrap_content"
                     android:text="@{WeatherDataUtils.getHourMinuteFormat(viewModel.weatherData.sys.sunset)}"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1"
+                    app:layout_constraintStart_toStartOf="@id/guideline"
                     app:layout_constraintTop_toTopOf="@id/txt_label_sunset"
                     tools:text="06:23" />
 
