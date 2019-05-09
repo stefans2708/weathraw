@@ -1,5 +1,6 @@
 package com.example.stefan.weathraw.ui.activity;
 
+import android.app.Activity;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
@@ -25,6 +26,7 @@ import io.reactivex.functions.Function;
 public class AddCityActivity extends BaseActivity implements AddCityAdapter.OnItemSelectListener {
 
     public static final String EXTRA_CITY = "EXTRA_CITY";
+
     private ActivityAddCityBinding binding;
     private AddCityViewModel viewModel;
 
@@ -43,13 +45,6 @@ public class AddCityActivity extends BaseActivity implements AddCityAdapter.OnIt
 
     private void setObservers() {
         viewModel.getCities().observe(this, new Observer<List<City>>() {
-            @Override
-            public void onChanged(@Nullable List<City> cities) {
-                ((AddCityAdapter) binding.recyclerAddCity.getAdapter()).setItems(cities);
-            }
-        });
-
-        viewModel.getSearchResults().observe(this, new Observer<List<City>>() {
             @Override
             public void onChanged(@Nullable List<City> cities) {
                 ((AddCityAdapter) binding.recyclerAddCity.getAdapter()).setItems(cities);
@@ -85,7 +80,7 @@ public class AddCityActivity extends BaseActivity implements AddCityAdapter.OnIt
     public void onItemSelected(City city) {
         Intent intent = new Intent();
         intent.putExtra(EXTRA_CITY, city);
-        setResult(12, intent);
+        setResult(Activity.RESULT_OK, intent);
         finish();
     }
 }

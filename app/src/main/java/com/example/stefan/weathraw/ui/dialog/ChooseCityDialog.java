@@ -48,7 +48,7 @@ public class ChooseCityDialog extends DialogFragment implements ChooseCityAdapte
 
     @Override
     public void onItemClick(int cityId) {
-        if(listener != null) {
+        if (listener != null) {
             listener.onItemClick(cityId);
             dismiss();
         }
@@ -56,7 +56,7 @@ public class ChooseCityDialog extends DialogFragment implements ChooseCityAdapte
 
     @Override
     public void onAddMoreClick() {
-        if(listener != null) {
+        if (listener != null) {
             listener.onAddMoreClick();
         }
     }
@@ -66,12 +66,13 @@ public class ChooseCityDialog extends DialogFragment implements ChooseCityAdapte
     }
 
     public void refreshListAfterInsertion(City city) {
-        binding.recyclerCities.smoothScrollToPosition(
-                ((ChooseCityAdapter) binding.recyclerCities.getAdapter()).itemInserted(city) + 1);
+        ((ChooseCityAdapter) binding.recyclerCities.getAdapter()).addItem(city);
+        binding.recyclerCities.smoothScrollToPosition(binding.recyclerCities.getAdapter().getItemCount());
     }
 
     public interface OnDialogItemClickListener {
         void onItemClick(Integer city);
+
         void onAddMoreClick();
     }
 }

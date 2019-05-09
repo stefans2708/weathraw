@@ -10,26 +10,24 @@ import android.view.ViewGroup;
 import com.example.stefan.weathraw.R;
 import com.example.stefan.weathraw.databinding.ItemBottomSheetBinding;
 import com.example.stefan.weathraw.model.BottomMenuItem;
-import com.example.stefan.weathraw.utils.Constants;
 import com.example.stefan.weathraw.viewmodel.BottomMenuItemViewModel;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
-public class BottomMenuAdapter extends RecyclerView.Adapter<BottomMenuAdapter.ItemViewHolder> {
+public class BottomMenuAdapter extends BaseAdapter<BottomMenuItem, BottomMenuAdapter.ItemViewHolder> {
 
     public static final int MENU_ITEM_SETTINGS = 1;
     public static final int MENU_ITEM_ABOUT = 2;
     private static final int MENU_ITEMS_COUNT = 2;
 
-    private List<BottomMenuItem> items;
     private OnMenuItemClickListener listener;
 
     public BottomMenuAdapter(Context context, OnMenuItemClickListener listener) {
         this.listener = listener;
-        items = new ArrayList<>(MENU_ITEMS_COUNT);
-        items.add(new BottomMenuItem(MENU_ITEM_SETTINGS, context.getString(R.string.menu_item_settings)));
-        items.add(new BottomMenuItem(MENU_ITEM_ABOUT, context.getString(R.string.menu_item_about)));
+        setItems(Arrays.asList(
+                new BottomMenuItem(MENU_ITEM_SETTINGS, context.getString(R.string.menu_item_settings)),
+                new BottomMenuItem(MENU_ITEM_ABOUT, context.getString(R.string.menu_item_about))
+        ));
     }
 
     @NonNull
@@ -40,7 +38,7 @@ public class BottomMenuAdapter extends RecyclerView.Adapter<BottomMenuAdapter.It
 
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, final int position) {
-        final BottomMenuItem item = items.get(position);
+        final BottomMenuItem item = getItem(position);
         holder.bind(new BottomMenuItemViewModel(item));
         holder.binding.txtItemName.setOnClickListener(new View.OnClickListener() {
             @Override

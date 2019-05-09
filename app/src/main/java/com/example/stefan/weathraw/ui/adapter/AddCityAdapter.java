@@ -9,12 +9,8 @@ import android.view.ViewGroup;
 import com.example.stefan.weathraw.cache.model.City;
 import com.example.stefan.weathraw.databinding.ItemCityAddBinding;
 
-import java.util.ArrayList;
-import java.util.List;
+public class AddCityAdapter extends BaseAdapter<City, AddCityAdapter.ItemViewHolder> {
 
-public class AddCityAdapter extends RecyclerView.Adapter<AddCityAdapter.ItemViewHolder> {
-
-    private List<City> cityList;
     private OnItemSelectListener listener;
 
     public AddCityAdapter(OnItemSelectListener listener) {
@@ -29,17 +25,7 @@ public class AddCityAdapter extends RecyclerView.Adapter<AddCityAdapter.ItemView
 
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
-        holder.binding.setItemName(cityList.get(position).getName());
-    }
-
-    @Override
-    public int getItemCount() {
-        return cityList != null ? cityList.size() : 0;
-    }
-
-    public void setItems(List<City> items) {
-        this.cityList = new ArrayList<>(items);
-        notifyDataSetChanged();
+        holder.binding.setItemName(getItem(position).getName());
     }
 
     class ItemViewHolder extends RecyclerView.ViewHolder {
@@ -53,7 +39,7 @@ public class AddCityAdapter extends RecyclerView.Adapter<AddCityAdapter.ItemView
                 @Override
                 public void onClick(View v) {
                     if (listener != null) {
-                        listener.onItemSelected(cityList.get(getAdapterPosition()));
+                        listener.onItemSelected(getItem(getAdapterPosition()));
                     }
                 }
             });
