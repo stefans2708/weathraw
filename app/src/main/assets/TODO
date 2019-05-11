@@ -1,7 +1,11 @@
 - refactor error handling on api calls
--neka settingsViewModel nasledi AndroidViewModel i tamo set-uje alarm https://developer.android.com/topic/libraries/architecture/viewmodel#implement
+- starting city
+- location
+- CLEARING DATABASE!
+
 
 WIDGET
 - put data fetched from widget to local database so that can be used inside application
-- on place click open settings
 - add context messages (weather condition warnings) - move city name to bottom left instead of today' date, temp to top left and that new note to top right
+- enlarge widget (wrap content)
+- use job scheduler to get data when internet is available + alarm

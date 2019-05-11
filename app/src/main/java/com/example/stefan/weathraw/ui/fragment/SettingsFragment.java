@@ -1,11 +1,8 @@
 package com.example.stefan.weathraw.ui.fragment;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -22,7 +19,6 @@ import com.example.stefan.weathraw.NotificationBroadcastReceiver;
 import com.example.stefan.weathraw.R;
 import com.example.stefan.weathraw.cache.model.City;
 import com.example.stefan.weathraw.databinding.FragmentSettingsBinding;
-import com.example.stefan.weathraw.model.ApplicationSettings;
 import com.example.stefan.weathraw.service.NotificationService;
 import com.example.stefan.weathraw.service.WidgetService;
 import com.example.stefan.weathraw.ui.activity.AddCityActivity;
@@ -35,11 +31,9 @@ import static com.example.stefan.weathraw.ui.fragment.CityDataFragment.RC_ADD_MO
 
 public class SettingsFragment extends BaseFragment implements ChooseCityDialog.OnDialogItemClickListener {
 
-    private static final int RC_DAILY_ALARM = 3;
     private SettingsViewModel viewModel;
     private FragmentSettingsBinding binding;
     private ChooseCityDialog dialog;
-    private TimePickerDialog.OnTimeSetListener onTimeSetListener;
 
     public static SettingsFragment newInstance() {
         return new SettingsFragment();
@@ -55,17 +49,6 @@ public class SettingsFragment extends BaseFragment implements ChooseCityDialog.O
             binding.setLifecycleOwner(this);
         }
         return binding.getRoot();
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
-            @Override
-            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                viewModel.updateNotificationTime(hourOfDay, minute);
-            }
-        };
     }
 
     @Override
@@ -96,30 +79,20 @@ public class SettingsFragment extends BaseFragment implements ChooseCityDialog.O
             }
         });
 
-        viewModel.getCurrentWidgetCityName().observe(this, new Observer<String>() {
+        viewModel.getCityChanged().observe(this, new Observer<Boolean>() {
             @Override
-            public void onChanged(@Nullable String s) {
+            public void onChanged(@Nullable Boolean s) {
                 updateWidget();
             }
         });
+
         viewModel.getAutoUpdateStatus().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(@Nullable Boolean aBoolean) {
                 updateWidgetWithAction(WidgetService.ACTION_UPDATED_SETTINGS);
             }
         });
-        viewModel.getNotificationsStatus().observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(@Nullable Boolean notificationsEnabled) {
-                if (notificationsEnabled == null) return;
 
-                if (notificationsEnabled) { //todo: neka settingsViewModel nasledi AndroidViewModel i tamo set-uje alarm https://developer.android.com/topic/libraries/architecture/viewmodel#implement
-                    setDailyAlarm();
-                } else {
-                    cancelDailyAlarm();
-                }
-            }
-        });
         viewModel.getNotificationTestClick().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(@Nullable Boolean click) {
@@ -131,39 +104,20 @@ public class SettingsFragment extends BaseFragment implements ChooseCityDialog.O
 
             }
         });
-        viewModel.getNotificationTimeClick().observe(this, new Observer<Boolean>() {
+
+        viewModel.getNotificationTimeClick().observe(this, new Observer<DateTime>() {
             @Override
-            public void onChanged(@Nullable Boolean click) {
-                if (click == null) return;
-                new TimePickerDialog(getContext(), onTimeSetListener, 12, 0, true).show();
+            public void onChanged(@Nullable DateTime previousSelectedTime) {
+                if (previousSelectedTime == null) return;
+
+                new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        viewModel.updateNotificationTime(hourOfDay, minute);
+                    }
+                }, previousSelectedTime.getHourOfDay(), previousSelectedTime.getMinuteOfHour(), true).show();
             }
         });
-    }
-
-    private void setDailyAlarm() {
-        ApplicationSettings settings = viewModel.getSettings();
-        AlarmManager alarmManager = ((AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE));
-        Intent intent = new Intent(getContext(), NotificationBroadcastReceiver.class);
-        intent.setAction(NotificationBroadcastReceiver.ACTION_SHOW_NOTIFICATION);
-        PendingIntent alarmIntent = PendingIntent.getBroadcast(getContext(), RC_DAILY_ALARM, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        if (alarmManager != null) {
-            DateTime alarmTime = DateTime.now()
-                    .withTime(settings.getNotificationTimeHour(), settings.getNotificationTimeMinute(),0,0);
-            if (alarmTime.isBeforeNow()) {
-                alarmTime = alarmTime.plusDays(1);
-            }
-            alarmManager.setRepeating(AlarmManager.RTC, alarmTime.getMillis(), AlarmManager.INTERVAL_DAY, alarmIntent);
-        }
-    }
-
-    private void cancelDailyAlarm() {
-        AlarmManager alarmManager = ((AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE));
-        Intent intent = new Intent(getContext(), NotificationBroadcastReceiver.class);
-        intent.setAction(NotificationBroadcastReceiver.ACTION_SHOW_NOTIFICATION);
-        PendingIntent alarmIntent = PendingIntent.getBroadcast(getContext(), RC_DAILY_ALARM, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        if (alarmManager != null) {
-            alarmManager.cancel(alarmIntent);
-        }
     }
 
     @Override

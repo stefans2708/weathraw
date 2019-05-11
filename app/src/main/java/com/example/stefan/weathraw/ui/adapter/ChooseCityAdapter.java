@@ -21,6 +21,9 @@ public class ChooseCityAdapter extends BaseAdapter<City, RecyclerView.ViewHolder
     private OnItemClickListener listener;
 
     public ChooseCityAdapter(CityList cities, OnItemClickListener listener) {
+        if (cities == null) {
+            cities = new CityList();
+        }
         this.listener = listener;
         setItems(cities.getCities());
     }

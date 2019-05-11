@@ -2,11 +2,16 @@ package com.example.stefan.weathraw.model;
 
 import com.example.stefan.weathraw.cache.model.City;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CityList {
 
     private List<City> cities;
+
+    public CityList() {
+        cities = new ArrayList<>();
+    }
 
     public CityList(List<City> cities) {
         this.cities = cities;

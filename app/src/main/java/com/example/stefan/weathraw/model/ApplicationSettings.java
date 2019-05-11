@@ -59,6 +59,6 @@ public class ApplicationSettings {
     }
 
     public static ApplicationSettings defaultValues() {
-        return new ApplicationSettings(Constants.CITY_NIS, false, false, 12, 0);
+        return new ApplicationSettings(Constants.DEFAULT_CITY_ID, false, false, 12, 0);
     }
 }

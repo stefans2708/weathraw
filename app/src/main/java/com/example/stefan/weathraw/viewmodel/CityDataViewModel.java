@@ -1,7 +1,6 @@
 package com.example.stefan.weathraw.viewmodel;
 
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
 
 import com.example.stefan.weathraw.cache.model.City;
 import com.example.stefan.weathraw.model.CityList;
@@ -12,6 +11,7 @@ import com.example.stefan.weathraw.utils.SharedPrefsUtils;
 import com.example.stefan.weathraw.utils.SingleLiveEvent;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class CityDataViewModel extends BaseViewModel implements WeatherRepository.OnResultListener {
@@ -30,8 +30,10 @@ public class CityDataViewModel extends BaseViewModel implements WeatherRepositor
     private void getCurrentCityId() {
         cityId = SharedPrefsUtils.getInteger(Constants.CURRENT_CITY_ID);
         if (cityId == -1) {
-            SharedPrefsUtils.putInteger(Constants.CURRENT_CITY_ID, Constants.CITY_NIS);
-            cityId = Constants.CITY_NIS;
+            SharedPrefsUtils.putInteger(Constants.CURRENT_CITY_ID, Constants.DEFAULT_CITY_ID);
+            SharedPrefsUtils.putObject(Constants.SELECTED_CITIES,
+                    new CityList(Collections.singletonList(new City(Constants.DEFAULT_CITY_ID, Constants.DEFAULT_CITY_NAME, Constants.DEFAULT_CITY_COUNTRY))));
+            cityId = Constants.DEFAULT_CITY_ID;
         }
     }
 

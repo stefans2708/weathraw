@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="120dp"
+    android:layout_height="150dp"
     android:padding="1dp"
     android:background="@drawable/widget_background">
 
@@ -13,7 +13,6 @@
         android:layout_alignBottom="@id/txt_city_name"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_centerVertical="true"
         android:contentDescription="@null"
         android:src="@drawable/ic_location_on_black_24dp" />
 
@@ -37,13 +36,15 @@
         android:layout_marginEnd="2dp"
         android:layout_toStartOf="@id/img_icon"
         android:textColor="@color/colorWidgetText"
+        android:layout_alignParentTop="true"
+        android:gravity="center_vertical"
         android:textSize="24sp"
         tools:text="12 C" />
 
     <ImageView
         android:id="@+id/img_icon"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="@dimen/widget_weather_image_size"
+        android:layout_height="@dimen/widget_weather_image_size"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="2dp"
@@ -79,6 +80,7 @@
             android:layout_marginEnd="4dp"
             android:layout_weight="1"
             android:gravity="center"
+            android:layout_gravity="center_vertical"
             android:orientation="vertical">
 
             <TextView
@@ -113,6 +115,7 @@
             android:layout_marginEnd="4dp"
             android:layout_weight="1"
             android:gravity="center"
+            android:layout_gravity="center_vertical"
             android:orientation="vertical">
 
             <TextView
@@ -147,6 +150,7 @@
             android:layout_marginEnd="4dp"
             android:layout_weight="1"
             android:gravity="center"
+            android:layout_gravity="center_vertical"
             android:orientation="vertical">
 
             <TextView
@@ -181,6 +185,7 @@
             android:layout_marginEnd="4dp"
             android:layout_weight="1"
             android:gravity="center"
+            android:layout_gravity="center_vertical"
             android:orientation="vertical">
 
             <TextView
@@ -215,6 +220,7 @@
             android:layout_marginEnd="4dp"
             android:layout_weight="1"
             android:gravity="center"
+            android:layout_gravity="center_vertical"
             android:orientation="vertical">
 
             <TextView
