@@ -75,6 +75,15 @@ public class SettingsFragment extends BaseFragment implements ChooseCityDialog.O
         setObservers();
     }
 
+    private void setUpToolbar() {
+        ((AppCompatActivity) getActivity()).setSupportActionBar((android.support.v7.widget.Toolbar) binding.getRoot().findViewById(R.id.toolbar));
+        ActionBar supportActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        if (supportActionBar != null) {
+            supportActionBar.setTitle(getString(R.string.settings));
+            supportActionBar.setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
     private void setObservers() {
         viewModel.getChangeCityClick().observe(this, new Observer<Boolean>() {
             @Override
@@ -82,7 +91,7 @@ public class SettingsFragment extends BaseFragment implements ChooseCityDialog.O
                 if (aBoolean != null) {
                     dialog = ChooseCityDialog.newInstance();
                     dialog.setOnItemClickListener(SettingsFragment.this);
-                    dialog.show(getActivity().getFragmentManager(), "choose_day_dialog");
+                    dialog.show(getActivity().getFragmentManager(), ChooseCityDialog.class.getSimpleName());
                 }
             }
         });
@@ -96,7 +105,7 @@ public class SettingsFragment extends BaseFragment implements ChooseCityDialog.O
         viewModel.getAutoUpdateStatus().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(@Nullable Boolean aBoolean) {
-                updateWidgetWithAction(WidgetService.ACTION_UPDATE_SETTINGS);
+                updateWidgetWithAction(WidgetService.ACTION_UPDATED_SETTINGS);
             }
         });
         viewModel.getNotificationsStatus().observe(this, new Observer<Boolean>() {
@@ -104,8 +113,6 @@ public class SettingsFragment extends BaseFragment implements ChooseCityDialog.O
             public void onChanged(@Nullable Boolean notificationsEnabled) {
                 if (notificationsEnabled == null) return;
 
-                Intent intent = new Intent(getContext(), NotificationBroadcastReceiver.class);
-                intent.setAction(NotificationBroadcastReceiver.ACTION_SHOW_NOTIFICATION);
                 if (notificationsEnabled) { //todo: neka settingsViewModel nasledi AndroidViewModel i tamo set-uje alarm https://developer.android.com/topic/libraries/architecture/viewmodel#implement
                     setDailyAlarm();
                 } else {
@@ -159,15 +166,6 @@ public class SettingsFragment extends BaseFragment implements ChooseCityDialog.O
         }
     }
 
-    private void setUpToolbar() {
-        ((AppCompatActivity) getActivity()).setSupportActionBar((android.support.v7.widget.Toolbar) binding.getRoot().findViewById(R.id.toolbar));
-        ActionBar supportActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        if (supportActionBar != null) {
-            supportActionBar.setTitle(getString(R.string.settings));
-            supportActionBar.setDisplayHomeAsUpEnabled(true);
-        }
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == RC_ADD_MORE && data != null) {
@@ -180,7 +178,7 @@ public class SettingsFragment extends BaseFragment implements ChooseCityDialog.O
     }
 
     @Override
-    public void onItemClick(Integer cityId) {
+    public void onCityItemClick(Integer cityId) {
         viewModel.onNewCitySelected(cityId);
     }
 

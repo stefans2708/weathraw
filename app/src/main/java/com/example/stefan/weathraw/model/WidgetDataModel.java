@@ -3,14 +3,22 @@ package com.example.stefan.weathraw.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class WidgetDataModel implements Parcelable {
 
     private String city;
     private Double temperature;
     private String description;
     private String iconId;
+    private List<WidgetNextHourDataModel> nextHoursData;
 
-    private WidgetDataModel(Parcel in) {
+    public WidgetDataModel() {
+
+    }
+
+    protected WidgetDataModel(Parcel in) {
         city = in.readString();
         if (in.readByte() == 0) {
             temperature = null;
@@ -19,6 +27,7 @@ public class WidgetDataModel implements Parcelable {
         }
         description = in.readString();
         iconId = in.readString();
+        nextHoursData = in.createTypedArrayList(WidgetNextHourDataModel.CREATOR);
     }
 
     public static final Creator<WidgetDataModel> CREATOR = new Creator<WidgetDataModel>() {
@@ -32,10 +41,6 @@ public class WidgetDataModel implements Parcelable {
             return new WidgetDataModel[size];
         }
     };
-
-    public WidgetDataModel() {
-
-    }
 
     public String getCity() {
         return city;
@@ -69,21 +74,36 @@ public class WidgetDataModel implements Parcelable {
         this.iconId = iconId;
     }
 
+    public void setNextHoursWeatherData(List<WeatherData> nextFiveValues) {
+        nextHoursData = new ArrayList<>();
+        for (WeatherData weatherData : nextFiveValues) {
+            nextHoursData.add(new WidgetNextHourDataModel(weatherData.getDt(),
+                    weatherData.getMain().getTemperature(),
+                    weatherData.getWeatherDescription().getDescription(),
+                    weatherData.getWeatherDescription().getIcon()));
+        }
+    }
+
+    public List<WidgetNextHourDataModel> getNextHoursData() {
+        return nextHoursData;
+    }
+
     @Override
     public int describeContents() {
         return 0;
     }
 
     @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(city);
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(city);
         if (temperature == null) {
-            parcel.writeByte((byte) 0);
+            dest.writeByte((byte) 0);
         } else {
-            parcel.writeByte((byte) 1);
-            parcel.writeDouble(temperature);
+            dest.writeByte((byte) 1);
+            dest.writeDouble(temperature);
         }
-        parcel.writeString(description);
-        parcel.writeString(iconId);
+        dest.writeString(description);
+        dest.writeString(iconId);
+        dest.writeTypedList(nextHoursData);
     }
 }

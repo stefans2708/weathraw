@@ -49,7 +49,7 @@ public class ChooseCityDialog extends DialogFragment implements ChooseCityAdapte
     @Override
     public void onItemClick(int cityId) {
         if (listener != null) {
-            listener.onItemClick(cityId);
+            listener.onCityItemClick(cityId);
             dismiss();
         }
     }
@@ -71,7 +71,7 @@ public class ChooseCityDialog extends DialogFragment implements ChooseCityAdapte
     }
 
     public interface OnDialogItemClickListener {
-        void onItemClick(Integer city);
+        void onCityItemClick(Integer city);
 
         void onAddMoreClick();
     }

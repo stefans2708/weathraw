@@ -121,7 +121,7 @@ public class NotificationService extends JobIntentService {
         remoteViews.setTextViewText(R.id.txt_temperature, WeatherDataUtils.getTemperatureFormat(weatherData.getWeatherData().getMain().getTemperature()));
         loadNotificationImage(remoteViews, R.id.img_weather, weatherData.getWeatherData().getWeatherDescription().getIcon());
 
-        List<WeatherData> nextFourValues = WeatherDataUtils.extractNextFourValues(weatherData.getForecastData());
+        List<WeatherData> nextFourValues = WeatherDataUtils.extractNextNValues(weatherData.getForecastData(), 4);
         WeatherData hourValue = nextFourValues.get(0);
         remoteViews.setTextViewText(R.id.txt_next_data_hour_1, WeatherDataUtils.getHourMinuteFromUnixTime(hourValue.getDt()));
         remoteViews.setTextViewText(R.id.txt_data_1_temperature, WeatherDataUtils.getTemperatureFormat(hourValue.getMain().getTemperature()));

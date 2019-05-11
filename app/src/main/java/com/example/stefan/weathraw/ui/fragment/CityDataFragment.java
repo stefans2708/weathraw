@@ -53,14 +53,14 @@ public class CityDataFragment extends BaseFragment implements ChooseCityDialog.O
             viewModel = ViewModelProviders.of(this).get(CityDataViewModel.class);
             binding = DataBindingUtil.inflate(inflater, R.layout.fragment_city_data, container, false);
             binding.setViewModel(viewModel);
+            initViews();
+            setUpObservers();
         }
 
         if (adapter != null) {
             binding.recyclerView.setAdapter(adapter);
         }
 
-        initViews();
-        setUpObservers();
         return binding.getRoot();
     }
 
@@ -152,7 +152,7 @@ public class CityDataFragment extends BaseFragment implements ChooseCityDialog.O
                 public void onClick(final View v) {
                     dialog = ChooseCityDialog.newInstance();
                     dialog.setOnItemClickListener(CityDataFragment.this);
-                    dialog.show(getActivity().getFragmentManager(), "choose_day_dialog");
+                    dialog.show(getActivity().getFragmentManager(), ChooseCityDialog.class.getSimpleName());
                 }
             });
             adapter.setOnNextDayClickListener(new View.OnClickListener() {
@@ -206,7 +206,7 @@ public class CityDataFragment extends BaseFragment implements ChooseCityDialog.O
     }
 
     @Override
-    public void onItemClick(Integer cityId) {
+    public void onCityItemClick(Integer cityId) {
         SharedPrefsUtils.putInteger(Constants.CURRENT_CITY_ID, cityId);
         viewModel.getData(cityId);
         changeRefreshingStatus(true);

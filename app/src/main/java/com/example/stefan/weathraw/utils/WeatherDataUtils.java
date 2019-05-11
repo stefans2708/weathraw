@@ -48,7 +48,7 @@ public class WeatherDataUtils {
     }
 
     public static String getDayHourFormat(Date date) {
-        return new SimpleDateFormat("dd/MM, HH:mm", Locale.US).format(date);
+        return new SimpleDateFormat("dd. MMM, HH:mm", Locale.US).format(date);
     }
 
     public static String getDayMonthFormat(Date date) {
@@ -95,11 +95,11 @@ public class WeatherDataUtils {
         return new SimpleDateFormat("HH:mm", Locale.US).format(getJavaDateFromUnixTime(unixTime));
     }
 
-    public static List<WeatherData> extractNextFourValues(FiveDayCityForecast forecast) {
+    public static List<WeatherData> extractNextNValues(FiveDayCityForecast forecast, int n) {
         List<WeatherData> allData = forecast.getList();
         List<WeatherData> nextFourData = new ArrayList<>();
 
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < n; i++) {
             nextFourData.add(allData.get(i));
         }
 
