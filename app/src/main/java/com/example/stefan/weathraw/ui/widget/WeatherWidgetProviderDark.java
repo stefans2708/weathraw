@@ -20,7 +20,7 @@ import com.example.stefan.weathraw.utils.WeatherDataUtils;
 import java.util.Date;
 import java.util.List;
 
-public class WeatherWidgetProvider extends BaseAppWidgetProvider {
+public class WeatherWidgetProviderDark extends BaseAppWidgetProvider {
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
@@ -68,24 +68,25 @@ public class WeatherWidgetProvider extends BaseAppWidgetProvider {
 
     @Override
     public int getLayout() {
-        return R.layout.widget_weather;
+        return R.layout.widget_weather_dark;
     }
 
     @Override
     public int getProviderType() {
-        return EXTRA_PROVIDER_TYPE_REGULAR;
+        return EXTRA_PROVIDER_TYPE_DARK;
     }
 
     @Override
     protected Class<? extends BaseAppWidgetProvider> getProviderClass() {
-        return WeatherWidgetProvider.class;
+        return WeatherWidgetProviderDark.class;
     }
 
     @Override
     protected void initWidgetViews(Context context) {
+
         RemoteViews remoteViews = getRemoteViews(context);
 
-        Intent refreshIntent = new Intent(context, WeatherWidgetProvider.class);
+        Intent refreshIntent = new Intent(context, WeatherWidgetProviderDark.class);
         refreshIntent.setAction(WidgetService.ACTION_REFRESH);
         PendingIntent refreshPendingIntent = PendingIntent.getBroadcast(context, 0, refreshIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         remoteViews.setOnClickPendingIntent(R.id.image_refresh, refreshPendingIntent);
@@ -119,6 +120,7 @@ public class WeatherWidgetProvider extends BaseAppWidgetProvider {
 //                .into(appWidgetTarget);
 
         refreshAllWidgetInstances(context);
+
     }
 
     private void setNextHoursWidgetData(RemoteViews remoteViews, List<WidgetNextHourDataModel> nextHoursData) {
@@ -147,6 +149,5 @@ public class WeatherWidgetProvider extends BaseAppWidgetProvider {
         remoteViews.setTextViewText(R.id.txt_data_5_temperature, WeatherDataUtils.getTemperatureFormat(nextHourData.getTemperature()));
         loadWidgetImage(remoteViews, R.id.img_next_data_5, nextHourData.getIcon());
     }
-
 
 }

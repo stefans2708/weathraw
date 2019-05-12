@@ -2,7 +2,7 @@
 - starting city
 - location
 - CLEARING DATABASE!
-
+- too short "No internet" toast
 
 WIDGET
 - put data fetched from widget to local database so that can be used inside application

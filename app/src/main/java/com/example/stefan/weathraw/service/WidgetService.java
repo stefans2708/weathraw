@@ -12,6 +12,7 @@ import com.example.stefan.weathraw.model.WeatherAndForecast;
 import com.example.stefan.weathraw.model.WeatherData;
 import com.example.stefan.weathraw.model.WidgetDataModel;
 import com.example.stefan.weathraw.ui.widget.WeatherWidgetProvider;
+import com.example.stefan.weathraw.ui.widget.WeatherWidgetProviderDark;
 import com.example.stefan.weathraw.utils.Constants;
 import com.example.stefan.weathraw.utils.GeneralUtils;
 import com.example.stefan.weathraw.utils.SharedPrefsUtils;
@@ -26,6 +27,10 @@ import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.HttpException;
+
+import static com.example.stefan.weathraw.ui.widget.BaseAppWidgetProvider.EXTRA_PROVIDER_TYPE;
+import static com.example.stefan.weathraw.ui.widget.BaseAppWidgetProvider.EXTRA_PROVIDER_TYPE_DARK;
+import static com.example.stefan.weathraw.ui.widget.BaseAppWidgetProvider.EXTRA_PROVIDER_TYPE_REGULAR;
 
 public class WidgetService extends JobIntentService {
 
@@ -48,7 +53,7 @@ public class WidgetService extends JobIntentService {
     }
 
     @Override
-    protected void onHandleWork(@NonNull Intent intent) {
+    protected void onHandleWork(@NonNull final Intent intent) {
         if (intent.getAction() == null) return;
 
         if (intent.getAction().equals(ACTION_REFRESH)) {
@@ -66,9 +71,9 @@ public class WidgetService extends JobIntentService {
                         if (weatherAndForecast == null || weatherAndForecast.getWeatherData() == null
                                 || weatherAndForecast.getForecastData() == null)
                             return;
-                        sendDataToWidgetProvider(weatherAndForecast);
+                        sendDataToWidgetProvider(intent.getIntExtra(EXTRA_PROVIDER_TYPE, -1), weatherAndForecast);
                     }
-                }, new OnError() {
+                }, new OnError(intent) {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
                         super.accept(throwable);
@@ -87,7 +92,7 @@ public class WidgetService extends JobIntentService {
         currentCityId = settings.getWidgetCityId();
     }
 
-    private void sendDataToWidgetProvider(WeatherAndForecast weatherData) {
+    private void sendDataToWidgetProvider(int providerType, WeatherAndForecast weatherData) {
         WidgetDataModel data = new WidgetDataModel();
         data.setCity(weatherData.getWeatherData().getName());
         data.setDescription(weatherData.getWeatherData().getWeatherDescription().getDescription());
@@ -97,14 +102,37 @@ public class WidgetService extends JobIntentService {
         List<WeatherData> nextFiveValues = WeatherDataUtils.extractNextNValues(weatherData.getForecastData(), 5);
         data.setNextHoursWeatherData(nextFiveValues);
 
-        Intent dataIntent = new Intent(this, WeatherWidgetProvider.class);
+
+        Intent dataIntent;
+        switch (providerType) {
+            case EXTRA_PROVIDER_TYPE_DARK: {
+                dataIntent = new Intent(this, WeatherWidgetProviderDark.class);
+                break;
+            }
+            default:
+            case EXTRA_PROVIDER_TYPE_REGULAR: {
+                dataIntent = new Intent(this, WeatherWidgetProvider.class);
+                break;
+            }
+        }
         dataIntent.setAction(ACTION_UPDATE_RESPONSE);
         dataIntent.putExtra(EXTRA_WEATHER_DATA, data);
         sendBroadcast(dataIntent);
     }
 
-    private void sendErrorToWidgetProvider(int errorType) {
-        Intent errorIntent = new Intent(this, WeatherWidgetProvider.class);
+    private void sendErrorToWidgetProvider(int providerType, int errorType) {
+        Intent errorIntent;
+        switch (providerType) {
+            case EXTRA_PROVIDER_TYPE_DARK: {
+                errorIntent = new Intent(this, WeatherWidgetProviderDark.class);
+                break;
+            }
+            default:
+            case EXTRA_PROVIDER_TYPE_REGULAR: {
+                errorIntent = new Intent(this, WeatherWidgetProvider.class);
+                break;
+            }
+        }
         errorIntent.setAction(ACTION_ERROR);
         errorIntent.putExtra(EXTRA_ERROR_TYPE, errorType);
         sendBroadcast(errorIntent);
@@ -119,16 +147,23 @@ public class WidgetService extends JobIntentService {
     }
 
     abstract class OnError implements Consumer<Throwable> {
+
+        private Intent intent;
+
+        OnError(Intent intent) {
+            this.intent = intent;
+        }
+
         @Override
         public void accept(Throwable throwable) throws Exception {
             if (!GeneralUtils.isNetworkAvailable()) {
-                sendErrorToWidgetProvider(ERROR_TYPE_NO_INTERNET);
+                sendErrorToWidgetProvider(intent.getIntExtra(EXTRA_PROVIDER_TYPE, -1), ERROR_TYPE_NO_INTERNET);
                 return;
             }
 
             if (throwable instanceof HttpException) {
                 if (((HttpException) throwable).code() == 408) { //request time out
-                    sendErrorToWidgetProvider(ERROR_TYPE_REQUEST_TIMEOUT);
+                    sendErrorToWidgetProvider(intent.getIntExtra(EXTRA_PROVIDER_TYPE, -1), ERROR_TYPE_REQUEST_TIMEOUT);
                 }
             }
         }

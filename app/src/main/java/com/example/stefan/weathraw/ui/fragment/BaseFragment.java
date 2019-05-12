@@ -8,8 +8,13 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.widget.Toast;
 
+import com.example.stefan.weathraw.ui.widget.BaseAppWidgetProvider;
 import com.example.stefan.weathraw.ui.widget.WeatherWidgetProvider;
+import com.example.stefan.weathraw.ui.widget.WeatherWidgetProviderDark;
 import com.example.stefan.weathraw.utils.GeneralUtils;
+
+import java.util.Arrays;
+import java.util.List;
 
 public abstract class BaseFragment extends Fragment implements Observer<Throwable> {
 
@@ -29,26 +34,37 @@ public abstract class BaseFragment extends Fragment implements Observer<Throwabl
     }
 
     public void updateWidget() {
-        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(getContext());
-        ComponentName componentName = new ComponentName(getActivity(), WeatherWidgetProvider.class);
-        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(componentName);
-        if (appWidgetIds.length != 0) {
-            Intent intent = new Intent(getActivity(), WeatherWidgetProvider.class);
-            intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
-            getActivity().sendBroadcast(intent);
+        List<Class<? extends BaseAppWidgetProvider>> widgetProviders =
+                Arrays.asList(WeatherWidgetProvider.class, WeatherWidgetProviderDark.class);
+
+        for (Class<? extends BaseAppWidgetProvider> widgetProviderClass : widgetProviders) {
+            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(getContext());
+            ComponentName componentName = new ComponentName(getActivity(), widgetProviderClass);
+            int[] appWidgetIds = appWidgetManager.getAppWidgetIds(componentName);
+            if (appWidgetIds.length != 0) {
+                Intent intent = new Intent(getActivity(), widgetProviderClass);
+                intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+                intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
+                getActivity().sendBroadcast(intent);
+            }
         }
     }
 
     public void updateWidgetWithAction(String action) {
-        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(getContext());
-        ComponentName componentName = new ComponentName(getActivity(), WeatherWidgetProvider.class);
-        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(componentName);
-        if (appWidgetIds.length != 0) {
-            Intent intent = new Intent(getActivity(), WeatherWidgetProvider.class);
-            intent.setAction(action);
-            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
-            getActivity().sendBroadcast(intent);
+        List<Class<? extends BaseAppWidgetProvider>> widgetProviders =
+                Arrays.asList(WeatherWidgetProvider.class, WeatherWidgetProviderDark.class);
+
+        for (Class<? extends BaseAppWidgetProvider> widgetProviderClass : widgetProviders) {
+            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(getContext());
+            ComponentName componentName = new ComponentName(getActivity(), widgetProviderClass);
+            int[] appWidgetIds = appWidgetManager.getAppWidgetIds(componentName);
+            if (appWidgetIds.length != 0) {
+                Intent intent = new Intent(getActivity(), widgetProviderClass);
+                intent.setAction(action);
+                intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
+                getActivity().sendBroadcast(intent);
+            }
         }
     }
+
 }

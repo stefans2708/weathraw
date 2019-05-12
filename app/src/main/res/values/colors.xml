@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#0288D1</color>
     <color name="colorPrimaryLight">#B3E5FC</color>
     <color name="colorAccent">#FFC107</color>
+    <color name="colorWhite">#FFF</color>
 
     <color name="widgetStartColorBlue">#B3B3E5FC</color>
     <color name="widgetEndColorBlue">#B303A9F4</color>
@@ -19,4 +20,10 @@
 
     <color name="colorWidgetText">#000</color>
     <color name="colorWidgetTextLight">#3D3D3D</color>
+
+    <color name="bgWidgetDark">#003A68</color>
+    <color name="bgWidgetDarkEnd">#1764A0</color>
+    <color name="colorWidgetTextDarkTheme">#FFFFFF</color>
+    <color name="colorWidgetTextLightDarkTheme">#DBDBDB</color>
+
 </resources>
