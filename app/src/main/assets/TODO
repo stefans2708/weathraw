@@ -3,9 +3,14 @@
 - location
 - CLEARING DATABASE!
 - too short "No internet" toast
+- ripple on 4day forecast
+- LEAK CANARY test
 
 WIDGET
 - put data fetched from widget to local database so that can be used inside application
 - add context messages (weather condition warnings) - move city name to bottom left instead of today' date, temp to top left and that new note to top right
 - enlarge widget (wrap content)
 - use job scheduler to get data when internet is available + alarm
+
+
+SUNRISE-SUNSET CUSTOM VIEW

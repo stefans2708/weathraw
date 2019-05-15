@@ -7,9 +7,9 @@
 
         <variable
             name="dayAverageValues"
-            type="com.example.stefan.weathraw.model.DayAverageValues" />
+            type="com.stefan.weathraw.model.DayAverageValues" />
 
-        <import type="com.example.stefan.weathraw.utils.WeatherDataUtils" />
+        <import type="com.stefan.weathraw.utils.WeatherDataUtils" />
 
     </data>
 

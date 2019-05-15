@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.stefan.weathraw.viewmodel.SettingsViewModel" />
+            type="com.stefan.weathraw.viewmodel.SettingsViewModel" />
 
     </data>
 

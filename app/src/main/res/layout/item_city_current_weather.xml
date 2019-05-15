@@ -7,9 +7,9 @@
 
         <variable
             name="viewModel"
-            type="com.example.stefan.weathraw.viewmodel.ItemCurrentWeatherViewModel" />
+            type="com.stefan.weathraw.viewmodel.ItemCurrentWeatherViewModel" />
 
-        <import type="com.example.stefan.weathraw.utils.WeatherDataUtils" />
+        <import type="com.stefan.weathraw.utils.WeatherDataUtils" />
 
     </data>
 

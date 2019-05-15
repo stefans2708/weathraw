@@ -1,0 +1,9 @@
+package com.stefan.weathraw.viewmodel;
+
+public class ChooseCityViewModel extends BaseViewModel {
+
+    public ChooseCityViewModel() {
+
+    }
+
+}

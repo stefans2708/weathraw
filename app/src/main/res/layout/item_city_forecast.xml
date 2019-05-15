@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.stefan.weathraw.viewmodel.ItemForecastViewModel" />
+            type="com.stefan.weathraw.viewmodel.ItemForecastViewModel" />
 
     </data>
 
