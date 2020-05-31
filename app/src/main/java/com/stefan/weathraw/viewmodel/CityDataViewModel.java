@@ -1,6 +1,6 @@
 package com.stefan.weathraw.viewmodel;
 
-import android.arch.lifecycle.LiveData;
+import androidx.lifecycle.LiveData;
 
 import com.stefan.weathraw.cache.model.City;
 import com.stefan.weathraw.model.CityList;

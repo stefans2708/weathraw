@@ -1,11 +1,11 @@
 package com.stefan.weathraw.ui.fragment;
 
-import android.databinding.DataBindingUtil;
+import androidx.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,7 +39,7 @@ public class AboutFragment extends BaseFragment {
 
     private void setUpToolbar() {
         ((AppCompatActivity) getActivity()).setSupportActionBar(
-                (android.support.v7.widget.Toolbar) binding.getRoot().findViewById(R.id.toolbar));
+                (androidx.appcompat.widget.Toolbar) binding.getRoot().findViewById(R.id.toolbar));
         ActionBar supportActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         if (supportActionBar != null) {
             supportActionBar.setTitle(getString(R.string.about));

@@ -1,6 +1,6 @@
 package com.stefan.weathraw.cache.repository;
 
-import android.arch.lifecycle.LiveData;
+import androidx.lifecycle.LiveData;
 
 import com.stefan.weathraw.cache.LocalDatabase;
 import com.stefan.weathraw.cache.dao.CityDao;

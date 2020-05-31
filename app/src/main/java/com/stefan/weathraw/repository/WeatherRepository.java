@@ -1,8 +1,8 @@
 package com.stefan.weathraw.repository;
 
-import android.arch.core.util.Function;
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.Transformations;
+import androidx.arch.core.util.Function;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Transformations;
 
 import com.stefan.weathraw.api.ApiManager;
 import com.stefan.weathraw.cache.LocalDatabase;

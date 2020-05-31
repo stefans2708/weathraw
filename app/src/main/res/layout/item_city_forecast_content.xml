@@ -13,7 +13,7 @@
 
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="12dp">
@@ -143,6 +143,6 @@
             app:layout_constraintTop_toTopOf="@id/txt_pressure_title"
             tools:text="1013 mbar" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

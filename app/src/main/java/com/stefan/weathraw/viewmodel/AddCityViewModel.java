@@ -1,9 +1,9 @@
 package com.stefan.weathraw.viewmodel;
 
-import android.arch.core.util.Function;
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.Transformations;
+import androidx.arch.core.util.Function;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
 
 import com.stefan.weathraw.cache.model.City;
 import com.stefan.weathraw.cache.repository.CityRepository;

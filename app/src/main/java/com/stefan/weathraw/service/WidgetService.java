@@ -2,8 +2,8 @@ package com.stefan.weathraw.service;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v4.app.JobIntentService;
+import androidx.annotation.NonNull;
+import androidx.core.app.JobIntentService;
 
 import com.stefan.weathraw.api.ApiManager;
 import com.stefan.weathraw.model.ApplicationSettings;

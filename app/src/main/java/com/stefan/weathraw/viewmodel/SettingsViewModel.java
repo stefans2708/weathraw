@@ -3,13 +3,13 @@ package com.stefan.weathraw.viewmodel;
 import android.app.AlarmManager;
 import android.app.Application;
 import android.app.PendingIntent;
-import android.arch.core.util.Function;
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.Transformations;
+import androidx.arch.core.util.Function;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.stefan.weathraw.NotificationBroadcastReceiver;
 import com.stefan.weathraw.cache.model.City;

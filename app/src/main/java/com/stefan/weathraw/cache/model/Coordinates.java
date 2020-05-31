@@ -1,7 +1,7 @@
 package com.stefan.weathraw.cache.model;
 
 
-import android.arch.persistence.room.ColumnInfo;
+import androidx.room.ColumnInfo;
 
 public class Coordinates {
 

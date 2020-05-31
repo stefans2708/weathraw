@@ -1,12 +1,11 @@
 package com.stefan.weathraw.ui.activity;
 
-import android.arch.lifecycle.ViewModelProviders;
-import android.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.view.MenuItem;
 
-import com.crashlytics.android.Crashlytics;
 import com.stefan.weathraw.R;
 import com.stefan.weathraw.databinding.ActivityMainBinding;
 import com.stefan.weathraw.ui.fragment.CityDataFragment;

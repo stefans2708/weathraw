@@ -1,6 +1,6 @@
 package com.stefan.weathraw.api;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.stefan.weathraw.utils.Constants;
 import com.google.gson.Gson;
